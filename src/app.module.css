@@ -1,13 +1,7 @@
-:root {
-    --pastel-pink: #efafa9;
-    --spanish-pink: #f2bfba;
-    --grey: #808080;
-    --white: #ffffff;
-    --vermillion: #db4c40;
-    --melon: #EFAFA9;
-
-}
-
 .appCSS {
+    /* background-size: cover;
+    background-position: top; */
     min-height: 100vh;
+    width: 100%;
+    background-color: var(--mint-cream);
 }

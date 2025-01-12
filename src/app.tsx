@@ -28,7 +28,13 @@ const App: React.FunctionComponent = () => {
     }
   }, [token])
 
-  return <div></div>
+  return (
+    <div className={appCSS.appCSS}>
+      <FormContainer>
+        <div>THIS IS A TEST</div>
+      </FormContainer>
+    </div>
+  )
 }
 
 export default App
