@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, PropsWithChildren } from "react";
-// import wideButtonCSS from './styles/wideButton.module.css'
+import wideButtonCSS from './styles/wideButton.module.css'
 
 type Props = {
     children: React.ReactNode,
@@ -8,7 +8,7 @@ type Props = {
 
 const Button: React.FunctionComponent<Props> = (props:Props) => {
     return (
-        <button>{props.children}</button>
+        <button onClick={props.clickAction} className={wideButtonCSS.MainWideButton}>{props.children}</button>
     )
 }
 

@@ -5,3 +5,25 @@
     width: 100%;
     background-color: var(--mint-cream);
 }
+
+.appCSS .formHeader {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.appCSS .formHeader h3 {
+    margin-bottom: 0;
+}
+
+.appCSS .formHeader p,
+.appCSS .formHeader h3 {
+    margin-top: 0
+}
+
+.appCSS .formHeader p{
+    font-size: 0.8rem;
+}
+
+.appCSS .formHeader .headerIcon {
+    font-weight: bold;
+}
