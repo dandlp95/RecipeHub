@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import appCSS from './app.module.css'
 import { LoginData, RegisterData } from './customTypes/requestTypes'
 import FormContainer from './components/formContainer1'
 import WideButton from './components/wideButton'
+import { authData } from './customTypes/enumTypes'
+import LoginForm from './components/login'
 
 const App: React.FunctionComponent = () => {
   const [logindata, setLoginData] = useState<LoginData>({
@@ -31,6 +33,19 @@ const App: React.FunctionComponent = () => {
   }, [token])
 
   /*FORM INPUT FIELDS FUNCTIONS*/
+  const handleLogin = (
+    authDataType: authData
+  ): ChangeEventHandler<HTMLInputElement> => {
+    return e => {
+      switch (authDataType) {
+        case authData.username:
+          setLoginData({ ...logindata, username: e.target.value })
+        case authData.password:
+          setLoginData({ ...logindata, password: e.target.value })
+      }
+    }
+  }
+
   const signIn = () => {}
 
   return (
@@ -51,6 +66,7 @@ const App: React.FunctionComponent = () => {
                 name='loginuserName'
                 id='loginuserName'
                 placeholder='Enter your username'
+                onChange={handleLogin(authData.username)}
               />
             </div>
             <div className={appCSS.loginPassword}>
@@ -61,9 +77,7 @@ const App: React.FunctionComponent = () => {
                 name='loginPassword'
                 id='loginPassword'
                 placeholder='Enter your password'
-                onChange={e => {
-                  setLoginData({ ...logindata, username: e.target.value })
-                }}
+                onChange={handleLogin(authData.password)}
               />
             </div>
             <div className={appCSS.rememberCheckbox}>
@@ -81,8 +95,19 @@ const App: React.FunctionComponent = () => {
           <div className={appCSS.buttonSection}>
             <WideButton clickAction={signIn}>Sign In</WideButton>
           </div>
-          <div>
-            
+          <div className={appCSS.signinAlt}>
+            <div className={appCSS.signUpContainer}>
+              <p>
+                Don't have an account?{' '}
+                <span className={appCSS.signUp}>Sign Up</span>
+              </p>
+            </div>
+            {/*
+            THIS SECTION WILL BE IMPLEMENTED LATER TO LOG IN THROUGH GOOGLE ACCOUNT
+            <div className={appCSS.altLogin}>
+
+            </div> 
+            */}
           </div>
         </div>
       </FormContainer>
