@@ -4,4 +4,9 @@ enum authData {
   email = 'email'
 }
 
-export { authData }
+enum authFormType {
+    login = 'login',
+    register = 'register' 
+}
+
+export { authData, authFormType }

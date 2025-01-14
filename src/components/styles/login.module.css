@@ -1,0 +1,22 @@
+.formHeader {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.formHeader h3 {
+    margin-bottom: 0;
+}
+
+.formHeader p,
+.formHeader h3 {
+    margin-top: 0
+}
+
+.formHeader p {
+    font-size: 0.8rem;
+}
+
+
+.formHeader .headerIcon {
+    font-weight: bold;
+}

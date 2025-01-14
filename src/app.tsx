@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import appCSS from './app.module.css'
 import { LoginData, RegisterData } from './customTypes/requestTypes'
 import FormContainer from './components/formContainer1'
-import WideButton from './components/wideButton'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
+import { authFormType } from './customTypes/enumTypes'
+
 
 const App: React.FunctionComponent = () => {
   const [logindata, setLoginData] = useState<LoginData>({
@@ -20,6 +21,7 @@ const App: React.FunctionComponent = () => {
   })
   const [token, setToken] = useState<string>('')
   const [isRememberChecked, setIsRememberChecked] = useState(false)
+  const [formType, setFormType] = useState<authFormType>(authFormType.login )
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -48,68 +50,18 @@ const App: React.FunctionComponent = () => {
 
   const signIn = () => {}
 
+  const rememberCheckbox = (isChecked: boolean) => {
+    setIsRememberChecked(isChecked)
+  }
+
   return (
     <div className={appCSS.appCSS}>
       <FormContainer>
-        <div>
-          <div className={appCSS.formHeader}>
-            <div className={appCSS.headerIcon}>{'</>'}</div>
-            <h3>Welcome Back</h3>
-            <p>Sign in to your account to continue</p>
-          </div>
-          <div className={appCSS.inputFields}>
-            <div className={appCSS.loginUserName}>
-              <label htmlFor='loginuserName'>Username: </label>
-              <input
-                required
-                type='text'
-                name='loginuserName'
-                id='loginuserName'
-                placeholder='Enter your username'
-                onChange={handleLogin(authData.username)}
-              />
-            </div>
-            <div className={appCSS.loginPassword}>
-              <label htmlFor='loginPassword'>Password: </label>
-              <input
-                required
-                type='text'
-                name='loginPassword'
-                id='loginPassword'
-                placeholder='Enter your password'
-                onChange={handleLogin(authData.password)}
-              />
-            </div>
-            <div className={appCSS.rememberCheckbox}>
-              <input
-                id='rememberMe'
-                type='checkbox'
-                checked={isRememberChecked}
-                onChange={e => {
-                  setIsRememberChecked(!isRememberChecked)
-                }}
-              />
-              <label htmlFor='rememberMe'>Remember me</label>
-            </div>
-          </div>
-          <div className={appCSS.buttonSection}>
-            <WideButton clickAction={signIn}>Sign In</WideButton>
-          </div>
-          <div className={appCSS.signinAlt}>
-            <div className={appCSS.signUpContainer}>
-              <p>
-                Don't have an account?{' '}
-                <span className={appCSS.signUp}>Sign Up</span>
-              </p>
-            </div>
-            {/*
-            THIS SECTION WILL BE IMPLEMENTED LATER TO LOG IN THROUGH GOOGLE ACCOUNT
-            <div className={appCSS.altLogin}>
-
-            </div> 
-            */}
-          </div>
-        </div>
+        <LoginForm
+          handleLogin={handleLogin}
+          signIn={signIn}
+          isRememberChecked={rememberCheckbox}
+        />
       </FormContainer>
     </div>
   )
