@@ -19,7 +19,7 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
   }, [isRememberChecked])
 
   return (
-    <div>
+    <div className={loginCSS.formHeaderMain}>
       <div className={loginCSS.formHeader}>
         <div className={loginCSS.headerIcon}>{'</>'}</div>
         <h3>Welcome Back</h3>
@@ -66,7 +66,7 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
       <div className={loginCSS.signinAlt}>
         <div className={loginCSS.signUpContainer}>
           <p>
-            Don't have an account?{' '}
+            <span className={loginCSS.question}>Don't have an account?</span>{' '}
             <span className={loginCSS.signUp}>Sign Up</span>
           </p>
         </div>
