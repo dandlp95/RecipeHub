@@ -7,7 +7,6 @@ import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
 import { authFormType } from './customTypes/enumTypes'
 
-
 const App: React.FunctionComponent = () => {
   const [logindata, setLoginData] = useState<LoginData>({
     username: '',
@@ -21,7 +20,7 @@ const App: React.FunctionComponent = () => {
   })
   const [token, setToken] = useState<string>('')
   const [isRememberChecked, setIsRememberChecked] = useState(false)
-  const [formType, setFormType] = useState<authFormType>(authFormType.login )
+  const [formType, setFormType] = useState<authFormType>(authFormType.login)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,6 +49,8 @@ const App: React.FunctionComponent = () => {
 
   const signIn = () => {}
 
+  const signUpHandler = () => {}
+
   const rememberCheckbox = (isChecked: boolean) => {
     setIsRememberChecked(isChecked)
   }
@@ -61,6 +62,7 @@ const App: React.FunctionComponent = () => {
           handleLogin={handleLogin}
           signIn={signIn}
           isRememberChecked={rememberCheckbox}
+          signup={signUpHandler}
         />
       </FormContainer>
     </div>

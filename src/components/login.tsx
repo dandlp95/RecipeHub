@@ -9,6 +9,7 @@ type Props = {
   handleLogin: (authDataType: authData) => ChangeEventHandler<HTMLInputElement>
   signIn: () => void
   isRememberChecked: (checked: boolean) => void
+  signup: () => void
 }
 
 const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
@@ -67,7 +68,7 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
         <div className={loginCSS.signUpContainer}>
           <p>
             <span className={loginCSS.question}>Don't have an account?</span>{' '}
-            <span className={loginCSS.signUp}>Sign Up</span>
+            <span className={loginCSS.signUp} onClick={props.signup}>Sign Up</span>
           </p>
         </div>
         {/*

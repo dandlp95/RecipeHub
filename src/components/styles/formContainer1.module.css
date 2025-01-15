@@ -1,7 +1,18 @@
 .formContainerMain {
     background-color: var(--seasalt);
-    width: 38%;
-    margin: 0 auto;
+    width: 30%;
+    margin: 0;
     border-radius: 4px;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* -ms-transform is for older versions */
+    -ms-transform: translate(-50%, -50%); 
+    /* 
+    The transform: translate(-50%, -50%) shifts the child container by 50% of its own 
+    width to the left and 50% of its own height upward, ensuring that the child container 
+    is perfectly centered both vertically and horizontally within the parent container.
+    */
+    transform: translate(-50%, -50%);
 }

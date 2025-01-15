@@ -64,20 +64,22 @@
     padding: 0.65rem 0;
 }
 
-.rememberCheckbox {
+.formHeaderMain .rememberCheckbox {
     box-sizing: border-box;
     width: 80%;
     margin:0 auto;
     font-size: 0.9rem;
 }
 
-.signUpContainer .question {
+.formHeaderMain .signUpContainer .question {
     color: var(--slate-gray);
 }
 
-.signUpContainer {
+.formHeaderMain .signUpContainer {
     font-size: 0.8rem;
     text-align: center;
 }
 
-
+.formHeaderMain .signUp {
+    cursor: pointer;
+}
