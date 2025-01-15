@@ -1,0 +1,53 @@
+.registerMain {
+    padding-bottom: 1.75rem
+}
+
+.registerMain .formHeader {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.registerMain .formHeader h3 {
+    margin-top: 0
+}
+
+.registerMain .headerIcon {
+    font-weight: bold;
+}
+
+.registerMain .formMain label {
+    display: block;
+    font-size: 0.75rem;
+    margin: 0 auto;
+    width: 81%;
+}
+
+.registerMain .formMain input {
+    box-sizing: border-box;
+    width: 80%;
+    border-radius: 4px;
+    border: 1px solid var(--french-gray);
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    display: block;
+    margin: 0rem auto 0.5rem auto;
+}
+
+.registerMain .question {
+    color: var(--slate-gray);
+}
+
+.registerMain .signIn2 {
+    cursor: pointer;
+}
+
+.registerMain .SignInSwitch {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.registerMain .buttonSection button {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    padding: 0.65rem 0;
+}

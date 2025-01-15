@@ -69,7 +69,7 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
       </div>
       <div className={registerCSS.SignInSwitch}>
         <p>
-          <span className={registerCSS.signIn1}>Already have an account? </span>
+          <span className={registerCSS.question}>Already have an account? </span>
           <span
             className={registerCSS.signIn2}
             onClick={() => props.loginSwitch(authFormType.login)}
