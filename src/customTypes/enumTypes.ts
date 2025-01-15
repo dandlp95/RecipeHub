@@ -1,12 +1,13 @@
 enum authData {
+  email = 'email',
   username = 'username',
   password = 'password',
-  email = 'email'
+  confirmPassword = 'confirmPassword'
 }
 
 enum authFormType {
-    login = 'login',
-    register = 'register' 
+  login = 'login',
+  register = 'register'
 }
 
 export { authData, authFormType }

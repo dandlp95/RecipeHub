@@ -5,6 +5,7 @@ import { LoginData, RegisterData } from './customTypes/requestTypes'
 import FormContainer from './components/formContainer1'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
+import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
 
 const App: React.FunctionComponent = () => {
@@ -34,7 +35,9 @@ const App: React.FunctionComponent = () => {
   }, [token])
 
   /*FORM INPUT FIELDS FUNCTIONS*/
-  const handleLogin = (
+
+  // SIGN IN FUNCTION
+  const handleData = (
     authDataType: authData
   ): ChangeEventHandler<HTMLInputElement> => {
     return e => {
@@ -49,21 +52,32 @@ const App: React.FunctionComponent = () => {
 
   const signIn = () => {}
 
-  const signUpHandler = () => {}
+  const registerLoginSwitch = (formType: authFormType) => setFormType(formType)
 
   const rememberCheckbox = (isChecked: boolean) => {
     setIsRememberChecked(isChecked)
   }
 
+  //REGISTER FUNCTIONS
+  const register = () => {}
+
   return (
     <div className={appCSS.appCSS}>
       <FormContainer>
-        <LoginForm
-          handleLogin={handleLogin}
-          signIn={signIn}
-          isRememberChecked={rememberCheckbox}
-          signup={signUpHandler}
-        />
+        {formType === authFormType.login ? (
+          <LoginForm
+            handleLoginData={handleData}
+            signIn={signIn}
+            isRememberChecked={rememberCheckbox}
+            registerLoginSwitch={registerLoginSwitch}
+          />
+        ) : (
+          <RegisterForm
+            handleRegisterData={handleData}
+            register={register}
+            loginSwitch={registerLoginSwitch}
+          />
+        )}
       </FormContainer>
     </div>
   )

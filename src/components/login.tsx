@@ -1,15 +1,14 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LoginData, RegisterData } from '../customTypes/requestTypes'
-import { authData } from '../customTypes/enumTypes'
+import { authData, authFormType } from '../customTypes/enumTypes'
 import WideButton from './wideButton'
 import loginCSS from './styles/login.module.css'
 
 type Props = {
-  handleLogin: (authDataType: authData) => ChangeEventHandler<HTMLInputElement>
+  handleLoginData: (authDataType: authData) => ChangeEventHandler<HTMLInputElement>
   signIn: () => void
   isRememberChecked: (checked: boolean) => void
-  signup: () => void
+  registerLoginSwitch: (formType: authFormType) => void
 }
 
 const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
@@ -28,25 +27,25 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
       </div>
       <div className={loginCSS.inputFields}>
         <div className={loginCSS.loginUserName}>
-          <label htmlFor='loginuserName'>Username: </label>
+          <label htmlFor='loginuserName'>Username</label>
           <input
             required
             type='text'
             name='loginuserName'
             id='loginuserName'
             placeholder='Enter your username'
-            onChange={props.handleLogin(authData.username)}
+            onChange={props.handleLoginData(authData.username)}
           />
         </div>
         <div className={loginCSS.loginPassword}>
-          <label htmlFor='loginPassword'>Password: </label>
+          <label htmlFor='loginPassword'>Password</label>
           <input
             required
             type='text'
             name='loginPassword'
             id='loginPassword'
             placeholder='Enter your password'
-            onChange={props.handleLogin(authData.password)}
+            onChange={props.handleLoginData(authData.password)}
           />
         </div>
         <div className={loginCSS.rememberCheckbox}>
@@ -68,7 +67,12 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
         <div className={loginCSS.signUpContainer}>
           <p>
             <span className={loginCSS.question}>Don't have an account?</span>{' '}
-            <span className={loginCSS.signUp} onClick={props.signup}>Sign Up</span>
+            <span
+              className={loginCSS.signUp}
+              onClick={() => props.registerLoginSwitch(authFormType.register)}
+            >
+              Sign Up
+            </span>
           </p>
         </div>
         {/*
