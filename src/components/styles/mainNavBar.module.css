@@ -1,0 +1,30 @@
+.mainNavBarContainer {
+    display: flex;
+    width: 100%;
+}
+
+.mainNavBarContainer>div,
+.mainNavBarContainer>.navBar {
+    flex: 1;
+    display: flex;
+
+}
+
+.mainNavBarContainer>div {
+    align-items: center;
+}
+
+.mainNavBarContainer>.navBar {
+    justify-content: flex-end;
+    column-gap: 3rem;
+}
+
+.mainNavBarContainer .iconContainer {
+    font-size: 3em;
+    /* color:red; */
+}
+
+.mainNavBarContainer p,
+.mainNavBarContainer .iconText {
+    font-size: 1.5rem;
+}

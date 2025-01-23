@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 0;
+  background-color: var(--mint-cream);
 }
 
 /* body {
