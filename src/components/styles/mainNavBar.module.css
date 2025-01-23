@@ -3,7 +3,8 @@
     /* width: 90%; */
     margin: 0 auto;
     background-color: var(--seasalt);
-    border-bottom: 2px solid var(--french-gray); /* Thin bottom border */
+    border-bottom: 2px solid var(--french-gray);
+    /* Thin bottom border */
 }
 
 .mainNavBarContainer>div,
@@ -23,9 +24,13 @@
     padding-right: 6rem;
 }
 
-.mainNavBarContainer .iconContainer {
+.mainNavBarContainer .icon {
     font-size: 3em;
-    /* color:red; */
+}
+
+.mainNavBarContainer .expandableIcon {
+    font-size:3rem;
+    color:black;
 }
 
 .mainNavBarContainer .icon,
@@ -57,4 +62,10 @@
 /* Will indicate current active component */
 .mainNavBarContainer .navBar .selected {
     background-color: var(--mint-cream);
+}
+
+.mainNavBarContainer .accountIcons {
+    display:flex;
+    align-items: center;
+    cursor: pointer;
 }
