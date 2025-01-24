@@ -1,0 +1,71 @@
+.groupContainerMain {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--french-gray);
+    border-radius: 8px;
+    width: 350px;
+    background-color: white;
+    min-height: calc(100% + 150px);
+}
+
+.groupContainerMain>div {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.groupContainerMain>div:nth-child(1) {
+    padding: 1rem 1rem 0 2rem;
+}
+
+.groupContainerMain>div:nth-child(2) {
+    padding: 1rem;
+}
+
+.groupContainerMain .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.groupContainerMain .top .plusSymbol {
+    font-size: 2rem;
+}
+
+.groupContainerMain .groups {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.groupContainerMain .groups div {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    /* margin: 0 auto; */
+}
+
+.groupContainerMain .groups p:first-child {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.groupContainerMain .groups p:first-child {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.groupContainerMain .groups>div,
+.groupContainerMain .plusSymbol {
+    cursor: pointer;
+}
+
+.groupContainerMain .groups > div {
+    box-sizing: border-box;
+    padding: 0 1rem 0 1rem;
+}
+
+.groupContainerMain .groups>div:hover {
+    background-color: var(--mint-cream);
+    border-radius: 6px;
+}

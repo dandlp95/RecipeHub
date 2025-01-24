@@ -33,7 +33,7 @@ const MainNavBar: React.FunctionComponent<Props> = Props => {
           <div>
             <IconContext.Provider
               value={{
-                className: `${MainNavBarCSS.expandableIcon}`
+                className: `${MainNavBarCSS.expandableIcon} ${MainNavBarCSS.expanded}`
               }}
             >
               <MdExpandMore />

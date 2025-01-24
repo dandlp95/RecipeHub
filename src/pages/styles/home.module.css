@@ -1,0 +1,16 @@
+
+.homeContainer {
+    display:flex;
+    flex-direction: column;
+}
+
+.homeContainer>div{
+    flex-grow:1
+}
+
+.homeContainer .mainSection {
+    background-color: var(--seasalt);
+    /* need to figure out the height */
+    min-height: 100vh;
+}
+

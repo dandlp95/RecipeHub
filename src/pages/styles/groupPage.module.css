@@ -1,0 +1,13 @@
+.groupPageMainContainer {
+    display: flex;
+    width: 90%;
+    margin: 3rem auto 0 auto;
+}
+
+.groupPageMainContainer .groupContainerWrapper {
+    flex-grow: 1;
+}
+
+.groupPageMainContainer .images {
+    flex-grow: 5;
+}
