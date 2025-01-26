@@ -5,16 +5,24 @@
 }
 
 .groupPageMainContainer .groupContainerWrapper {
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 
 .groupPageMainContainer .recipesSection {
-    flex-grow: 5;
-    display:flex;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
 }
 
-.groupPageMainContainer .addRecipeContent {
-    display:flex;
+.groupPageMainContainer .recipesSection h2 {
+    margin:0 0 0 1rem;
+    font-weight: 600;
+    font-size:2rem;
+}
+
+.groupPageMainContainer .addRecipeContent,
+.groupPageMainContainer .cartButtonContent {
+    display: flex;
     justify-content: space-around;
     align-items: center;
 }
@@ -22,9 +30,17 @@
 /* icon iin Add Recipe Button */
 .groupPageMainContainer .addRecIcon {
     margin-right: 10px;
-    font-size:1.5rem;
+    font-size: 1.5rem;
 }
 
-.groupPageButtons{
-    display:flex;
+.groupPageMainContainer .shoppingIcon {
+    margin-right: 10px;
+}
+
+.groupPageMainContainer .buttonsContainer>div {
+    display: inline;
+}
+
+.groupPageMainContainer .buttonsContainer div:first-child {
+    margin-right: 10px;
 }

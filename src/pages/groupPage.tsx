@@ -4,6 +4,7 @@ import GroupPageCSS from './styles/groupPage.module.css'
 import Button from '../components/button'
 import { ButtonStyling } from '../customTypes/interfaces'
 import { AiOutlinePlus } from 'react-icons/ai'
+import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 
 type Props = {}
@@ -27,23 +28,34 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
         {/* the header below will be dynamically generated based on whatever group is selected 
         Hardcoded for testing purposes*/}
         <h2>Weekly Dinner Recipes</h2>
-        <div className={GroupPageCSS.groupPageButtons}>
-          <Button action={AddRecipe}>
-            <div className={GroupPageCSS.addRecipeContent}>
-              <IconContext.Provider
-                value={{ className: `${GroupPageCSS.addRecIcon}` }}
-              >
-                <AiOutlinePlus />
-              </IconContext.Provider>
-              <span>Add Recipe</span>
-            </div>
-          </Button>
-          <Button
-            styles={GenerateShoppingListStyling}
-            action={GenerateShoppingList}
-          >
-            Generate Shopping List
-          </Button>
+        <div className={GroupPageCSS.buttonsContainer}>
+          <div>
+            <Button action={AddRecipe}>
+              <div className={GroupPageCSS.addRecipeContent}>
+                <IconContext.Provider
+                  value={{ className: `${GroupPageCSS.addRecIcon}` }}
+                >
+                  <AiOutlinePlus />
+                </IconContext.Provider>
+                <span>Add Recipe</span>
+              </div>
+            </Button>
+          </div>
+          <div>
+            <Button
+              styles={GenerateShoppingListStyling}
+              action={GenerateShoppingList}
+            >
+              <div className={GroupPageCSS.cartButtonContent}>
+                <IconContext.Provider
+                  value={{ className: `${GroupPageCSS.shoppingIcon}` }}
+                >
+                  <FaShoppingCart />
+                </IconContext.Provider>
+                <span>Generate Shopping List</span>
+              </div>
+            </Button>
+          </div>
         </div>
       </div>
     </div>

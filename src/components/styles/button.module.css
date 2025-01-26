@@ -1,9 +1,9 @@
 .mainButton {
-    /* padding: 0 1rem; */
+    padding: 1rem;
     cursor: pointer;
-    font-size:1.5rem;
-    border-radius: 8px;
-    padding: 0.5rem;
+    font-size:1.3rem;
+    border-radius: 12px;
+    /* padding: 0.5rem; */
     border: 1px solid var(--french-gray);
     display: inline;
 }
