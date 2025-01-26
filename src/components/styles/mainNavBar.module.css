@@ -1,8 +1,7 @@
 .mainNavBarContainer {
     display: flex;
     margin: 0 auto;
-    /* background-color: var(--seasalt); */
-    border-bottom: 2px solid var(--french-gray);
+    max-width: 90%; 
 }
 
 .mainNavBarContainer>div,
@@ -11,9 +10,14 @@
     display: flex;
 }
 
+.mainNavBarContainer .iconContainer{
+    max-width: 100%;
+    box-sizing: border-box;
+    gap: 10px;
+}
+
 .mainNavBarContainer>div {
     align-items: center;
-    padding-left: 5rem;
 }
 
 .mainNavBarContainer>.navBar {
@@ -69,5 +73,5 @@
 }
 
 .mainNavBarContainer p:nth-of-type(3) {
-    margin-right: 5rem;
+    /* margin-right: 5rem; */
 }

@@ -1,11 +1,14 @@
-
 .homeContainer {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
-.homeContainer>div{
-    flex-grow:1
+.homeContainer>div {
+    flex-grow: 1
+}
+
+.homeContainer>div:first-child {
+    border-bottom: 2px solid var(--french-gray);
 }
 
 .homeContainer .mainSection {
@@ -13,4 +16,3 @@
     /* need to figure out the height */
     min-height: 100vh;
 }
-
