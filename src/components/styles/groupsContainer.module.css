@@ -32,16 +32,22 @@
     font-size: 2rem;
 }
 
+.groupContainerMain .top > h3 {
+    font-size:1.4rem;
+    font-weight: 600;
+}
+
 .groupContainerMain .groups {
     display: flex;
     flex-direction: column;
 }
 
 
-.groupContainerMain .groups div {
+.groupContainerMain .groups > div {
     display: flex;
     justify-content: space-between;
     width: 95%;
+    align-items: center;
     /* margin: 0 auto; */
 }
 
@@ -50,9 +56,10 @@
     font-weight: 500;
 }
 
-.groupContainerMain .groups p:first-child {
-    font-size: 1.1rem;
-    font-weight: 500;
+.groupContainerMain .groups p:nth-child(2) {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color:var(--slate-gray)
 }
 
 .groupContainerMain .groups>div,
