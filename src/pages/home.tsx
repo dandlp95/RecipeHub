@@ -11,7 +11,8 @@ const Home: React.FunctionComponent<Props> = () => {
       <div>
         <MainNavBar />
       </div>
-      <div className={HomeCSS.mainSection}> <GroupPage />
+      <div className={HomeCSS.mainSection}>
+        <GroupPage />
       </div>
       <div className={HomeCSS.footer}></div>
     </div>

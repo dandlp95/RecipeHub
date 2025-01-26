@@ -8,6 +8,23 @@
     flex-grow: 1;
 }
 
-.groupPageMainContainer .images {
+.groupPageMainContainer .recipesSection {
     flex-grow: 5;
+    display:flex;
+}
+
+.groupPageMainContainer .addRecipeContent {
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* icon iin Add Recipe Button */
+.groupPageMainContainer .addRecIcon {
+    margin-right: 10px;
+    font-size:1.5rem;
+}
+
+.groupPageButtons{
+    display:flex;
 }
