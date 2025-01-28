@@ -4,20 +4,20 @@
     margin: 3rem auto 0 auto;
 }
 
-.groupPageMainContainer .groupContainerWrapper {
-    /* flex-grow: 1; */
+.groupPageMainContainer .recipesSection {
+    flex-grow: 1;
 }
 
-.groupPageMainContainer .recipesSection {
+.groupPageMainContainer .recipeSectionTop {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
 }
 
 .groupPageMainContainer .recipesSection h2 {
-    margin:0 0 0 1rem;
+    margin: 0 0 0 1rem;
     font-weight: 600;
-    font-size:2rem;
+    font-size: 2rem;
 }
 
 .groupPageMainContainer .addRecipeContent,
@@ -43,4 +43,13 @@
 
 .groupPageMainContainer .buttonsContainer div:first-child {
     margin-right: 10px;
+}
+
+.groupPageMainContainer .recipePreviewsSection{
+    display:flex;
+    /* width: 100%; */
+    gap: 10px;
+    justify-content: space-between;
+    margin-top:1rem;
+    margin-left: 10px;
 }
