@@ -1,6 +1,7 @@
 .groupContainerMain {
     display: flex;
     flex-direction: column;
+    
     border: 1px solid var(--french-gray);
     border-radius: 8px;
     width: 450px;

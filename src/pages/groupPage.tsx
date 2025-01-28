@@ -2,6 +2,7 @@ import React from 'react'
 import GroupContainer from '../components/groupsContainer'
 import Button from '../components/button'
 import RecipePreview from '../components/recipePreview'
+import AddRecipePlaceholder from '../components/addRecipePlaceholder'
 import GroupPageCSS from './styles/groupPage.module.css'
 import { ButtonStyling } from '../customTypes/interfaces'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -62,8 +63,7 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
         </div>
         <div className={GroupPageCSS.recipePreviewsSection}>
           <RecipePreview />
-          <RecipePreview /> 
-          <RecipePreview />
+          <AddRecipePlaceholder />
         </div>
       </div>
     </div>

@@ -4,8 +4,9 @@
     border-radius: 6px;
     flex-direction: column;
     /* Subtract total gap space and divide */
-    width: calc((100% - 40px) / 3);
+    width: calc((100% - 50px) / 3);
     height: 500px;
+    
 }
 
 .recipePreviewMain .recipeImage {

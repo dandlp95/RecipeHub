@@ -1,6 +1,6 @@
 import React from 'react'
 import RecipePreviewCSS from './styles/recipePreview.module.css'
-import { FaImage } from "react-icons/fa6";
+import { FaImage } from 'react-icons/fa6'
 import { CiClock2 } from 'react-icons/ci'
 import { FaUtensils } from 'react-icons/fa'
 import { MdModeEdit, MdDelete } from 'react-icons/md'
@@ -37,7 +37,6 @@ const RecipePreview: React.FunctionComponent<Props> = () => {
             >
               <FaUtensils />
             </IconContext.Provider>
-
             <span>4 servings</span>
           </div>
         </div>

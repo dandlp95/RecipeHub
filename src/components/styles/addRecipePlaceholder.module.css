@@ -1,0 +1,21 @@
+.placeholderMain {
+    width: calc((100% - 50px) / 3);
+    border: dashed 3px var(--mint-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholderMain .plusIconContainer {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.placeholderMain {
+    color: var(--french-gray2);
+}
+
+.placeholderMain p{
+    font-weight: 500;
+}
