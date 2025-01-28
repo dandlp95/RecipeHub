@@ -48,7 +48,7 @@
 .groupPageMainContainer .recipePreviewsSection{
     display:flex;
     /* width: 100%; */
-    gap: 10px;
+    gap: 20px;
     justify-content: space-between;
     margin-top:1rem;
     margin-left: 10px;
