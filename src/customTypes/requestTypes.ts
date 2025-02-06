@@ -11,3 +11,15 @@ export interface RegisterData extends LoginData {
 export type PathParams = {
   userId?:number
 }
+
+export type UserCreateDTO = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export type LoginInfo = {
+  username: string;
+  password: string;
+};

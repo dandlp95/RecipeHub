@@ -11,3 +11,10 @@ export type ApiResponse = {
   statusCode: number
   data: string
 }
+
+export type UserDTO = {
+  userId: number
+  username: string
+  email: string
+  createdDate: string
+}
