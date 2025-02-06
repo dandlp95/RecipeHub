@@ -1,10 +1,10 @@
 import {
   UserCreateDTO,
   PathParams,
-  LoginInfo
+  LoginData
 } from '../../customTypes/requestTypes'
 import { UserDTO, ApiData } from '../../customTypes/responseTypes'
-import IAuthApiService from '../interfaces/iAuthApiService'
+import IAuthApiService from '../interfaces/IAuthApiService'
 import ApiService from './apiService'
 
 class AuthApiService extends ApiService<UserDTO> implements IAuthApiService {
@@ -14,7 +14,7 @@ class AuthApiService extends ApiService<UserDTO> implements IAuthApiService {
   public auth (
     url: string,
     pathParams: PathParams,
-    requestBody: LoginInfo
+    requestBody: LoginData
   ): Promise<ApiData<UserDTO> | ApiData<null>> {
     return super.post(url, pathParams, requestBody)
   }

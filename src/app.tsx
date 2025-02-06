@@ -24,7 +24,7 @@ const App: React.FunctionComponent = () => {
   const [registerData, setRegisterData] = useState<RegisterData>({
     username: '',
     password: '',
-    email: '',
+    emailAddress: '',
     confirmPassword: ''
   })
   const [token, setToken] = useState<string>('')
@@ -34,11 +34,12 @@ const App: React.FunctionComponent = () => {
 
   useEffect(() => {
     const browserToken = localStorage.getItem('token')
-    if (browserToken) {
-      navigate('/jobs')
-    } else if (token) {
-      localStorage.setItem('token', token)
-      navigate('/jobs')
+
+    if (browserToken || token) {
+      if (!browserToken) {
+        localStorage.setItem('token', token)
+      }
+      navigate('/home')
     }
   }, [token])
 
@@ -65,7 +66,19 @@ const App: React.FunctionComponent = () => {
     }
   }
 
-  const signIn = () => {}
+  const signIn = () => {
+    try {
+      const body: LoginData = logindata
+      
+      AuthApiService.auth('/users', params, body).then(response => {
+        if (response.result && response.token) {
+          localStorage.setItem('username', response.result.username)
+          localStorage.setItem('userId', response.result.userId.toString())
+          setToken(response.token)
+        }
+      })
+    } catch (e) {}
+  }
 
   const registerLoginSwitch = (formType: authFormType) => setFormType(formType)
 
@@ -76,8 +89,9 @@ const App: React.FunctionComponent = () => {
   //REGISTER FUNCTIONS
   const register = () => {
     try {
-      const bodyRequest: UserCreateDTO = registerData
-      AuthApiService.postUser('users', params, bodyRequest).then(response => {
+      const body: UserCreateDTO = registerData
+      // console.log('Body:',body)
+      AuthApiService.postUser('users', params, body).then(response => {
         if (response.result && response.token) {
           localStorage.setItem('username', response.result.username)
           localStorage.setItem('userId', response.result.userId.toString())

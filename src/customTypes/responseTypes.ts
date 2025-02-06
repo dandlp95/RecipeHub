@@ -15,6 +15,6 @@ export type ApiResponse = {
 export type UserDTO = {
   userId: number
   username: string
-  email: string
+  emailAddress: string
   createdDate: string
 }

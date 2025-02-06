@@ -1,4 +1,4 @@
-import { UserCreateDTO, PathParams, LoginInfo } from "../../customTypes/requestTypes";
+import { UserCreateDTO, PathParams, LoginData } from "../../customTypes/requestTypes";
 import { UserDTO, ApiData } from "../../customTypes/responseTypes";
 
 
@@ -6,7 +6,7 @@ interface IAuthApiService{
     auth(
         url: string,
         pathParams: PathParams,
-        requestBody: LoginInfo
+        requestBody: LoginData
       ): Promise<ApiData<UserDTO> | ApiData<null>>
     
       postUser(

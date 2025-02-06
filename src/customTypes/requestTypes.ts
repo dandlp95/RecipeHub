@@ -4,7 +4,7 @@ export interface LoginData {
 }
 
 export interface RegisterData extends LoginData {
-  email: string
+  emailAddress: string
   confirmPassword: string
 }
 
@@ -14,12 +14,7 @@ export type PathParams = {
 
 export type UserCreateDTO = {
   username: string;
-  email: string;
+  emailAddress: string;
   password: string;
   confirmPassword: string;
-};
-
-export type LoginInfo = {
-  username: string;
-  password: string;
 };
