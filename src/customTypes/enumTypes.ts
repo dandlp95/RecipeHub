@@ -1,6 +1,6 @@
 enum authData {
   email = 'emailAddress',
-  username = 'username',
+  username = 'userName',
   password = 'password',
   confirmPassword = 'confirmPassword'
 }

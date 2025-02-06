@@ -18,11 +18,11 @@ const params: PathParams = {}
 
 const App: React.FunctionComponent = () => {
   const [logindata, setLoginData] = useState<LoginData>({
-    username: '',
+    userName: '',
     password: ''
   })
   const [registerData, setRegisterData] = useState<RegisterData>({
-    username: '',
+    userName: '',
     password: '',
     emailAddress: '',
     confirmPassword: ''
@@ -72,7 +72,7 @@ const App: React.FunctionComponent = () => {
       
       AuthApiService.auth('/users', params, body).then(response => {
         if (response.result && response.token) {
-          localStorage.setItem('username', response.result.username)
+          localStorage.setItem('username', response.result.userName)
           localStorage.setItem('userId', response.result.userId.toString())
           setToken(response.token)
         }
@@ -93,7 +93,7 @@ const App: React.FunctionComponent = () => {
       // console.log('Body:',body)
       AuthApiService.postUser('users', params, body).then(response => {
         if (response.result && response.token) {
-          localStorage.setItem('username', response.result.username)
+          localStorage.setItem('username', response.result.userName)
           localStorage.setItem('userId', response.result.userId.toString())
           setToken(response.token)
         }

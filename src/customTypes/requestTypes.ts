@@ -1,5 +1,5 @@
 export interface LoginData {
-  username: string
+  userName: string
   password: string
 }
 
@@ -13,7 +13,7 @@ export type PathParams = {
 }
 
 export type UserCreateDTO = {
-  username: string;
+  userName: string;
   emailAddress: string;
   password: string;
   confirmPassword: string;
