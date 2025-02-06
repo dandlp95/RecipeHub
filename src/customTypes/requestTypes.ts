@@ -5,7 +5,7 @@ export interface LoginData {
 
 export interface RegisterData extends LoginData {
   email: string
-  passwordConfirm: string
+  confirmPassword: string
 }
 
 export type PathParams = {

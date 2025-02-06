@@ -5,7 +5,10 @@ import WideButton from './wideButton'
 import loginCSS from './styles/login.module.css'
 
 type Props = {
-  handleLoginData: (authDataType: authData) => ChangeEventHandler<HTMLInputElement>
+  handleLoginData: (
+    authDataType: authData,
+    formType: authFormType
+  ) => ChangeEventHandler<HTMLInputElement>
   signIn: () => void
   isRememberChecked: (checked: boolean) => void
   registerLoginSwitch: (formType: authFormType) => void
@@ -34,7 +37,10 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
             name='loginuserName'
             id='loginuserName'
             placeholder='Enter your username'
-            onChange={props.handleLoginData(authData.username)}
+            onChange={props.handleLoginData(
+              authData.username,
+              authFormType.login
+            )}
           />
         </div>
         <div className={loginCSS.loginPassword}>
@@ -45,7 +51,10 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
             name='loginPassword'
             id='loginPassword'
             placeholder='Enter your password'
-            onChange={props.handleLoginData(authData.password)}
+            onChange={props.handleLoginData(
+              authData.password,
+              authFormType.login
+            )}
           />
         </div>
         <div className={loginCSS.rememberCheckbox}>

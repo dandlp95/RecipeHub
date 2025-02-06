@@ -5,7 +5,8 @@ import registerCSS from './styles/register.module.css'
 
 type Props = {
   handleRegisterData: (
-    authDataType: authData
+    authDataType: authData,
+    formType: authFormType
   ) => ChangeEventHandler<HTMLInputElement>
   register: () => void
   loginSwitch: (formType: authFormType) => void
@@ -27,7 +28,10 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
             name='registerUserName'
             id='registerUserName'
             placeholder='Enter your user name'
-            onChange={props.handleRegisterData(authData.username)}
+            onChange={props.handleRegisterData(
+              authData.username,
+              authFormType.register
+            )}
           />
         </div>
         <div className={registerCSS.registerEmail}>
@@ -38,7 +42,10 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
             name='registerEmail'
             id='registerEmail'
             placeholder='Enter your email'
-            onChange={props.handleRegisterData(authData.email)}
+            onChange={props.handleRegisterData(
+              authData.email,
+              authFormType.register
+            )}
           />
         </div>
         <div className={registerCSS.registerPassword}>
@@ -49,7 +56,10 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
             name='registerPassword'
             id='registerPassword'
             placeholder='Enter password'
-            onChange={props.handleRegisterData(authData.password)}
+            onChange={props.handleRegisterData(
+              authData.password,
+              authFormType.register
+            )}
           />
         </div>
         <div className={registerCSS.registerConfirmPassword}>
@@ -60,7 +70,10 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
             name='registerConfirmPassword'
             id='registerConfirmPassword'
             placeholder='Enter password'
-            onChange={props.handleRegisterData(authData.confirmPassword)}
+            onChange={props.handleRegisterData(
+              authData.confirmPassword,
+              authFormType.register
+            )}
           />
         </div>
       </div>
@@ -69,7 +82,9 @@ const RegisterForm: React.FunctionComponent<Props> = (props: Props) => {
       </div>
       <div className={registerCSS.SignInSwitch}>
         <p>
-          <span className={registerCSS.question}>Already have an account? </span>
+          <span className={registerCSS.question}>
+            Already have an account?{' '}
+          </span>
           <span
             className={registerCSS.signIn2}
             onClick={() => props.loginSwitch(authFormType.login)}

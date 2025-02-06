@@ -1,12 +1,20 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { PathParam, useNavigate } from 'react-router-dom'
 import appCSS from './app.module.css'
-import { LoginData, RegisterData } from './customTypes/requestTypes'
+import {
+  LoginData,
+  PathParams,
+  RegisterData,
+  UserCreateDTO
+} from './customTypes/requestTypes'
 import FormContainer from './components/formContainer1'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
 import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
+import AuthApiService from './apiServices/implementations/AuthApiService'
+
+const params: PathParams = {}
 
 const App: React.FunctionComponent = () => {
   const [logindata, setLoginData] = useState<LoginData>({
@@ -17,7 +25,7 @@ const App: React.FunctionComponent = () => {
     username: '',
     password: '',
     email: '',
-    passwordConfirm: ''
+    confirmPassword: ''
   })
   const [token, setToken] = useState<string>('')
   const [isRememberChecked, setIsRememberChecked] = useState(false)
@@ -38,15 +46,22 @@ const App: React.FunctionComponent = () => {
 
   // SIGN IN FUNCTION
   const handleData = (
-    authDataType: authData
+    authDataType: authData,
+    formType: authFormType
   ): ChangeEventHandler<HTMLInputElement> => {
+    const setStateFunctions = {
+      [authFormType.login]: setLoginData,
+      [authFormType.register]: setRegisterData
+    }
+
     return e => {
-      switch (authDataType) {
-        case authData.username:
-          setLoginData({ ...logindata, username: e.target.value })
-        case authData.password:
-          setLoginData({ ...logindata, password: e.target.value })
-      }
+      let setState = setStateFunctions[formType]
+      let value = e.target.value
+
+      setState((prevData: any) => ({
+        ...prevData,
+        [authDataType]: value
+      }))
     }
   }
 
@@ -59,7 +74,21 @@ const App: React.FunctionComponent = () => {
   }
 
   //REGISTER FUNCTIONS
-  const register = () => {}
+  const register = () => {
+    try {
+      const bodyRequest: UserCreateDTO = registerData
+      AuthApiService.postUser('users', params, bodyRequest).then(response => {
+        if (response.result && response.token) {
+          localStorage.setItem('username', response.result.username)
+          localStorage.setItem('userId', response.result.userId.toString())
+          setToken(response.token)
+        }
+      })
+    } catch (err) {
+      console.error(err)
+      alert('Error registering')
+    }
+  }
 
   return (
     <div className={appCSS.appCSS}>
