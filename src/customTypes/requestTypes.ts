@@ -7,3 +7,7 @@ export interface RegisterData extends LoginData {
   email: string
   passwordConfirm: string
 }
+
+export type PathParams = {
+  userId?:number
+}
