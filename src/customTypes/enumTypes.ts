@@ -10,4 +10,9 @@ enum authFormType {
   register = 'register'
 }
 
-export { authData, authFormType }
+enum pages {
+  groupPage,
+  addRecipe
+}
+
+export { authData, authFormType, pages }

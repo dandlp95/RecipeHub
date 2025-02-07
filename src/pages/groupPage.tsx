@@ -8,8 +8,11 @@ import { ButtonStyling } from '../customTypes/interfaces'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
+import { pages } from '../customTypes/enumTypes'
 
-type Props = {}
+type Props = {
+  recipePage: React.Dispatch<React.SetStateAction<pages>>
+}
 
 const GenerateShoppingListStyling: ButtonStyling = {
   backgroundColor: 'white',
@@ -17,7 +20,9 @@ const GenerateShoppingListStyling: ButtonStyling = {
 }
 
 const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
-  const AddRecipe = () => {}
+  const AddRecipe = () => {
+    props.recipePage(pages.addRecipe)
+  }
 
   const GenerateShoppingList = () => {}
 
