@@ -3,6 +3,8 @@ import MainNavBar from '../components/mainNavBar'
 import GroupPage from './groupPage'
 import HomeCSS from './styles/home.module.css'
 import { pages } from '../customTypes/enumTypes'
+import AddRecipe from './addRecipe'
+
 type Props = {}
 
 const Home: React.FunctionComponent<Props> = () => {
@@ -11,10 +13,14 @@ const Home: React.FunctionComponent<Props> = () => {
   return (
     <div className={HomeCSS.homeContainer}>
       <div>
-        <MainNavBar />
+        <MainNavBar setPage={setPage} />
       </div>
       <div className={HomeCSS.mainSection}>
-        {page == pages.groupPage ? <GroupPage recipePage={setPage} /> : <></>}
+        {page === pages.addRecipe ? (
+          <AddRecipe />
+        ) : (
+          <GroupPage recipePage={setPage} />
+        )}
       </div>
       <div className={HomeCSS.footer}></div>
     </div>

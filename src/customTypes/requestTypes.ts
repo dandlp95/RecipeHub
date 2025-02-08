@@ -18,3 +18,4 @@ export type UserCreateDTO = {
   password: string;
   confirmPassword: string;
 };
+
