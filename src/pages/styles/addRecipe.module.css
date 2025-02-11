@@ -1,4 +1,75 @@
-/* test test*/
+.addRecipeMain {
+    width: 900px;
+    margin: 2rem auto;
+}
+
 .addRecipeMain .addRecipeHeader {
-    display:flex;
+    display: flex;
+}
+
+.addRecipeMain .addRecipeHeader h2 {
+    flex: 1;
+}
+
+.addRecipeMain .addRecipeHeader div {
+    align-self: center;
+}
+
+.addRecipeMain label {
+    display: block;
+}
+
+.addRecipeMain .addRecipeForm {
+    margin-top: 1.75rem;
+}
+
+.addRecipeMain .addRecipeForm input {
+    border: 1px solid var(--mint-cream);
+    border-radius: 8px;
+    padding: 1.1rem 0rem 1.1rem 1.2rem;
+    box-sizing: border-box;
+}
+
+/* supposed to select input fields, except for the ones
+with the plus icon */
+.addRecipeMain .fieldPart1 input{
+    width: 100%;
+}
+
+.addRecipeMain .addRecipeForm>div>input,
+.addRecipeMain .formElements {
+    margin-top: 0.75rem;
+}
+
+.addRecipeMain .addRecipeForm input::placeholder {
+    font-size: 1.2rem;
+}
+
+.addRecipeMain .formElements {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addRecipeMain .formElements>div:first-child {
+    width: 100%;
+}
+
+.addRecipeMain .formElements>div:first-child input {
+    width: 99%;
+}
+
+.addRecipeMain .iconContainer {
+    font-size: 1.75rem;
+}
+
+.addRecipeMain .icon {
+    border: 1px solid var(--mint-cream);
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.addRecipeMain .addRecipeForm>div {
+    margin-top: 2rem;
+    /* width: 100%; */
 }

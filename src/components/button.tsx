@@ -13,7 +13,12 @@ const Button: React.FunctionComponent<Props> = ({
   styles = {},
   action
 }) => {
-  const { textColor = 'white', backgroundColor = 'black' } = styles
+  const {
+    textColor = 'white',
+    backgroundColor = 'black',
+    fontSize = '1.3rem',
+    fontWeight = 'normal'
+  } = styles
 
   const triggerAction = () => {
     action()
@@ -24,7 +29,9 @@ const Button: React.FunctionComponent<Props> = ({
       className={ButtonCSS.mainButton}
       style={{
         color: textColor,
-        backgroundColor: backgroundColor
+        backgroundColor: backgroundColor,
+        fontSize: fontSize,
+        fontWeight: fontWeight
       }}
       onClick={triggerAction}
     >

@@ -15,12 +15,19 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
 
   return (
     <div className={css.addRecipeMain}>
-      <div className={css.addRecipe}>
+      <div className={css.addRecipeHeader}>
         <h2>Add New Recipe</h2>
-        <Button action={saveRecipe}>Save Recipe</Button>
+        <div>
+          <Button
+            action={saveRecipe}
+            styles={{ fontSize: '1rem', fontWeight: 'bold' }}
+          >
+            Save Recipe
+          </Button>
+        </div>
       </div>
       <div className={css.addRecipeForm}>
-        <div className={css.recipeTitle}>
+        <div className={`${css.recipeTitle} ${css.fieldPart1}`}>
           <label htmlFor='recipeTitle'>Recipe Title</label>
           <input
             required
@@ -31,7 +38,7 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
           />
         </div>
         <div className={css.recipeImage}>{/* will implement last */}</div>
-        <div className={css.time}>
+        <div className={`${css.time} ${css.fieldPart1}`}>
           <label htmlFor='time'>Preparation Time</label>
           <input
             type='text'
@@ -42,16 +49,22 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
         </div>
         <div className={css.IngredientsForm}>
           <label htmlFor='ingredients'>Ingredients</label>
-          <div>
-            <input
-              type='text'
-              name='ingredients'
-              id='ingredients'
-              placeholder='Add ingredient'
-            />
-            <IconContext.Provider value={{ className: `${css.plusIcon}` }}>
-              <AiOutlinePlus />
-            </IconContext.Provider>
+          <div className={css.formElements}>
+            <div>
+              <input
+                type='text'
+                name='ingredients'
+                id='ingredients'
+                placeholder='Add ingredient'
+              />
+            </div>
+            <div className={css.iconContainer}>
+              <IconContext.Provider
+                value={{ className: `${css.plusIcon} ${css.icon}` }}
+              >
+                <AiOutlinePlus />
+              </IconContext.Provider>
+            </div>
           </div>
         </div>
         <div className={css.IngredientsList}>
@@ -59,16 +72,22 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
         </div>
         <div className={css.InstructionsForm}>
           <label htmlFor='instructions'>Instructions</label>
-          <div>
-            <input
-              type='text'
-              name='instructions'
-              id='instructions'
-              placeholder='Add Step Instructions'
-            />
-            <IconContext.Provider value={{ className: `${css.plusIcon}` }}>
-              <AiOutlinePlus />
-            </IconContext.Provider>
+          <div className={css.formElements}>
+            <div>
+              <input
+                type='text'
+                name='instructions'
+                id='instructions'
+                placeholder='Add Step Instructions'
+              />
+            </div>
+            <div className={css.iconContainer}>
+              <IconContext.Provider
+                value={{ className: `${css.plusIcon} ${css.icon}` }}
+              >
+                <AiOutlinePlus />
+              </IconContext.Provider>
+            </div>
           </div>
         </div>
         <div className={css.IngredientsList}>
