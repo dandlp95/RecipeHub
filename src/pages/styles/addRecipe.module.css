@@ -1,1 +1,4 @@
 /* test test*/
+.addRecipeMain .addRecipeHeader {
+    display:flex;
+}

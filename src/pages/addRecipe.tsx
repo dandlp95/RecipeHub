@@ -15,7 +15,7 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
 
   return (
     <div className={css.addRecipeMain}>
-      <div>
+      <div className={css.addRecipe}>
         <h2>Add New Recipe</h2>
         <Button action={saveRecipe}>Save Recipe</Button>
       </div>
@@ -71,9 +71,11 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
             </IconContext.Provider>
           </div>
         </div>
+        <div className={css.IngredientsList}>
+          <FormList />
+        </div>
         <div className={css.categories}>
-        <p>Categories</p>
-        
+          <p>Categories</p>
         </div>
       </div>
     </div>
