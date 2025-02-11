@@ -58,13 +58,11 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
                 placeholder='Add ingredient'
               />
             </div>
-            <div className={css.iconContainer}>
               <IconContext.Provider
                 value={{ className: `${css.plusIcon} ${css.icon}` }}
               >
                 <AiOutlinePlus />
               </IconContext.Provider>
-            </div>
           </div>
         </div>
         <div className={css.IngredientsList}>
@@ -81,13 +79,11 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
                 placeholder='Add Step Instructions'
               />
             </div>
-            <div className={css.iconContainer}>
               <IconContext.Provider
                 value={{ className: `${css.plusIcon} ${css.icon}` }}
               >
                 <AiOutlinePlus />
               </IconContext.Provider>
-            </div>
           </div>
         </div>
         <div className={css.IngredientsList}>

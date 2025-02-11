@@ -59,14 +59,12 @@ with the plus icon */
     width: 99%;
 }
 
-.addRecipeMain .iconContainer {
-    font-size: 1.75rem;
-}
-
 .addRecipeMain .icon {
     border: 1px solid var(--mint-cream);
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-radius: 8px;
+    font-size: 1.75rem;
+    cursor: pointer;
 }
 
 .addRecipeMain .addRecipeForm>div {
