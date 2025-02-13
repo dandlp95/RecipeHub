@@ -19,3 +19,7 @@ export type UserCreateDTO = {
   confirmPassword: string;
 };
 
+export type Group = {
+  Name:string,
+  CreatedOn: Date
+}

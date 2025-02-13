@@ -58,16 +58,18 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
                 placeholder='Add ingredient'
               />
             </div>
-              <IconContext.Provider
-                value={{ className: `${css.plusIcon} ${css.icon}` }}
-              >
-                <AiOutlinePlus />
-              </IconContext.Provider>
+            <IconContext.Provider
+              value={{ className: `${css.plusIcon} ${css.icon}` }}
+            >
+              <AiOutlinePlus />
+            </IconContext.Provider>
           </div>
         </div>
-        <div className={css.IngredientsList}>
-          <FormList />
-        </div>
+        {ingredients.length > 0 && (
+          <div className={css.IngredientsList}>
+            <FormList />
+          </div>
+        )}
         <div className={css.InstructionsForm}>
           <label htmlFor='instructions'>Instructions</label>
           <div className={css.formElements}>
@@ -79,16 +81,18 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
                 placeholder='Add Step Instructions'
               />
             </div>
-              <IconContext.Provider
-                value={{ className: `${css.plusIcon} ${css.icon}` }}
-              >
-                <AiOutlinePlus />
-              </IconContext.Provider>
+            <IconContext.Provider
+              value={{ className: `${css.plusIcon} ${css.icon}` }}
+            >
+              <AiOutlinePlus />
+            </IconContext.Provider>
           </div>
         </div>
-        <div className={css.IngredientsList}>
-          <FormList />
-        </div>
+        {instructions.length > 0 && (
+          <div className={css.instructionsList}>
+            <FormList />
+          </div>
+        )}
         <div className={css.categories}>
           <p>Categories</p>
         </div>

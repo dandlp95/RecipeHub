@@ -6,6 +6,7 @@ import { IconContext } from 'react-icons'
 type Props = {}
 
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
+  
   return (
     <section className={groupContainerCSS.groupContainerMain}>
       <div className={groupContainerCSS.top}>

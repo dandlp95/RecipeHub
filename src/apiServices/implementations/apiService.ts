@@ -1,4 +1,5 @@
 // import IApiService from './interfaces/IApiService'
+import { ErrorHandling } from '../../customTypes/errorHandling'
 import { PathParams } from '../../customTypes/requestTypes'
 import { ApiData } from '../../customTypes/responseTypes'
 
@@ -20,7 +21,7 @@ abstract class ApiService<T> {
   protected async get (
     url: string,
     pathParams: PathParams | null
-  ): Promise<ApiData<T[]> | ApiData<null>> {
+  ): Promise<ApiData<T[]> | ApiData<null> | ErrorHandling> {
     // with ApiResponse type, you can put this in a try catch or handle scenarios where
     // backend respond was not okay.
     const response: Response = await this._apiCall(url, pathParams, 'GET')
@@ -42,7 +43,7 @@ abstract class ApiService<T> {
     url: string,
     pathParams: PathParams,
     body: object = {}
-  ): Promise<ApiData<T> | ApiData<null>> {
+  ): Promise<ApiData<T> | ApiData<null> | ErrorHandling> {
     const response: Response = await this._apiCall(url, pathParams, 'POST', body)
     return response.json()
   }
