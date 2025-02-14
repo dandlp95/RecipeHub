@@ -44,6 +44,62 @@ class RecipeApiService extends ApiService<Group> implements IRecipeApiService {
       return errorHandling
     }
   }
+
+  public async createGroup (
+    url: string,
+    pathParams: PathParams,
+    requestBody: Group
+  ): Promise<ApiData<Group> | ApiData<null> | ErrorHandling> {
+    try {
+      return super.post(url, pathParams, requestBody)
+    } catch (error) {
+      const errorHandling: ErrorHandling = {
+        message: 'Error creating group',
+        code: 500,
+        timestamp: new Date(),
+        error: error
+      }
+      console.error('Error creating group:', error)
+      return errorHandling
+    }
+  }
+
+  public async updateGroup (
+    url: string,
+    pathParams: PathParams,
+    requestBody: Group
+  ): Promise<ApiData<Group> | ApiData<null> | ErrorHandling> {
+    try {
+      return super.put(url, pathParams, requestBody)
+    } catch (error) {
+      const errorHandling: ErrorHandling = {
+        message: 'Error updating group',
+        code: 500,
+        timestamp: new Date(),
+        error: error
+      }
+      console.error('Error updating group:', error)
+      return errorHandling
+    }
+  }
+
+  public async deleteGroup (
+    url: string,
+    pathParams: PathParams
+  ): Promise<Response | ApiData<null> | ErrorHandling> {
+    try {
+      return super.delete(url, pathParams)
+    } catch (error) {
+      const errorHandling: ErrorHandling = {
+        message: 'Error deleting group',
+        code: 500,
+        timestamp: new Date(),
+        error: error
+      }
+      console.error('Error deleting group:', error)
+      return errorHandling
+    }
+  }
 }
 
 export default RecipeApiService
