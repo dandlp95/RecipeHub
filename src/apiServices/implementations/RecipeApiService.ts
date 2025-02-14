@@ -5,101 +5,54 @@ import ApiService from './apiService'
 import { ErrorHandling } from '../../customTypes/errorHandling'
 
 class RecipeApiService extends ApiService<Group> implements IRecipeApiService {
-  constructor () {
-    super()
+  constructor (token: string) {
+    super(token)
   }
 
   public async getGroups (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<Group[]> | ApiData<null> | ErrorHandling> {
-    try {
-      return super.get(url, pathParams)
-    } catch (error) {
-      const errorHandling: ErrorHandling = {
-        message: 'Error fetching groups',
-        code: 500,
-        timestamp: new Date(),
-        error: error
-      }
-      console.error('Error fetching groups:', error)
-      return errorHandling
-    }
+  ): Promise<ApiData<Group[]> | ApiData<null>> {
+    return super.get(url, pathParams)
   }
 
   public async getGroup (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<Group> | ApiData<null> | ErrorHandling> {
-    try {
-      return super.getSingle(url, pathParams)
-    } catch (error) {
-      const errorHandling: ErrorHandling = {
-        message: 'Error fetching group',
-        code: 500,
-        timestamp: new Date(),
-        error: error
-      }
-      console.error('Error fetching group:', error)
-      return errorHandling
-    }
+  ): Promise<ApiData<Group> | ApiData<null>> {
+    return super.getSingle(url, pathParams)
   }
 
   public async createGroup (
     url: string,
     pathParams: PathParams,
     requestBody: Group
-  ): Promise<ApiData<Group> | ApiData<null> | ErrorHandling> {
-    try {
-      return super.post(url, pathParams, requestBody)
-    } catch (error) {
-      const errorHandling: ErrorHandling = {
-        message: 'Error creating group',
-        code: 500,
-        timestamp: new Date(),
-        error: error
-      }
-      console.error('Error creating group:', error)
-      return errorHandling
-    }
+  ): Promise<ApiData<Group> | ApiData<null>> {
+    return super.post(url, pathParams, requestBody)
   }
 
   public async updateGroup (
     url: string,
     pathParams: PathParams,
     requestBody: Group
-  ): Promise<ApiData<Group> | ApiData<null> | ErrorHandling> {
-    try {
-      return super.put(url, pathParams, requestBody)
-    } catch (error) {
-      const errorHandling: ErrorHandling = {
-        message: 'Error updating group',
-        code: 500,
-        timestamp: new Date(),
-        error: error
-      }
-      console.error('Error updating group:', error)
-      return errorHandling
-    }
+  ): Promise<ApiData<Group> | ApiData<null>> {
+    return super.put(url, pathParams, requestBody)
   }
 
   public async deleteGroup (
     url: string,
     pathParams: PathParams
-  ): Promise<Response | ApiData<null> | ErrorHandling> {
-    try {
-      return super.delete(url, pathParams)
-    } catch (error) {
-      const errorHandling: ErrorHandling = {
-        message: 'Error deleting group',
-        code: 500,
-        timestamp: new Date(),
-        error: error
-      }
-      console.error('Error deleting group:', error)
-      return errorHandling
-    }
+  ): Promise<Response | ApiData<null>> {
+    return super.delete(url, pathParams)
   }
 }
 
-export default RecipeApiService
+// export default RecipeApiService
+export function createRecipeApiService (): RecipeApiService {
+  const token: string | null = localStorage.getItem('token')
+  if (token) {
+    return new RecipeApiService(token)
+  } else {
+    throw new Error('No token found')
+  }
+}

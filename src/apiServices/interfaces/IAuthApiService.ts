@@ -8,13 +8,13 @@ interface IAuthApiService{
         url: string,
         pathParams: PathParams,
         requestBody: LoginData
-      ): Promise<ApiData<UserDTO> | ApiData<null> | ErrorHandling>
+      ): Promise<ApiData<UserDTO> | ApiData<null>>
     
       postUser(
         url: string,
         pathParams: PathParams,
         requestBody: UserCreateDTO
-      ): Promise<ApiData<UserDTO> | ApiData<null> | ErrorHandling>
+      ): Promise<ApiData<UserDTO> | ApiData<null>>
 }
 
 export default IAuthApiService
