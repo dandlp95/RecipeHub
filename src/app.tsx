@@ -69,7 +69,7 @@ const App: React.FunctionComponent = () => {
   const signIn = () => {
     try {
       const body: LoginData = logindata
-      
+
       AuthApiService.auth('/users', params, body).then(response => {
         if (response.result && response.token) {
           localStorage.setItem('username', response.result.userName)
@@ -77,7 +77,10 @@ const App: React.FunctionComponent = () => {
           setToken(response.token)
         }
       })
-    } catch (e) {}
+    } catch (err) {
+      console.error(err)
+      alert('Error logging in')
+    }
   }
 
   const registerLoginSwitch = (formType: authFormType) => setFormType(formType)

@@ -9,7 +9,7 @@ type Props = {}
 
 const Home: React.FunctionComponent<Props> = () => {
   const [page, setPage] = useState<pages>(pages.groupPage)
-
+  
   return (
     <div className={HomeCSS.homeContainer}>
       <div>

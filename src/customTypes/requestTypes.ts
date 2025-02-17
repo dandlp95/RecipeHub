@@ -9,17 +9,18 @@ export interface RegisterData extends LoginData {
 }
 
 export type PathParams = {
-  userId?:number
+  userId?: number
 }
 
 export type UserCreateDTO = {
-  userName: string;
-  emailAddress: string;
-  password: string;
-  confirmPassword: string;
-};
+  userName: string
+  emailAddress: string
+  password: string
+  confirmPassword: string
+}
 
 export type Group = {
-  Name:string,
+  Name: string
   CreatedOn: Date
+  TotalRecipes: number
 }

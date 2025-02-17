@@ -20,6 +20,8 @@ const GenerateShoppingListStyling: ButtonStyling = {
 }
 
 const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
+  const [activeGroupId, setActiveGroupId] = React.useState<number | null>(null)
+
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
   }
@@ -29,7 +31,7 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <div className={GroupPageCSS.groupPageMainContainer}>
       <div className={GroupPageCSS.groupContainerWrapper}>
-        <GroupContainer />
+        <GroupContainer passGroupId={setActiveGroupId} />
       </div>
       <div className={GroupPageCSS.recipesSection}>
         <div className={GroupPageCSS.recipeSectionTop}>

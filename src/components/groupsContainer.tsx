@@ -8,27 +8,35 @@ import { Group } from '../customTypes/requestTypes'
 import { PathParams } from '../customTypes/requestTypes'
 import { ErrorHandling } from '../customTypes/errorHandling'
 
-type Props = {}
+type Props = {
+  passGroupId: (groupId: number | null) => void
+}
 
-const getGroups = async (userId: number) => {
-  try {
-    const apiService = createRecipeApiService()
-    const groups = await apiService.getGroups('group', { userId: userId })
-    return groups
-  } catch (error) {
-    console.error('Error fetching groups:', error)
-  }
+const getGroups = async (
+  userId: number,
+  setState: (groups: ApiData<Group[] | null>) => void
+) => {
+  const apiService = createRecipeApiService()
+  const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
+    userId: userId
+  })
+  setState(fetchedGroups)
 }
 
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
-  const [groups, setGroups] = useState<ApiData<Group[]> | null>()
+  const [groups, setGroups] = useState<ApiData<Group[] | null>>()
 
   useEffect(() => {
     try {
       const userId = Number(localStorage.getItem('userId'))
+      const token = localStorage.getItem('token')
       if (isNaN(userId)) {
         throw new Error('User ID is not a number')
       }
+      if (!token) {
+        throw new Error('Token not found')
+      }
+      getGroups(userId, setGroups)
     } catch (err) {
       const errorHandling: ErrorHandling = {
         message: 'Error while fetching groups for user.',
@@ -52,19 +60,13 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
         </IconContext.Provider>
       </div>
       <div className={groupContainerCSS.groups}>
-        {/* Test data, this will be dynamically rendered based on API call data */}
-        <div>
-          <p>Weekly Dinner</p>
-          <p>8 Recipes</p>
-        </div>
-        <div>
-          <p>Weekly Dinner</p>
-          <p>8 Recipes</p>
-        </div>
-        <div>
-          <p>Weekly Dinner</p>
-          <p>8 Recipes</p>
-        </div>
+        {groups?.result &&
+          groups.result.map((group, index) => (
+            <div key={index}>
+              <p>{group.Name}</p>
+              <p>{group.TotalRecipes}</p>  
+            </div>
+          ))}
       </div>
     </section>
   )
