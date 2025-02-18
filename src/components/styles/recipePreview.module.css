@@ -4,7 +4,8 @@
     border-radius: 6px;
     flex-direction: column;
     /* Subtract total gap space and divide */
-    width: calc((100% - 50px) / 3);
+    /* width: calc((100% - 50px) / 3); */
+    min-width: 450px;
     height: 500px;
     
 }

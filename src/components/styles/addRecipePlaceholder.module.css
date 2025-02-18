@@ -1,5 +1,6 @@
 .placeholderMain {
-    width: calc((100% - 50px) / 3);
+    /* width: calc((100% - 50px) / 3); */
+    min-width: 450px;
     border: dashed 3px var(--mint-cream);
     display: flex;
     align-items: center;

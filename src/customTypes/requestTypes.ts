@@ -10,6 +10,8 @@ export interface RegisterData extends LoginData {
 
 export type PathParams = {
   userId?: number
+  groupId?: number
+  recipeId?: number
 }
 
 export type UserCreateDTO = {
@@ -20,7 +22,7 @@ export type UserCreateDTO = {
 }
 
 export type Group = {
-  groupId: number
+  groupId?: number
   name: string
   createdOn: Date
   totalRecipes: number

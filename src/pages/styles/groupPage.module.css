@@ -1,6 +1,6 @@
 .groupPageMainContainer {
     display: flex;
-    max-width: 1700px;
+    max-width: 90%;
     margin: 3rem auto 0 auto;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .groupPageMainContainer .groupContainerWrapper {
-    min-width: 340px;
+    min-width: 400px;
 }
 
 .groupPageMainContainer .recipeSectionTop {

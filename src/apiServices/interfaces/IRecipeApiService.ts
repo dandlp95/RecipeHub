@@ -1,4 +1,3 @@
-import { ErrorHandling } from "../../customTypes/errorHandling";
 import { Group, LoginData, PathParams } from "../../customTypes/requestTypes";
 import { ApiData } from "../../customTypes/responseTypes";
 

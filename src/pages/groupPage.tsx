@@ -20,7 +20,9 @@ const GenerateShoppingListStyling: ButtonStyling = {
 }
 
 const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
+  // need the active group Id to know which recipes to fetch
   const [activeGroupId, setActiveGroupId] = React.useState<number | null>(null)
+  const [groupTitle, setGroupTitle] = React.useState<string>('')
 
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
@@ -31,13 +33,15 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <div className={GroupPageCSS.groupPageMainContainer}>
       <div className={GroupPageCSS.groupContainerWrapper}>
-        <GroupContainer passGroupId={setActiveGroupId} />
+        <GroupContainer
+          passGroupId={setActiveGroupId}
+          passGroupName={setGroupTitle}
+        />
       </div>
       <div className={GroupPageCSS.recipesSection}>
         <div className={GroupPageCSS.recipeSectionTop}>
-          {/* the header below will be dynamically generated based on whatever group is selected 
-        Hardcoded for testing purposes*/}
-          <h2>Weekly Dinner Recipes</h2>
+          {groupTitle ? <h2>{groupTitle}</h2> : <></>}
+          {/* <h2>Weekly Dinner Recipes</h2> */}
           <div className={GroupPageCSS.buttonsContainer}>
             <div>
               <Button action={AddRecipe}>
