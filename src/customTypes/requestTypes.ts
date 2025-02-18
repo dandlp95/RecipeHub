@@ -20,7 +20,8 @@ export type UserCreateDTO = {
 }
 
 export type Group = {
-  Name: string
-  CreatedOn: Date
-  TotalRecipes: number
+  groupId: number
+  name: string
+  createdOn: Date
+  totalRecipes: number
 }

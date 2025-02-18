@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import groupContainerCSS from './styles/groupsContainer.module.css'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
@@ -14,17 +14,20 @@ type Props = {
 
 const getGroups = async (
   userId: number,
-  setState: (groups: ApiData<Group[] | null>) => void
+  setState: (groups: Group[]) => void
 ) => {
   const apiService = createRecipeApiService()
   const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
     userId: userId
   })
-  setState(fetchedGroups)
+  console.log(fetchedGroups)
+  setState(fetchedGroups?.result ? fetchedGroups.result : [])
 }
 
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
-  const [groups, setGroups] = useState<ApiData<Group[] | null>>()
+  const [groups, setGroups] = useState<Group[]>()
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const newGroupRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     try {
@@ -60,11 +63,11 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
         </IconContext.Provider>
       </div>
       <div className={groupContainerCSS.groups}>
-        {groups?.result &&
-          groups.result.map((group, index) => (
-            <div key={index}>
-              <p>{group.Name}</p>
-              <p>{group.TotalRecipes}</p>  
+        {groups &&
+          groups.map(group => (
+            <div key={group.groupId}>
+              <p>{group.name}</p>
+              <p>{`${group.totalRecipes} recipes`}</p>
             </div>
           ))}
       </div>
