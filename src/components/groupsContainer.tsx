@@ -25,16 +25,6 @@ const getGroups = async (
   setState(fetchedGroups?.result ? fetchedGroups.result : [])
 }
 
-const setDefaultGroup = (groups: Group[]) => {
-  if (groups.length > 0) {
-    return {
-      name: groups[0].name,
-      id: groups[0].groupId ? groups[0].groupId : 0
-    }
-  }
-  return null
-}
-
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   const [groups, setGroups] = useState<Group[]>([])
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -81,11 +71,15 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     const url = `users/${userId}/groups`
     const apiService = createRecipeApiService()
     const data = await apiService.createGroup(url, { userId: userId }, newGroup)
-
+    
     if (data.result) {
       setGroups([...groups, data.result])
     }
   }
+
+/*******************************************************
+ *            HANDLE GROUP DELETIONS
+ * *************************************************** */
 
   const deleteGroup = async (groupId: number) => {
     const userId = Number(localStorage.getItem('userId'))
@@ -106,15 +100,32 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       groupId: groupId
     })
 
-    if (response) {
-      setGroups(groups.filter(group => group.groupId !== groupId))
-    }
+    return response
+  }
 
-    const defaultGroup = setDefaultGroup(groups)
-    console.log(defaultGroup)
-    if (defaultGroup) {
-      props.passGroupId(defaultGroup.id)
-      props.passGroupName(defaultGroup.name)
+  const setDefaultGroup = (groups: Group[]) => {
+    if (groups.length > 0) {
+      return {
+        name: groups[0].name,
+        id: groups[0].groupId ? groups[0].groupId : 0
+      }
+    }
+    return null
+  }
+
+  const handleGroupDeletion = (groupId: number) => {
+    try {
+      deleteGroup(groupId)
+
+      const defaultGroup = setDefaultGroup(groups)
+      if (defaultGroup) {
+        props.passGroupId(defaultGroup.id)
+        props.passGroupName(defaultGroup.name)
+      }
+
+      setGroups(groups.filter(group => group.groupId !== groupId))
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -140,7 +151,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
                 >
                   <ImBin2
                     onClick={() =>
-                      group.groupId ? deleteGroup(group.groupId) : ''
+                      group.groupId ? handleGroupDeletion(group.groupId) : ''
                     }
                   />
                 </IconContext.Provider>
