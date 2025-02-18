@@ -11,7 +11,7 @@ import { ImBin2 } from 'react-icons/im'
 
 type Props = {
   passGroupId: (groupId: number | null) => void
-  passGroupName: (groupName: string) => void
+  passGroupName: (groupName: string | null) => void
 }
 
 const getGroups = async (
@@ -71,15 +71,22 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     const url = `users/${userId}/groups`
     const apiService = createRecipeApiService()
     const data = await apiService.createGroup(url, { userId: userId }, newGroup)
-    
+
     if (data.result) {
       setGroups([...groups, data.result])
     }
   }
 
-/*******************************************************
- *            HANDLE GROUP DELETIONS
- * *************************************************** */
+  /*******************************************************
+   *            HANDLE GROUP DELETIONS
+   * *************************************************** */
+
+  useEffect(() => {
+    const defaultGroup = setDefaultGroup(groups)
+
+    props.passGroupId(defaultGroup.id)
+    props.passGroupName(defaultGroup.name)
+  }, [groups])
 
   const deleteGroup = async (groupId: number) => {
     const userId = Number(localStorage.getItem('userId'))
@@ -106,24 +113,19 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   const setDefaultGroup = (groups: Group[]) => {
     if (groups.length > 0) {
       return {
-        name: groups[0].name,
+        name: groups[0].name ? groups[0].name : null,
         id: groups[0].groupId ? groups[0].groupId : 0
       }
     }
-    return null
+    return { name: null, id: null }
   }
 
   const handleGroupDeletion = (groupId: number) => {
     try {
       deleteGroup(groupId)
-
-      const defaultGroup = setDefaultGroup(groups)
-      if (defaultGroup) {
-        props.passGroupId(defaultGroup.id)
-        props.passGroupName(defaultGroup.name)
-      }
-
-      setGroups(groups.filter(group => group.groupId !== groupId))
+      setGroups(prevgroups =>
+        prevgroups.filter(group => group.groupId !== groupId)
+      )
     } catch (err) {
       console.error(err)
     }
