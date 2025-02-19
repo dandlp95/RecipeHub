@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
+import useDidMountEffect from '../customHooks/useDidMountEffect'
 import groupContainerCSS from './styles/groupsContainer.module.css'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
@@ -28,23 +29,34 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<Group>(group)
+  const [prevGroupName, setPrevGroupName] = useState<string>('')
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const defaultName = '[Add Name]'
 
-  const saveUpdate = useCallback((): void => {
-    // When losing focus, the group name is updated (if changed)
-    onUpdate(groupData)
-  }, [groupData, onUpdate])
+  /*******************************************************************
+   *           HANDLE GROUP UPDATES
+   ********************************************************************/
+  useDidMountEffect(() => {
+    if (!isEditing) {
+      if (!groupData.name || groupData.name === '') {
+        setGroupData({ ...groupData, name: defaultName })
+      }
+      setPrevGroupName(groupData.name)
+    }
+  }, [isEditing])
 
-  const finishEditHandler = () => {
-    // Ends editing and saves the updated group name (if changed)
-    setIsEditing(false)
-    saveUpdate()
-  }
+  useDidMountEffect(() => {
+    if (!isEditing) {
+      if (prevGroupName !== groupData.name) {
+        onUpdate(groupData)
+      }
+    }
+  }, [groupData, isEditing])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Ends editing and saves the updated group name (if changed) when 'Enter' is pressed
     if (e.key === 'Enter') {
-      finishEditHandler()
+      setIsEditing(false)
     }
   }
 
@@ -56,14 +68,14 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
   }, [isEditing])
 
   return (
-    <div key={group.groupId} className={groupContainerCSS.singleGroup}>
+    <div key={groupData.groupId} className={groupContainerCSS.singleGroup}>
       <div className={groupContainerCSS.groupName}>
         <IconContext.Provider
           value={{ className: `${groupContainerCSS.deleteIcon}` }}
         >
           <ImBin2
             onClick={() =>
-              group.groupId ? handleGroupDeletion(group.groupId) : ''
+              groupData.groupId ? handleGroupDeletion(groupData.groupId) : ''
             }
           />
         </IconContext.Provider>
@@ -71,7 +83,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
           <input
             onChange={e => setGroupData({ ...groupData, name: e.target.value })}
             value={groupData.name ? groupData.name : ''}
-            onBlur={() => finishEditHandler()}
+            onBlur={() => setIsEditing(false)}
             ref={inputRef}
             onKeyDown={e => handleKeyDown(e)}
             type='text'
@@ -81,11 +93,11 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
             onClick={() => passGroupName(groupData.name)}
             onDoubleClick={() => setIsEditing(true)}
           >
-            {group.name}
+            {groupData.name}
           </span>
         )}
       </div>
-      <p>{`${group.totalRecipes} recipes`}</p>
+      <p>{`${groupData.totalRecipes} recipes`}</p>
     </div>
   )
 }
