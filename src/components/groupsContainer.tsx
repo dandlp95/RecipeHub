@@ -29,29 +29,35 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<Group>(group)
-  const [prevGroupName, setPrevGroupName] = useState<string>('')
+  const [prevGroupName, setPrevGroupName] = useState<string>(groupData.name)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const defaultName = '[Add Name]'
 
   /*******************************************************************
    *           HANDLE GROUP UPDATES
    ********************************************************************/
+
   useDidMountEffect(() => {
     if (!isEditing) {
       if (!groupData.name || groupData.name === '') {
         setGroupData({ ...groupData, name: defaultName })
       }
+      // if groupData.name is an empty string, the changes in the if statement above
+      // will not be reflected in the groupData.name state below, so it will be an empty string.
       setPrevGroupName(groupData.name)
     }
   }, [isEditing])
 
   useDidMountEffect(() => {
     if (!isEditing) {
+      // prevGroupName will still be the previous group name because the prevGroupName state will
+      // not be updated until the component re-renders. While groupData.name will be the updated 
+      // name because onChange => setGroupData will update the groupData state immediately.
       if (prevGroupName !== groupData.name) {
         onUpdate(groupData)
       }
     }
-  }, [groupData, isEditing])
+  }, [groupData, isEditing, ])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Ends editing and saves the updated group name (if changed) when 'Enter' is pressed
