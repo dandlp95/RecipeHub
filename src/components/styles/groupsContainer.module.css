@@ -34,8 +34,8 @@
     font-size: 2rem;
 }
 
-.groupContainerMain .top > h3 {
-    font-size:1.2rem;
+.groupContainerMain .top>h3 {
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
@@ -45,7 +45,7 @@
 }
 
 
-.groupContainerMain .groups > div {
+.groupContainerMain .groups>div {
     display: flex;
     justify-content: space-between;
     width: 95%;
@@ -61,11 +61,11 @@
 .groupContainerMain .groups p:nth-child(2) {
     font-size: 0.9rem;
     font-weight: 400;
-    color:var(--slate-gray)
+    color: var(--slate-gray)
 }
 
 .groupContainerMain .groupName {
-    display:flex;
+    display: flex;
     column-gap: 10px;
     align-items: center;
 }
@@ -75,7 +75,7 @@
     cursor: pointer;
 }
 
-.groupContainerMain .groups > div {
+.groupContainerMain .groups>div {
     box-sizing: border-box;
     padding: 0 1rem 0 1rem;
 }
@@ -85,12 +85,17 @@
     border-radius: 6px;
 }
 
-.groupContainerMain .singleGroup input{
+.groupContainerMain .singleGroup input {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid var(--french-gray);
     border-radius: 6px;
-    font-size:1rem;
+    font-size: 1rem;
+}
+
+.groupContainerMain .groups .activeGroup {
+    background-color: var(--mint-cream);
+    border-radius: 6px;
 }
 
 /* 

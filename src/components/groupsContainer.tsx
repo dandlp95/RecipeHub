@@ -21,27 +21,29 @@ type Props1 = {
   handleGroupDeletion: (groupId: number) => void
   onUpdate: (groupName: Group) => void
   passGroupName: (groupName: string | null) => void
+  passActiveGroup: (groupId: number | null) => void
+  activeGroup: number | null
 }
 
 const IndividualGroup: React.FunctionComponent<Props1> = ({
   group,
   handleGroupDeletion,
   onUpdate,
-  passGroupName
+  passGroupName,
+  passActiveGroup,
+  activeGroup
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<Group>(group)
-  const [activeGroup, setActiveGroup] = useState<boolean>(false)
   const [prevGroupName, setPrevGroupName] = useState<string>(groupData.name)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const defaultName = '[Add Name]'
 
   /*******************************************************************
-   *           HANDLE GROUP UPDATES
+   *                HANDLE GROUP UPDATES
    ********************************************************************/
 
   useDidMountEffect(() => {
-    console.log('mounted...')
     if (!isEditing) {
       if (!groupData.name || groupData.name === '') {
         setGroupData({ ...groupData, name: defaultName })
@@ -77,8 +79,26 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
     }
   }, [isEditing])
 
+  /****************************************************************
+   *               HANDLE GROUP CONTAINER ACTIVE STATE
+   ****************************************************************/
+
+  const handleGroupActiveState = (groupId: number, groupName: string) => {
+    if (groupId > 0) {
+      passGroupName(groupName)
+      passActiveGroup(groupId)
+
+      return
+    }
+  }
+
   return (
-    <div key={groupData.groupId} className={groupContainerCSS.singleGroup}>
+    <div
+      key={groupData.groupId}
+      className={`${groupContainerCSS.singleGroup}${
+        activeGroup == groupData.groupId ? ` ${groupContainerCSS.activeGroup}` : ''
+      }`}
+    >
       <div className={groupContainerCSS.groupName}>
         <IconContext.Provider
           value={{ className: `${groupContainerCSS.deleteIcon}` }}
@@ -100,7 +120,12 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
           />
         ) : (
           <span
-            onClick={() => passGroupName(groupData.name)}
+            onClick={() =>
+              handleGroupActiveState(
+                groupData.groupId ? groupData.groupId : 0,
+                groupData.name
+              )
+            }
             onDoubleClick={() => setIsEditing(true)}
           >
             {groupData.name}
@@ -126,6 +151,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   // It uses setDefaultGroup to get the first group and passes its id and name to the parent component.
   // The parent component uses this to select the default group on load or after deletion.
   const [defaultEvent, setDefaultEvent] = useState<boolean>(false)
+  const [activeGroup, setActiveGroup] = useState<number | null>(null)
 
   const setDefaultGroup = (groups: Group[]) => {
     if (groups.length > 0) {
@@ -328,6 +354,8 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
               handleGroupDeletion={handleGroupDeletion}
               onUpdate={onUpdate}
               passGroupName={props.passGroupName}
+              passActiveGroup={setActiveGroup}
+              activeGroup={activeGroup}
             />
           ))}
       </div>
