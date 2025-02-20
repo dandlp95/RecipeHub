@@ -23,7 +23,7 @@ export type UserCreateDTO = {
 
 export type Group = {
   groupId?: number
-  name: string
-  createdOn: Date
-  totalRecipes: number
+  name?: string
+  createdOn?: Date
+  totalRecipes?: number
 }

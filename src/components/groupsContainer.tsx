@@ -20,9 +20,9 @@ type Props1 = {
   group: Group
   handleGroupDeletion: (groupId: number) => void
   onUpdate: (groupName: Group) => void
-  passActiveGroup: (groupId: number | null) => void
+  passActiveGroup: (group: Group | null) => void
   // passGroup: (group: Group) => void
-  activeGroup: number | null
+  activeGroup: Group | null
 }
 
 const IndividualGroup: React.FunctionComponent<Props1> = ({
@@ -34,7 +34,9 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<Group>(group)
-  const [prevGroupName, setPrevGroupName] = useState<string>(groupData.name)
+  const [prevGroupName, setPrevGroupName] = useState<string | undefined>(
+    group.name
+  )
   const inputRef = useRef<HTMLInputElement | null>(null)
   const defaultName = '[Add Name]'
 
@@ -82,10 +84,9 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
    *               HANDLE GROUP CONTAINER ACTIVE STATE
    ****************************************************************/
 
-  const handleGroupActiveState = (groupId: number) => {
-    if (groupId > 0) {
-      passActiveGroup(groupId)
-
+  const handleGroupActiveState = (group: Group | null) => {
+    if (group) {
+      passActiveGroup(group)
       return
     }
   }
@@ -94,7 +95,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
     <div
       key={groupData.groupId}
       className={`${groupContainerCSS.singleGroup}${
-        activeGroup == groupData.groupId
+        activeGroup?.groupId == groupData.groupId
           ? ` ${groupContainerCSS.activeGroup}`
           : ''
       }`}
@@ -120,11 +121,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
           />
         ) : (
           <span
-            onClick={() =>
-              handleGroupActiveState(
-                groupData.groupId ? groupData.groupId : 0
-              )
-            }
+            onClick={() => handleGroupActiveState(groupData ? groupData : null)}
             onDoubleClick={() => setIsEditing(true)}
           >
             {groupData.name}
@@ -151,32 +148,29 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   // It uses setDefaultGroup to get the first group and passes its id and name to the parent component.
   // The parent component uses this to select the default group on load or after deletion.
   const [defaultEvent, setDefaultEvent] = useState<boolean>(false)
-  const [activeGroup, setActiveGroup] = useState<number | null>(null)
+  const [activeGroup, setActiveGroup] = useState<Group | null>(null)
 
   useEffect(() => {
     // props.passGroupId(activeGroup)
-    const group:Group | undefined = groups.find(group => group.groupId === activeGroup)
-    if(group){
-      props.passGroup(group)
+    if (activeGroup) {
+      props.passGroup(activeGroup)
     }
   }, [activeGroup])
 
   const setDefaultGroup = (groups: Group[]) => {
     if (groups.length > 0) {
-      return {
-        name: groups[0].name ? groups[0].name : null,
-        id: groups[0].groupId ? groups[0].groupId : 0
-      }
+      return groups[0] ? groups[0] : null
     }
-    return { name: null, id: null }
+    return null
   }
 
   useEffect(() => {
     //Triggered when a group is deleted only, removed group dependency to avoid setting default group
     //when other changes are done to the group list (e.g. group name update)
-    const defaultGroup = setDefaultGroup(groups)
-    setActiveGroup(defaultGroup.id)
-    // props.passGroupId(defaultGroup.id)
+    const defaultGroup: Group | null = setDefaultGroup(groups)
+    if (defaultGroup) {
+      setActiveGroup(defaultGroup)
+    }
   }, [defaultEvent])
 
   /*******************************************************
@@ -341,7 +335,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
         )
         // props.passGroupId(updatedGroup.groupId)
         console.log('updated...')
-        setActiveGroup(updatedGroup.groupId)
+        setActiveGroup(updatedGroup)
       }
     } catch (err) {
       console.error(err)
