@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import GroupContainer from '../components/groupsContainer'
 import Button from '../components/button'
 import RecipePreview from '../components/recipePreview'
@@ -9,6 +9,8 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 import { pages } from '../customTypes/enumTypes'
+import { Group } from '../customTypes/requestTypes'
+import { createRecipeApiService } from '../apiServices/implementations/RecipeApiService'
 
 type Props = {
   recipePage: React.Dispatch<React.SetStateAction<pages>>
@@ -21,8 +23,34 @@ const GenerateShoppingListStyling: ButtonStyling = {
 
 const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   // need the active group Id to know which recipes to fetch
-  const [activeGroupId, setActiveGroupId] = React.useState<number | null>(null)
-  const [groupTitle, setGroupTitle] = React.useState<string | null>(null)
+  const [activeGroup, setActiveGroup] = React.useState<Group>()
+  const [activeGroupId, setActiveGroupId] = React.useState<number>()
+
+  useEffect(() => {
+    handleGetGroup()
+  }, [activeGroupId])
+
+  const handleGetGroup = async () => {
+    if (activeGroupId) {
+      const userId = Number(localStorage.getItem('userId'))
+      if (isNaN(userId)) {
+        throw new Error('User Id not found in local storage')
+      }
+      const group = await getGroup(userId, activeGroupId)
+      setActiveGroup(group)
+    }
+  }
+
+  const getGroup = async (userId: number, groupId: number) => {
+    const url = `users/${userId}/groups/${groupId}`
+    const data = await createRecipeApiService().getGroup(url, {
+      userId: userId,
+      groupId: groupId
+    })
+    if (data.result) {
+      return data.result
+    }
+  }
 
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
@@ -34,13 +62,14 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
     <div className={GroupPageCSS.groupPageMainContainer}>
       <div className={GroupPageCSS.groupContainerWrapper}>
         <GroupContainer
-          passGroupId={setActiveGroupId}
-          passGroupName={setGroupTitle}
+          passGroupId={(groupId: number | null) =>
+            groupId ? setActiveGroupId(groupId) : ''
+          }
         />
       </div>
       <div className={GroupPageCSS.recipesSection}>
         <div className={GroupPageCSS.recipeSectionTop}>
-          {groupTitle ? <h2>{groupTitle}</h2> : <div></div>}
+          {activeGroup?.name ? <h2>{activeGroup?.name}</h2> : <div></div>}
           {/* <h2>Weekly Dinner Recipes</h2> */}
           <div className={GroupPageCSS.buttonsContainer}>
             <div>
