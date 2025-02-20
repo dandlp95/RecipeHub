@@ -12,7 +12,9 @@ import { ImBin2 } from 'react-icons/im'
 
 // This component is responsible for displaying the groups that the user has created.
 
-/******************INDIVIDUAL GROUP ********************/
+/***************************************************************************************************************
+ *                                              INDIVIDUAL GROUP
+ *  ************************************************************************************************************/
 
 type Props1 = {
   group: Group
@@ -29,6 +31,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [groupData, setGroupData] = useState<Group>(group)
+  const [activeGroup, setActiveGroup] = useState<boolean>(false)
   const [prevGroupName, setPrevGroupName] = useState<string>(groupData.name)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const defaultName = '[Add Name]'
@@ -38,6 +41,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
    ********************************************************************/
 
   useDidMountEffect(() => {
+    console.log('mounted...')
     if (!isEditing) {
       if (!groupData.name || groupData.name === '') {
         setGroupData({ ...groupData, name: defaultName })
@@ -51,13 +55,13 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
   useDidMountEffect(() => {
     if (!isEditing) {
       // prevGroupName will still be the previous group name because the prevGroupName state will
-      // not be updated until the component re-renders. While groupData.name will be the updated 
+      // not be updated until the component re-renders. While groupData.name will be the updated
       // name because onChange => setGroupData will update the groupData state immediately.
       if (prevGroupName !== groupData.name) {
         onUpdate(groupData)
       }
     }
-  }, [groupData, isEditing, ])
+  }, [groupData, isEditing])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Ends editing and saves the updated group name (if changed) when 'Enter' is pressed
@@ -108,7 +112,9 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
   )
 }
 
-/**************MAING GROUP CONTAINER FUNCTION COMPONENT************/
+/************************************************************************************************************
+ *                              MAING GROUP CONTAINER FUNCTION COMPONENT
+ * **********************************************************************************************************/
 type Props = {
   passGroupId: (groupId: number | null) => void
   passGroupName: (groupName: string | null) => void
@@ -116,22 +122,49 @@ type Props = {
 
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   const [groups, setGroups] = useState<Group[]>([])
-  const [isEditing, setIsEditing] = useState<boolean>(false)
-  const newGroupRef = useRef<HTMLInputElement | null>(null)
+  // defaultEvent triggers a re-render when a group is deleted or the page loads.
+  // It uses setDefaultGroup to get the first group and passes its id and name to the parent component.
+  // The parent component uses this to select the default group on load or after deletion.
+  const [defaultEvent, setDefaultEvent] = useState<boolean>(false)
+
+  const setDefaultGroup = (groups: Group[]) => {
+    if (groups.length > 0) {
+      return {
+        name: groups[0].name ? groups[0].name : null,
+        id: groups[0].groupId ? groups[0].groupId : 0
+      }
+    }
+    return { name: null, id: null }
+  }
+
+  useEffect(() => {
+    //Triggered when a group is deleted only, removed group dependency to avoid setting default group
+    //when other changes are done to the group list (e.g. group name update)
+    const defaultGroup = setDefaultGroup(groups)
+
+    props.passGroupId(defaultGroup.id)
+    props.passGroupName(defaultGroup.name)
+  }, [defaultEvent])
 
   /*******************************************************
    *            HANDLE FETCHING GROUPS
    * *************************************************** */
 
-  const getGroups = async (
-    userId: number,
-    setState: (groups: Group[]) => void
-  ) => {
+  const getGroups = async (userId: number) => {
     const apiService = createRecipeApiService()
     const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
       userId: userId
     })
+    return fetchedGroups
+  }
+
+  const getGroupsHandler = async (
+    userId: number,
+    setState: (groups: Group[]) => void
+  ) => {
+    const fetchedGroups = await getGroups(userId)
     setState(fetchedGroups?.result ? fetchedGroups.result : [])
+    setDefaultEvent(!defaultEvent)
   }
 
   useEffect(() => {
@@ -144,7 +177,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       if (!token) {
         throw new Error('Token not found')
       }
-      getGroups(userId, setGroups)
+      getGroupsHandler(userId, setGroups)
     } catch (err) {
       const errorHandling: ErrorHandling = {
         message: 'Error while fetching groups for user.',
@@ -189,12 +222,17 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
    *            HANDLE GROUP DELETIONS
    * *************************************************** */
 
-  useEffect(() => {
-    const defaultGroup = setDefaultGroup(groups)
-
-    props.passGroupId(defaultGroup.id)
-    props.passGroupName(defaultGroup.name)
-  }, [groups])
+  const handleGroupDeletion = (groupId: number) => {
+    try {
+      deleteGroup(groupId)
+      setGroups(prevgroups =>
+        prevgroups.filter(group => group.groupId !== groupId)
+      )
+      setDefaultEvent(!defaultEvent)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const deleteGroup = async (groupId: number) => {
     const userId = Number(localStorage.getItem('userId'))
@@ -216,27 +254,6 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     })
 
     return response
-  }
-
-  const setDefaultGroup = (groups: Group[]) => {
-    if (groups.length > 0) {
-      return {
-        name: groups[0].name ? groups[0].name : null,
-        id: groups[0].groupId ? groups[0].groupId : 0
-      }
-    }
-    return { name: null, id: null }
-  }
-
-  const handleGroupDeletion = (groupId: number) => {
-    try {
-      deleteGroup(groupId)
-      setGroups(prevgroups =>
-        prevgroups.filter(group => group.groupId !== groupId)
-      )
-    } catch (err) {
-      console.error(err)
-    }
   }
 
   /****************************************************************
