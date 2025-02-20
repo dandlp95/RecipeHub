@@ -21,6 +21,7 @@ type Props1 = {
   handleGroupDeletion: (groupId: number) => void
   onUpdate: (groupName: Group) => void
   passActiveGroup: (groupId: number | null) => void
+  // passGroup: (group: Group) => void
   activeGroup: number | null
 }
 
@@ -141,6 +142,7 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
 
 type Props = {
   passGroupId: (groupId: number | null) => void
+  passGroup: (group: Group) => void
 }
 
 const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
@@ -152,7 +154,11 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   const [activeGroup, setActiveGroup] = useState<number | null>(null)
 
   useEffect(() => {
-    props.passGroupId(activeGroup)
+    // props.passGroupId(activeGroup)
+    const group:Group | undefined = groups.find(group => group.groupId === activeGroup)
+    if(group){
+      props.passGroup(group)
+    }
   }, [activeGroup])
 
   const setDefaultGroup = (groups: Group[]) => {
@@ -320,20 +326,21 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     return response.result
   }
 
-  const onUpdate = async (groupName: Group) => {
+  const onUpdate = async (passedGroup: Group) => {
     // Updates entity group and passes updated group name to parent component.
     try {
       const updatedGroup = await updateGroup(
-        groupName.groupId ? groupName.groupId : 0,
-        groupName
+        passedGroup.groupId ? passedGroup.groupId : 0,
+        passedGroup
       )
       if (updatedGroup?.groupId) {
         setGroups(prevgroups =>
           prevgroups.map(group =>
-            group.groupId === groupName.groupId ? updatedGroup : group
+            group.groupId === passedGroup.groupId ? updatedGroup : group
           )
         )
         // props.passGroupId(updatedGroup.groupId)
+        console.log('updated...')
         setActiveGroup(updatedGroup.groupId)
       }
     } catch (err) {

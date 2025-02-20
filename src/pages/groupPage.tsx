@@ -26,31 +26,31 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   const [activeGroup, setActiveGroup] = React.useState<Group>()
   const [activeGroupId, setActiveGroupId] = React.useState<number>()
 
-  useEffect(() => {
-    handleGetGroup()
-  }, [activeGroupId])
+  // useEffect(() => {
+  //   handleGetGroup()
+  // }, [activeGroupId])
 
-  const handleGetGroup = async () => {
-    if (activeGroupId) {
-      const userId = Number(localStorage.getItem('userId'))
-      if (isNaN(userId)) {
-        throw new Error('User Id not found in local storage')
-      }
-      const group = await getGroup(userId, activeGroupId)
-      setActiveGroup(group)
-    }
-  }
+  // const handleGetGroup = async () => {
+  //   if (activeGroupId) {
+  //     const userId = Number(localStorage.getItem('userId'))
+  //     if (isNaN(userId)) {
+  //       throw new Error('User Id not found in local storage')
+  //     }
+  //     const group = await getGroup(userId, activeGroupId)
+  //     setActiveGroup(group)
+  //   }
+  // }
 
-  const getGroup = async (userId: number, groupId: number) => {
-    const url = `users/${userId}/groups/${groupId}`
-    const data = await createRecipeApiService().getGroup(url, {
-      userId: userId,
-      groupId: groupId
-    })
-    if (data.result) {
-      return data.result
-    }
-  }
+  // const getGroup = async (userId: number, groupId: number) => {
+  //   const url = `users/${userId}/groups/${groupId}`
+  //   const data = await createRecipeApiService().getGroup(url, {
+  //     userId: userId,
+  //     groupId: groupId
+  //   })
+  //   if (data.result) {
+  //     return data.result
+  //   }
+  // }
 
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
@@ -65,6 +65,7 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
           passGroupId={(groupId: number | null) =>
             groupId ? setActiveGroupId(groupId) : ''
           }
+          passGroup={setActiveGroup}
         />
       </div>
       <div className={GroupPageCSS.recipesSection}>
