@@ -29,6 +29,11 @@ interface IRecipeApiService {
         url: string,
         pathParams: PathParams
     ): Promise<Response | ApiData<null>>;
+
+    // getRecipes(
+    //     url: string,
+    //     pathParams: PathParams
+    // ): Promise<ApiData<null> | ApiData<null>>;
 }
 
 export default IRecipeApiService;

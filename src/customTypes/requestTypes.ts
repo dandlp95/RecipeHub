@@ -27,3 +27,9 @@ export type Group = {
   createdOn?: Date
   totalRecipes?: number
 }
+
+export type CreateRecipe = {
+  name?: string
+  cookingTime?: string
+  userId?:number
+}

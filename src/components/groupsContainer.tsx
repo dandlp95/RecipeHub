@@ -138,7 +138,6 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
  * **********************************************************************************************************/
 
 type Props = {
-  passGroupId: (groupId: number | null) => void
   passGroup: (group: Group) => void
 }
 

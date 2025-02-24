@@ -18,3 +18,10 @@ export type UserDTO = {
   emailAddress: string
   createdDate: string
 }
+
+export type Recipe = {
+  recipeId?: number
+  name?: string
+  cookingTime?: string
+  createdOn?: Date
+}
