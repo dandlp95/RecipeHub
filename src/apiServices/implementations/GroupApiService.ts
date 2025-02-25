@@ -3,7 +3,7 @@ import { ApiData } from '../../customTypes/responseTypes'
 import IGroupApiService from '../interfaces/IGroupApiService'
 import ApiService from './apiService'
 
-class GroupApiService extends ApiService<Group> implements IGroupApiService {
+export class GroupApiService extends ApiService<Group> implements IGroupApiService {
   constructor (token: string) {
     super(token)
   }
@@ -47,11 +47,11 @@ class GroupApiService extends ApiService<Group> implements IGroupApiService {
 }
 
 // export default RecipeApiService
-export function createRecipeApiService (): GroupApiService {
-  const token: string | null = localStorage.getItem('token')
-  if (token) {
-    return new GroupApiService(token)
-  } else {
-    throw new Error('No token found')
-  }
-}
+// export function createRecipeApiService (): GroupApiService {
+//   const token: string | null = localStorage.getItem('token')
+//   if (token) {
+//     return new GroupApiService(token)
+//   } else {
+//     throw new Error('No token found')
+//   }
+// }

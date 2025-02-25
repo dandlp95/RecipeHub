@@ -4,7 +4,7 @@ import { PathParams } from '../../customTypes/requestTypes'
 import IRecipeApiService from '../interfaces/IRecipeApiService'
 import ApiService from './apiService'
 
-class RecipeApiService extends ApiService<Recipe> implements IRecipeApiService {
+export class RecipeApiService extends ApiService<Recipe> implements IRecipeApiService {
   constructor (token: string) {
     super(token)
   }
@@ -47,11 +47,11 @@ class RecipeApiService extends ApiService<Recipe> implements IRecipeApiService {
   }
 }
 
-export function createRecipeApiService (): RecipeApiService {
-  const token: string | null = localStorage.getItem('token')
-  if (token) {
-    return new RecipeApiService(token)
-  } else {
-    throw new Error('No token found')
-  }
-}
+// export function createRecipeApiService (): RecipeApiService {
+//   const token: string | null = localStorage.getItem('token')
+//   if (token) {
+//     return new RecipeApiService(token)
+//   } else {
+//     throw new Error('No token found')
+//   }
+// }

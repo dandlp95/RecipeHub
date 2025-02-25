@@ -9,8 +9,10 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 import { pages } from '../customTypes/enumTypes'
-import { Group } from '../customTypes/requestTypes'
-import { createRecipeApiService } from '../apiServices/implementations/GroupApiService'
+import { Group, PathParams } from '../customTypes/requestTypes'
+// import { createRecipeApiService } from '../apiServices/implementations/RecipeApiService'
+import { createApiService } from '../utilities/utilities'
+import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
 
 type Props = {
   recipePage: React.Dispatch<React.SetStateAction<pages>>
@@ -29,6 +31,17 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
     props.recipePage(pages.addRecipe)
   }
 
+  const getRecipes = async (userId: number) => {
+    const recipeApiService = createApiService<RecipeApiService>('recipe')
+
+    const pathParams: PathParams = {
+      userId: userId,
+      groupId: activeGroup?.groupId
+    }
+    const response = await recipeApiService.getRecipes('recipes', pathParams)
+
+    return response
+  }
 
   const GenerateShoppingList = () => {}
 

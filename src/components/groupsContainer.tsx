@@ -3,12 +3,14 @@ import useDidMountEffect from '../customHooks/useDidMountEffect'
 import groupContainerCSS from './styles/groupsContainer.module.css'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
-import { createRecipeApiService } from '../apiServices/implementations/GroupApiService'
+// import { createRecipeApiService } from '../apiServices/implementations/GroupApiService'
+import { createApiService } from '../utilities/utilities'
 import { ApiData } from '../customTypes/responseTypes'
 import { Group } from '../customTypes/requestTypes'
 import { PathParams } from '../customTypes/requestTypes'
 import { ErrorHandling } from '../customTypes/errorHandling'
 import { ImBin2 } from 'react-icons/im'
+import { GroupApiService } from '../apiServices/implementations/GroupApiService'
 
 // This component is responsible for displaying the groups that the user has created.
 
@@ -177,7 +179,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
    * *************************************************** */
 
   const getGroups = async (userId: number) => {
-    const apiService = createRecipeApiService()
+    const apiService = createApiService<GroupApiService>('group')
     const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
       userId: userId
     })
@@ -226,7 +228,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     }
 
     const url = `users/${userId}/groups`
-    const apiService = createRecipeApiService()
+    const apiService = createApiService<GroupApiService>('group')
     const data = await apiService.createGroup(url, { userId: userId }, newGroup)
     return data
   }
@@ -280,7 +282,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
 
     const url = `users/${userId}/groups/${groupId}`
 
-    const apiService = createRecipeApiService()
+    const apiService = createApiService<GroupApiService>('group')
     const response = await apiService.deleteGroup(url, {
       userId: userId,
       groupId: groupId
@@ -306,7 +308,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
 
     const url = `users/${userId}/groups/${groupId}`
 
-    const apiService = createRecipeApiService()
+    const apiService = createApiService<GroupApiService>('group')
     const response = await apiService.updateGroup(
       url,
       {
