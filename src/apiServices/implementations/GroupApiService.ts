@@ -1,45 +1,44 @@
+import { Group, PathParams } from '../../customTypes/requestTypes'
 import { ApiData } from '../../customTypes/responseTypes'
-import { Recipe } from '../../customTypes/responseTypes'
-import { PathParams } from '../../customTypes/requestTypes'
-import IRecipeApiService from '../interfaces/IRecipeApiService'
+import IGroupApiService from '../interfaces/IGroupApiService'
 import ApiService from './apiService'
 
-class RecipeApiService extends ApiService<Recipe> implements IRecipeApiService {
+class GroupApiService extends ApiService<Group> implements IGroupApiService {
   constructor (token: string) {
     super(token)
   }
 
-  public async getRecipes (
+  public async getGroups (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<Recipe[]> | ApiData<null>> {
+  ): Promise<ApiData<Group[]> | ApiData<null>> {
     return super.get(url, pathParams)
   }
 
-  public async getRecipe (
+  public async getGroup (
     url: string,
     pathParams: PathParams
-  ): Promise<ApiData<Recipe> | ApiData<null>> {
+  ): Promise<ApiData<Group> | ApiData<null>> {
     return super.getSingle(url, pathParams)
   }
 
-  public async createRecipe (
+  public async createGroup (
     url: string,
     pathParams: PathParams,
-    requestBody: Recipe
-  ): Promise<ApiData<Recipe> | ApiData<null>> {
+    requestBody: Group
+  ): Promise<ApiData<Group> | ApiData<null>> {
     return super.post(url, pathParams, requestBody)
   }
 
-  public async updateRecipe (
+  public async updateGroup (
     url: string,
     pathParams: PathParams,
-    requestBody: Recipe
-  ): Promise<ApiData<Recipe> | ApiData<null>> {
+    requestBody: Group
+  ): Promise<ApiData<Group> | ApiData<null>> {
     return super.put(url, pathParams, requestBody)
   }
 
-  public async deleteRecipe (
+  public async deleteGroup (
     url: string,
     pathParams: PathParams
   ): Promise<Response | ApiData<null>> {
@@ -47,10 +46,11 @@ class RecipeApiService extends ApiService<Recipe> implements IRecipeApiService {
   }
 }
 
-export function createRecipeApiService (): RecipeApiService {
+// export default RecipeApiService
+export function createRecipeApiService (): GroupApiService {
   const token: string | null = localStorage.getItem('token')
   if (token) {
-    return new RecipeApiService(token)
+    return new GroupApiService(token)
   } else {
     throw new Error('No token found')
   }

@@ -10,7 +10,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 import { pages } from '../customTypes/enumTypes'
 import { Group } from '../customTypes/requestTypes'
-import { createRecipeApiService } from '../apiServices/implementations/RecipeApiService'
+import { createRecipeApiService } from '../apiServices/implementations/GroupApiService'
 
 type Props = {
   recipePage: React.Dispatch<React.SetStateAction<pages>>
@@ -28,7 +28,7 @@ const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
   }
-  
+
 
   const GenerateShoppingList = () => {}
 

@@ -1,39 +1,33 @@
-import { Group, LoginData, PathParams } from "../../customTypes/requestTypes";
 import { ApiData } from "../../customTypes/responseTypes";
-
+import { Recipe } from "../../customTypes/responseTypes";
+import { PathParams } from "../../customTypes/requestTypes";
 interface IRecipeApiService {
-    getGroups(
-        url: string,
-        pathParams: PathParams,
-        requestBody: LoginData        
-    ) : Promise<ApiData<Group[]> | ApiData<null>>;
-
-    getGroup(
+    getRecipes(
         url: string,
         pathParams: PathParams
-    ): Promise<ApiData<Group> | ApiData<null>>;
+    ): Promise<ApiData<Recipe[]> | ApiData<null>>;
 
-    createGroup(
+    getRecipe(
+        url: string,
+        pathParams: PathParams
+    ): Promise<ApiData<Recipe> | ApiData<null>>;
+
+    createRecipe(
         url: string,
         pathParams: PathParams,
-        requestBody: Group
-    ): Promise<ApiData<Group> | ApiData<null>>;
+        requestBody: Recipe
+    ): Promise<ApiData<Recipe> | ApiData<null>>;
 
-    updateGroup(
+    updateRecipe(
         url: string,
         pathParams: PathParams,
-        requestBody: Group
-    ): Promise<ApiData<Group> | ApiData<null>>;
+        requestBody: Recipe
+    ): Promise<ApiData<Recipe> | ApiData<null>>;
 
-    deleteGroup(
+    deleteRecipe(
         url: string,
         pathParams: PathParams
     ): Promise<Response | ApiData<null>>;
-
-    // getRecipes(
-    //     url: string,
-    //     pathParams: PathParams
-    // ): Promise<ApiData<null> | ApiData<null>>;
 }
 
 export default IRecipeApiService;
