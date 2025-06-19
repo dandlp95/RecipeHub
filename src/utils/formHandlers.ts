@@ -1,6 +1,8 @@
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react'
 import { authData, authFormType } from '../customTypes/enumTypes'
-import { LoginData, RegisterData } from '../customTypes/requestTypes'
+import { LoginData, PathParams, RegisterData, UserCreateDTO } from '../customTypes/requestTypes'
+import AuthApiService from '../apiServices/implementations/AuthApiService'
+import { PathParam } from 'react-router-dom'
 
 /**
  * Handles input changes for login and register forms dynamically.
@@ -18,5 +20,51 @@ export const handleData = (
       ...prevData,
       [authDataType]: value
     }))
+  }
+}
+
+/**
+ * Handles the sign-in process.
+ * @param logindata - The login data containing username and password.
+ * @param params - The path parameters for the API call.
+ * @param setToken - Function to update the token state.
+ */
+export const signIn = (
+  logindata: LoginData,
+  params: any,
+  setToken: React.Dispatch<React.SetStateAction<string>>
+) => {
+  try {
+    const body: LoginData = logindata
+
+    AuthApiService.auth('/users', params, body).then(response => {
+      if (response.result && response.token) {
+        localStorage.setItem('username', response.result.userName)
+        localStorage.setItem('userId', response.result.userId.toString())
+        setToken(response.token)
+      }
+    })
+  } catch (err) {
+    console.error(err)
+    alert('Error logging in')
+  }
+}
+
+export const register = async (
+  registerData: UserCreateDTO,
+  params: PathParams,
+  setToken: (token: string) => void
+): Promise<void> => {
+  try {
+    const body: UserCreateDTO = registerData
+    const response = await AuthApiService.postUser('users', params, body)
+    if (response.result && response.token) {
+      localStorage.setItem('username', response.result.userName)
+      localStorage.setItem('userId', response.result.userId.toString())
+      setToken(response.token)
+    }
+  } catch (err) {
+    console.error(err)
+    alert('Error registering')
   }
 }

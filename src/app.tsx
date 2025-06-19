@@ -13,7 +13,8 @@ import LoginForm from './components/login'
 import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
 import AuthApiService from './apiServices/implementations/AuthApiService'
-import { handleData as handleDataUtil } from './utils/formHandlers'
+import { handleData as handleDataUtil, signIn as signInUtil, register as registerUtil } from './utils/formHandlers'
+import { handleTokenEffect } from './utils/effectHandlers'
 
 const params: PathParams = {}
 
@@ -35,14 +36,7 @@ const App: React.FunctionComponent = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const browserToken = localStorage.getItem('token')
-
-    if (browserToken || token) {
-      if (!browserToken) {
-        localStorage.setItem('token', token)
-      }
-      navigate('/home')
-    }
+    handleTokenEffect(token, navigate)
   }, [token])
 
 
@@ -66,20 +60,7 @@ const App: React.FunctionComponent = () => {
   }
 
   const signIn = () => {
-    try {
-      const body: LoginData = logindata
-
-      AuthApiService.auth('/users', params, body).then(response => {
-        if (response.result && response.token) {
-          localStorage.setItem('username', response.result.userName)
-          localStorage.setItem('userId', response.result.userId.toString())
-          setToken(response.token)
-        }
-      })
-    } catch (err) {
-      console.error(err)
-      alert('Error logging in')
-    }
+    signInUtil(logindata, params, setToken)
   }
 
   const registerLoginSwitch = (formType: authFormType) => setFormType(formType)
@@ -90,20 +71,7 @@ const App: React.FunctionComponent = () => {
 
   //REGISTER FUNCTIONS
   const register = () => {
-    try {
-      const body: UserCreateDTO = registerData
-      // console.log('Body:',body)
-      AuthApiService.postUser('users', params, body).then(response => {
-        if (response.result && response.token) {
-          localStorage.setItem('username', response.result.userName)
-          localStorage.setItem('userId', response.result.userId.toString())
-          setToken(response.token)
-        }
-      })
-    } catch (err) {
-      console.error(err)
-      alert('Error registering')
-    }
+    registerUtil(registerData, params, setToken)
   }
 
   return (
