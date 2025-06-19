@@ -10,9 +10,9 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 import { pages } from '../customTypes/enumTypes'
 import { Group, PathParams } from '../customTypes/requestTypes'
-// import { createRecipeApiService } from '../apiServices/implementations/RecipeApiService'
 import { createApiService } from '../utilities/utilities'
 import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
+import { serviceTypes } from '../customTypes/enumTypes'
 
 type Props = {
   recipePage: React.Dispatch<React.SetStateAction<pages>>
@@ -26,13 +26,15 @@ const GenerateShoppingListStyling: ButtonStyling = {
 const GroupPage: React.FunctionComponent<Props> = (props: Props) => {
   // need the active group Id to know which recipes to fetch
   const [activeGroup, setActiveGroup] = React.useState<Group>()
+  const recipeServiceType = serviceTypes.recipe
 
   const AddRecipe = () => {
     props.recipePage(pages.addRecipe)
   }
 
   const getRecipes = async (userId: number) => {
-    const recipeApiService = createApiService<RecipeApiService>('recipe')
+    const recipeApiService =
+      createApiService<RecipeApiService>(recipeServiceType)
 
     const pathParams: PathParams = {
       userId: userId,

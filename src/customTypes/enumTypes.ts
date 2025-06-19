@@ -15,4 +15,9 @@ enum pages {
   addRecipe
 }
 
-export { authData, authFormType, pages }
+enum serviceTypes {
+  recipe = 'recipe',
+  group = 'group'
+}
+
+export { authData, authFormType, pages, serviceTypes }

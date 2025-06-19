@@ -5,6 +5,7 @@ import WideButton from './wideButton'
 import loginCSS from './styles/login.module.css'
 
 type Props = {
+  // Function to handle login data input changes
   handleLoginData: (
     authDataType: authData,
     formType: authFormType

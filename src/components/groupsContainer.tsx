@@ -11,6 +11,7 @@ import { PathParams } from '../customTypes/requestTypes'
 import { ErrorHandling } from '../customTypes/errorHandling'
 import { ImBin2 } from 'react-icons/im'
 import { GroupApiService } from '../apiServices/implementations/GroupApiService'
+import { serviceTypes } from '../customTypes/enumTypes'
 
 // This component is responsible for displaying the groups that the user has created.
 
@@ -150,6 +151,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   // The parent component uses this to select the default group on load or after deletion.
   const [defaultEvent, setDefaultEvent] = useState<boolean>(false)
   const [activeGroup, setActiveGroup] = useState<Group | null>(null)
+  const groupServiceType: serviceTypes = serviceTypes.group
 
   useEffect(() => {
     // props.passGroupId(activeGroup)
@@ -179,7 +181,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
    * *************************************************** */
 
   const getGroups = async (userId: number) => {
-    const apiService = createApiService<GroupApiService>('group')
+    const apiService = createApiService<GroupApiService>(groupServiceType)
     const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
       userId: userId
     })
@@ -228,7 +230,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
     }
 
     const url = `users/${userId}/groups`
-    const apiService = createApiService<GroupApiService>('group')
+    const apiService = createApiService<GroupApiService>(groupServiceType)
     const data = await apiService.createGroup(url, { userId: userId }, newGroup)
     return data
   }
@@ -282,7 +284,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
 
     const url = `users/${userId}/groups/${groupId}`
 
-    const apiService = createApiService<GroupApiService>('group')
+    const apiService = createApiService<GroupApiService>(groupServiceType)
     const response = await apiService.deleteGroup(url, {
       userId: userId,
       groupId: groupId
@@ -308,7 +310,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
 
     const url = `users/${userId}/groups/${groupId}`
 
-    const apiService = createApiService<GroupApiService>('group')
+    const apiService = createApiService<GroupApiService>(groupServiceType)
     const response = await apiService.updateGroup(
       url,
       {

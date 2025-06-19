@@ -13,6 +13,7 @@ import LoginForm from './components/login'
 import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
 import AuthApiService from './apiServices/implementations/AuthApiService'
+import { handleData as handleDataUtil } from './utils/formHandlers'
 
 const params: PathParams = {}
 
@@ -21,6 +22,7 @@ const App: React.FunctionComponent = () => {
     userName: '',
     password: ''
   })
+
   const [registerData, setRegisterData] = useState<RegisterData>({
     userName: '',
     password: '',
@@ -43,9 +45,13 @@ const App: React.FunctionComponent = () => {
     }
   }, [token])
 
-  /*FORM INPUT FIELDS FUNCTIONS*/
 
-  // SIGN IN FUNCTION
+  /**
+   * Handles input changes for login and register forms dynamically.
+   * @param authDataType - The type of data being updated (e.g., userName, password, etc.).
+   * @param formType - The type of form (login or register) to determine which state to update.
+   * @returns A change event handler function for input fields.
+   */
   const handleData = (
     authDataType: authData,
     formType: authFormType
@@ -55,15 +61,8 @@ const App: React.FunctionComponent = () => {
       [authFormType.register]: setRegisterData
     }
 
-    return e => {
-      let setState = setStateFunctions[formType]
-      let value = e.target.value
-
-      setState((prevData: any) => ({
-        ...prevData,
-        [authDataType]: value
-      }))
-    }
+    // Pass the appropriate state update function to the utility
+    return handleDataUtil(authDataType, setStateFunctions[formType])
   }
 
   const signIn = () => {
