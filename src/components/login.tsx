@@ -5,7 +5,6 @@ import WideButton from './wideButton'
 import loginCSS from './styles/login.module.css'
 
 type Props = {
-  // Function to handle login data input changes
   handleLoginData: (
     authDataType: authData,
     formType: authFormType
@@ -14,6 +13,25 @@ type Props = {
   isRememberChecked: (checked: boolean) => void
   registerLoginSwitch: (formType: authFormType) => void
 }
+
+const InputField: React.FunctionComponent<{
+  label: string
+  id: string
+  placeholder: string
+  onChange: ChangeEventHandler<HTMLInputElement>
+}> = ({ label, id, placeholder, onChange }) => (
+  <div className={loginCSS[id]}>
+    <label htmlFor={id}>{label}</label>
+    <input
+      required
+      type='text'
+      name={id}
+      id={id}
+      placeholder={placeholder}
+      onChange={onChange}
+    />
+  </div>
+)
 
 const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
   const [isRememberChecked, setIsRememberChecked] = useState(false)
@@ -30,42 +48,24 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
         <p>Sign in to your account to continue</p>
       </div>
       <div className={loginCSS.inputFields}>
-        <div className={loginCSS.loginUserName}>
-          <label htmlFor='loginuserName'>Username</label>
-          <input
-            required
-            type='text'
-            name='loginuserName'
-            id='loginuserName'
-            placeholder='Enter your username'
-            onChange={props.handleLoginData(
-              authData.username,
-              authFormType.login
-            )}
-          />
-        </div>
-        <div className={loginCSS.loginPassword}>
-          <label htmlFor='loginPassword'>Password</label>
-          <input
-            required
-            type='text'
-            name='loginPassword'
-            id='loginPassword'
-            placeholder='Enter your password'
-            onChange={props.handleLoginData(
-              authData.password,
-              authFormType.login
-            )}
-          />
-        </div>
+        <InputField
+          label='Username'
+          id='loginUserName'
+          placeholder='Enter your username'
+          onChange={props.handleLoginData(authData.username, authFormType.login)}
+        />
+        <InputField
+          label='Password'
+          id='loginPassword'
+          placeholder='Enter your password'
+          onChange={props.handleLoginData(authData.password, authFormType.login)}
+        />
         <div className={loginCSS.rememberCheckbox}>
           <input
             id='rememberMe'
             type='checkbox'
             checked={isRememberChecked}
-            onChange={e => {
-              setIsRememberChecked(!isRememberChecked)
-            }}
+            onChange={() => setIsRememberChecked(!isRememberChecked)}
           />
           <label htmlFor='rememberMe'>Remember me</label>
         </div>
@@ -85,12 +85,7 @@ const LoginForm: React.FunctionComponent<Props> = (props: Props) => {
             </span>
           </p>
         </div>
-        {/*
-          THIS SECTION WILL BE IMPLEMENTED LATER TO LOG IN THROUGH GOOGLE ACCOUNT
-          <div className={loginCSS.altLogin}>
-
-          </div> 
-          */}
+        {/* ...existing code... */}
       </div>
     </div>
   )
