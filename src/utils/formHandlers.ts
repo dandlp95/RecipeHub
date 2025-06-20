@@ -37,7 +37,7 @@ export const signIn = (
   try {
     const body: LoginData = logindata
 
-    AuthApiService.auth('/users', params, body).then(response => {
+    AuthApiService.auth('users/auth', params, body).then(response => {
       if (response.result && response.token) {
         localStorage.setItem('username', response.result.userName)
         localStorage.setItem('userId', response.result.userId.toString())
