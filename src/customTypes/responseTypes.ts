@@ -25,3 +25,4 @@ export type Recipe = {
   cookingTime?: string
   createdOn?: Date
 }
+

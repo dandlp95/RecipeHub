@@ -18,10 +18,7 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
       <div className={css.addRecipeHeader}>
         <h2>Add New Recipe</h2>
         <div>
-          <Button
-            action={saveRecipe}
-            styles={{ fontSize: '1rem', fontWeight: 'bold' }}
-          >
+          <Button action={saveRecipe} styles={{ fontSize: '1rem', fontWeight: 'bold' }}>
             Save Recipe
           </Button>
         </div>
@@ -40,27 +37,15 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
         <div className={css.recipeImage}>{/* will implement last */}</div>
         <div className={`${css.time} ${css.fieldPart1}`}>
           <label htmlFor='time'>Preparation Time</label>
-          <input
-            type='text'
-            name='time'
-            id='time'
-            placeholder='e.g., 30 minutes'
-          />
+          <input type='text' name='time' id='time' placeholder='e.g., 30 minutes' />
         </div>
         <div className={css.IngredientsForm}>
           <label htmlFor='ingredients'>Ingredients</label>
           <div className={css.formElements}>
             <div>
-              <input
-                type='text'
-                name='ingredients'
-                id='ingredients'
-                placeholder='Add ingredient'
-              />
+              <input type='text' name='ingredients' id='ingredients' placeholder='Add ingredient' />
             </div>
-            <IconContext.Provider
-              value={{ className: `${css.plusIcon} ${css.icon}` }}
-            >
+            <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
               <AiOutlinePlus />
             </IconContext.Provider>
           </div>
@@ -81,9 +66,7 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
                 placeholder='Add Step Instructions'
               />
             </div>
-            <IconContext.Provider
-              value={{ className: `${css.plusIcon} ${css.icon}` }}
-            >
+            <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
               <AiOutlinePlus />
             </IconContext.Provider>
           </div>
