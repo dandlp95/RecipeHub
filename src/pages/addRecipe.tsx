@@ -6,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
 import { getGroups } from '../utils/apiCalls'
 import { Group } from '../customTypes/requestTypes'
+import FormListSortOrder from '../components/formListOrdered'
 
 type Props = {
 }
@@ -17,6 +18,7 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
   const [groups, setGroups] = useState<Group[]>([])
   const [selectedGroup, setSelectedGroup] = useState<string>('')
   const [ingredientInput, setIngredientInput] = useState<string>('')
+  const [instructionInput, setInstructionInput] = useState<string>('')
 
   useEffect(() => {
     getGroups().then(apiData => {
@@ -55,6 +57,13 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
   }
 
   /********* INSTRUCTIONS FORM *********/
+  const addInstruction = () => {
+    if (instructionInput.trim() !== '') {
+      setInstructions([...instructions, instructionInput.trim()])
+      setInstructionInput('')
+    }
+  }
+
   const removeInstruction = (index: number) => {
     setInstructions(instructions.filter((_, i) => i !== index))
   }
@@ -63,6 +72,10 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
     const newInstructions = [...instructions]
     newInstructions[index] = newValue
     setInstructions(newInstructions)
+  }
+
+  const reorderInstructions = (newOrder: string[]) => {
+    setInstructions(newOrder)
   }
   
   return (
@@ -141,16 +154,24 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
                 name='instructions'
                 id={css.instructionsInput}
                 placeholder='Add Step Instructions'
+                value={instructionInput}
+                onChange={(e) => setInstructionInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && addInstruction()}
               />
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
-              <AiOutlinePlus />
+              <AiOutlinePlus onClick={addInstruction} />
             </IconContext.Provider>
           </div>
         </div>
         {instructions.length > 0 && (
           <div className={css.instructionsList}>
-            <FormList items={instructions} onRemove={removeInstruction} onUpdate={updateInstruction} />
+            <FormListSortOrder 
+              items={instructions} 
+              onRemove={removeInstruction} 
+              onUpdate={updateInstruction}
+              onReorder={reorderInstructions}
+            />
           </div>
         )}
         <div className={css.categories}>

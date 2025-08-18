@@ -1,0 +1,108 @@
+.formListOrdered {
+  margin-top: 1rem;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 15px;
+}
+
+.formListItemOrdered {
+  display: flex;
+  align-items: center;
+  background: var(--white-smoke);
+  border-radius: 15px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  transition: all 0.2s ease;
+  gap: 1rem;
+}
+
+.formListItemOrdered:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formListItemOrdered.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  transform: rotate(2deg);
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--mint-cream);
+  border-radius: 50%;
+  color: var(--outer-space);
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.itemContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemText {
+  display: block;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+  word-wrap: break-word;
+}
+
+.itemText:hover {
+  color: var(--outer-space);
+}
+
+.editInput {
+  width: 100%;
+  border: 1px solid var(--mint-cream);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.editInput:focus {
+  border-color: var(--outer-space);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeButton:hover {
+  background-color: #ffebee;
+  color: #d32f2f;
+  transform: scale(1.1);
+}
+
+/* Drag and drop visual feedback */
+.formListItemOrdered[draggable="true"]:hover {
+  cursor: grab;
+}
+
+.formListItemOrdered[draggable="true"]:active {
+  cursor: grabbing;
+}
