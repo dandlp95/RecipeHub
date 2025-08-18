@@ -16,6 +16,7 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
   const [groupId, setGroupId] = useState<number>(0)
   const [groups, setGroups] = useState<Group[]>([])
   const [selectedGroup, setSelectedGroup] = useState<string>('')
+  const [ingredientInput, setIngredientInput] = useState<string>('')
 
   useEffect(() => {
     getGroups().then(apiData => {
@@ -35,6 +36,35 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
 
   const saveRecipe = () => {}
 
+  /********* INGREDIENTS FORM *********/
+  const addIngredient = () => {
+    if (ingredientInput.trim() !== '') {
+      setIngredients([...ingredients, ingredientInput.trim()])
+      setIngredientInput('')
+    }
+  }
+
+  const removeIngredient = (index: number) => {
+    setIngredients(ingredients.filter((_, i) => i !== index))
+  }
+
+  const updateIngredient = (index: number, newValue: string) => {
+    const newIngredients = [...ingredients]
+    newIngredients[index] = newValue
+    setIngredients(newIngredients)
+  }
+
+  /********* INSTRUCTIONS FORM *********/
+  const removeInstruction = (index: number) => {
+    setInstructions(instructions.filter((_, i) => i !== index))
+  }
+
+  const updateInstruction = (index: number, newValue: string) => {
+    const newInstructions = [...instructions]
+    newInstructions[index] = newValue
+    setInstructions(newInstructions)
+  }
+  
   return (
     <div className={css.addRecipeMain}>
       <div className={css.addRecipeHeader}>
@@ -82,16 +112,24 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
           <label htmlFor='ingredients'>Ingredients</label>
           <div className={css.formElements}>
             <div>
-              <input type='text' name='ingredients' id='ingredients' placeholder='Add ingredient' />
+              <input 
+                type='text' 
+                name='ingredients' 
+                id={css.ingredientsInput} 
+                placeholder='Add ingredient'
+                value={ingredientInput}
+                onChange={(e) => setIngredientInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
+              />
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
-              <AiOutlinePlus />
+              <AiOutlinePlus onClick={addIngredient} />
             </IconContext.Provider>
           </div>
         </div>
         {ingredients.length > 0 && (
           <div className={css.IngredientsList}>
-            <FormList />
+            <FormList items={ingredients} onRemove={removeIngredient} onUpdate={updateIngredient} />
           </div>
         )}
         <div className={css.InstructionsForm}>
@@ -101,7 +139,7 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
               <input
                 type='text'
                 name='instructions'
-                id='instructions'
+                id={css.instructionsInput}
                 placeholder='Add Step Instructions'
               />
             </div>
@@ -112,7 +150,7 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
         </div>
         {instructions.length > 0 && (
           <div className={css.instructionsList}>
-            <FormList />
+            <FormList items={instructions} onRemove={removeInstruction} onUpdate={updateInstruction} />
           </div>
         )}
         <div className={css.categories}>

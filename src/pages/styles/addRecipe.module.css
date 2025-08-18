@@ -24,9 +24,11 @@
 }
 
 .addRecipeMain .addRecipeForm input {
-    border: 1px solid var(--mint-cream);
+    padding: 10px 14px;
+    font-size: 1rem;
     border-radius: 8px;
-    padding: 1.1rem 0rem 1.1rem 1.2rem;
+    border: 1px solid #ccc;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -38,6 +40,7 @@
     width: 50%;
     font-size: 1.1rem;
 }
+
 
 /* supposed to select input fields, except for the ones
 with the plus icon */
@@ -70,10 +73,11 @@ with the plus icon */
 
 .addRecipeMain .icon {
     border: 1px solid var(--mint-cream);
-    padding: 0.75rem;
+    padding: 0.5rem;
     border-radius: 8px;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     cursor: pointer;
+    color:var(--outer-space);
 }
 
 .addRecipeMain .addRecipeForm>div {
