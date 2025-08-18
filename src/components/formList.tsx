@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import css from './styles/formList.module.css'
+import { AiOutlineMinus } from 'react-icons/ai'
 
 type Props = {
   items: string[]
@@ -63,8 +64,9 @@ const FormList: React.FunctionComponent<Props> = ({ items, onRemove, onUpdate })
             className={css.removeButton}
             onClick={() => onRemove(index)}
             type="button"
+            title="Remove item"
           >
-            ×
+            <AiOutlineMinus />
           </button>
         </div>
       ))}

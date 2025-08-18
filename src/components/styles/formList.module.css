@@ -49,11 +49,17 @@
   color: #666;
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .removeButton:hover {
-  background-color: #f0f0f0;
+  background-color: #ffebee;
+  color: #d32f2f;
+  transform: scale(1.1);
 }
