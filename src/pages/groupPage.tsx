@@ -8,7 +8,7 @@ import { ButtonStyling } from '../customTypes/interfaces'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
-import { pages } from '../customTypes/enumTypes'
+import { useNavigate } from 'react-router-dom'
 import { Group, PathParams } from '../customTypes/requestTypes'
 import { createApiService } from '../utils/utilities'
 import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
@@ -22,15 +22,14 @@ const GenerateShoppingListStyling: ButtonStyling = {
   textColor: 'black'
 }
 
-type Props = {
-  recipePage: React.Dispatch<React.SetStateAction<pages>>
-}
+type Props = {}
 
-const GroupPage: React.FunctionComponent<Props> = ({ recipePage }: Props) => {
+const GroupPage: React.FunctionComponent<Props> = () => {
   const [activeGroup, setActiveGroup] = React.useState<Group>()
   const recipeServiceType = serviceTypes.recipe
+  const navigate = useNavigate()
 
-  const AddRecipe = () => recipePage(pages.addRecipe)
+  const AddRecipe = () => navigate('/home/add-recipe')
 
   const fetchRecipes = async (userId: number) => {
     return await getRecipes(userId, activeGroup?.groupId)

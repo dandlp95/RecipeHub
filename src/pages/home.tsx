@@ -1,26 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import MainNavBar from '../components/mainNavBar'
-import GroupPage from './groupPage'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import HomeCSS from './styles/home.module.css'
-import { pages } from '../customTypes/enumTypes'
-import AddRecipe from './addRecipe'
 
 type Props = {}
 
 const Home: React.FunctionComponent<Props> = () => {
-  const [page, setPage] = useState<pages>(pages.groupPage)
+  const navigate = useNavigate()
+  const location = useLocation()
+  
+  // Function to handle navigation from MainNavBar
+  const handlePageChange = (page: string) => {
+    if (page === 'addRecipe') {
+      navigate('/home/add-recipe')
+    } else if (page === 'groupPage') {
+      navigate('/home/groups')
+    }
+  }
   
   return (
     <div className={HomeCSS.homeContainer}>
       <div>
-        <MainNavBar setPage={setPage} />
+        <MainNavBar setPage={handlePageChange} />
       </div>
       <div className={HomeCSS.mainSection}>
-        {page === pages.addRecipe ? (
-          <AddRecipe />
-        ) : (
-          <GroupPage recipePage={setPage} />
-        )}
+        <Outlet />
       </div>
       <div className={HomeCSS.footer}></div>
     </div>
