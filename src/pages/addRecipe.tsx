@@ -1,15 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import css from './styles/addRecipe.module.css'
 import Button from '../components/button'
 import FormList from '../components/formList'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
+import { getGroups } from '../utils/apiCalls'
+import { Group } from '../customTypes/requestTypes'
 
 type Props = {}
 
 const AddRecipe: React.FunctionComponent<Props> = () => {
   const [ingredients, setIngredients] = useState<string[]>([])
   const [instructions, setInstructions] = useState<string[]>([])
+  const [groups, setGroups] = useState<Group[]>([])
+  const [selectedGroup, setSelectedGroup] = useState<string>('')
+
+  useEffect(() => {
+    getGroups().then(apiData => {
+      if (apiData.result) {
+        setGroups(apiData.result)
+      }
+    })
+  }, [])
 
   const saveRecipe = () => {}
 
@@ -24,6 +36,23 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
         </div>
       </div>
       <div className={css.addRecipeForm}>
+        <div className={`${css.groupTitle}`}>
+          <label htmlFor='groupTitle'>Group</label>
+          <select
+            required
+            name='groupTitle'
+            id='groupTitle'
+            value={selectedGroup}
+            onChange={e => setSelectedGroup(e.target.value)}
+          >
+            <option value=''>Select a group</option>
+            {groups.map(group => (
+              <option key={group.groupId} value={group.groupId}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className={`${css.recipeTitle} ${css.fieldPart1}`}>
           <label htmlFor='recipeTitle'>Recipe Title</label>
           <input

@@ -10,10 +10,9 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
 import { Group, PathParams } from '../customTypes/requestTypes'
-import { createApiService } from '../utils/utilities'
 import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
 import { serviceTypes } from '../customTypes/enumTypes'
-import { getRecipes } from '../utils/recipeUtils'
+import { getRecipes } from '../utils/apiCalls'
 import { AddRecipeContent, CartButtonContent } from '../components/buttonContents'
 
 // Extracted constants for styling

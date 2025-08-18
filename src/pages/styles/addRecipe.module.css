@@ -30,6 +30,15 @@
     box-sizing: border-box;
 }
 
+.addRecipeMain .addRecipeForm .groupTitle select {
+    border: 1px solid var(--mint-cream);
+    border-radius: 8px;
+    padding: 0.75rem 0rem 0.75rem 1.2rem;
+    box-sizing: border-box;
+    width: 50%;
+    font-size: 1.1rem;
+}
+
 /* supposed to select input fields, except for the ones
 with the plus icon */
 .addRecipeMain .fieldPart1 input{

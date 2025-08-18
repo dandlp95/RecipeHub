@@ -1,11 +1,10 @@
-import { Group, LoginData, PathParams } from "../../customTypes/requestTypes";
+import { Group, PathParams } from "../../customTypes/requestTypes";
 import { ApiData } from "../../customTypes/responseTypes";
 
 interface IGroupApiService {
     getGroups(
         url: string,
-        pathParams: PathParams,
-        requestBody: LoginData        
+        pathParams: PathParams
     ) : Promise<ApiData<Group[]> | ApiData<null>>;
 
     getGroup(
