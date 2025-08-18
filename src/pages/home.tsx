@@ -12,7 +12,7 @@ const Home: React.FunctionComponent<Props> = () => {
   // Function to handle navigation from MainNavBar
   const handlePageChange = (page: string) => {
     if (page === 'addRecipe') {
-      navigate('/home/add-recipe')
+      navigate('/home/recipe/')
     } else if (page === 'groupPage') {
       navigate('/home/groups')
     }

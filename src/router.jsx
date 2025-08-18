@@ -13,7 +13,7 @@ const router = () => {
                 <Route path="/home" element={<Home />}>
                     <Route index element={<Navigate to="/home/groups" replace />} />
                     <Route path="groups" element={<GroupPage />} />
-                    <Route path="add-recipe" element={<AddRecipe />} />
+                    <Route path="recipe/:id?" element={<AddRecipe />} />
                 </Route>
             </Routes>
         </Router>

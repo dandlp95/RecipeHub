@@ -28,7 +28,7 @@ const GroupPage: React.FunctionComponent<Props> = () => {
   const recipeServiceType = serviceTypes.recipe
   const navigate = useNavigate()
 
-  const AddRecipe = () => navigate('/home/add-recipe')
+  const AddRecipe = () => navigate(`/home/recipe?group=${activeGroup?.groupId}`)
 
   const fetchRecipes = async (userId: number) => {
     return await getRecipes(userId, activeGroup?.groupId)

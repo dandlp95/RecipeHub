@@ -7,11 +7,13 @@ import { IconContext } from 'react-icons'
 import { getGroups } from '../utils/apiCalls'
 import { Group } from '../customTypes/requestTypes'
 
-type Props = {}
+type Props = {
+}
 
-const AddRecipe: React.FunctionComponent<Props> = () => {
+const AddRecipe: React.FunctionComponent<Props> = (props) => {
   const [ingredients, setIngredients] = useState<string[]>([])
   const [instructions, setInstructions] = useState<string[]>([])
+  const [groupId, setGroupId] = useState<number>(0)
   const [groups, setGroups] = useState<Group[]>([])
   const [selectedGroup, setSelectedGroup] = useState<string>('')
 
@@ -21,6 +23,14 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
         setGroups(apiData.result)
       }
     })
+
+    // Get groupId from URL query parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    const groupIdFromQuery = urlParams.get('group')
+    if (groupIdFromQuery) {
+      setGroupId(parseInt(groupIdFromQuery))
+      setSelectedGroup(groupIdFromQuery)
+    }
   }, [])
 
   const saveRecipe = () => {}
@@ -47,7 +57,7 @@ const AddRecipe: React.FunctionComponent<Props> = () => {
           >
             <option value=''>Select a group</option>
             {groups.map(group => (
-              <option key={group.groupId} value={group.groupId}>
+              <option key={group.groupId} value={group.groupId} selected={group.groupId == groupId}>
                 {group.name}
               </option>
             ))}
