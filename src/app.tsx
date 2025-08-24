@@ -1,18 +1,16 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
-import { PathParam, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import appCSS from './app.module.css'
 import {
   LoginData,
   PathParams,
-  RegisterData,
-  UserCreateDTO
+  RegisterData
 } from './customTypes/requestTypes'
 import FormContainer from './components/formContainer1'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
 import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
-import AuthApiService from './apiServices/implementations/AuthApiService'
 import { handleData as handleDataUtil, signIn as signInUtil, register as registerUtil } from './utils/formHandlers'
 import { handleTokenEffect } from './utils/effectHandlers'
 

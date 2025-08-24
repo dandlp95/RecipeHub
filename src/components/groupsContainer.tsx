@@ -1,15 +1,16 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import useDidMountEffect from '../customHooks/useDidMountEffect'
-import groupContainerCSS from './styles/groupsContainer.module.css'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { IconContext } from 'react-icons'
-// import { createRecipeApiService } from '../apiServices/implementations/GroupApiService'
-import { createGroupApiService } from '../utils/utilities'
-import { ApiData } from '../customTypes/responseTypes'
+import css from './styles/groupsContainer.module.css'
 import { Group } from '../customTypes/requestTypes'
+import { createGroupApiService } from '../utils/utilities'
+import { createGroup, updateGroup, deleteGroup } from '../utils/apiCalls'
+import { ApiData } from '../customTypes/responseTypes'
 import { PathParams } from '../customTypes/requestTypes'
 import { ErrorHandling } from '../customTypes/errorHandling'
+import { AiOutlinePlus } from 'react-icons/ai'
+import { IconContext } from 'react-icons'
 import { ImBin2 } from 'react-icons/im'
+import { getGroups } from '../utils/apiCalls'
 
 
 // This component is responsible for displaying the groups that the user has created.
@@ -96,15 +97,15 @@ const IndividualGroup: React.FunctionComponent<Props1> = ({
   return (
     <div
       key={groupData.groupId}
-      className={`${groupContainerCSS.singleGroup}${
+      className={`${css.singleGroup}${
         activeGroup?.groupId == groupData.groupId
-          ? ` ${groupContainerCSS.activeGroup}`
+          ? ` ${css.activeGroup}`
           : ''
       }`}
     >
-      <div className={groupContainerCSS.groupName}>
+      <div className={css.groupName}>
         <IconContext.Provider
-          value={{ className: `${groupContainerCSS.deleteIcon}` }}
+          value={{ className: `${css.deleteIcon}` }}
         >
           <ImBin2
             onClick={() =>
@@ -178,34 +179,19 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
    *            HANDLE FETCHING GROUPS
    * *************************************************** */
 
-  const getGroups = async (userId: number) => {
-    const apiService = createGroupApiService()
-    const fetchedGroups = await apiService.getGroups(`users/${userId}/groups`, {
-      userId: userId
-    })
-    return fetchedGroups
-  }
-
-  const getGroupsHandler = async (
-    userId: number,
-    setState: (groups: Group[]) => void
-  ) => {
-    const fetchedGroups = await getGroups(userId)
+  const getGroupsHandler = async (setState: (groups: Group[]) => void) => {
+    const fetchedGroups = await getGroups();
     setState(fetchedGroups?.result ? fetchedGroups.result : [])
     setDefaultEvent(!defaultEvent)
   }
 
   useEffect(() => {
     try {
-      const userId = Number(localStorage.getItem('userId'))
       const token = localStorage.getItem('token')
-      if (isNaN(userId)) {
-        throw new Error('User ID is not a number')
-      }
       if (!token) {
         throw new Error('Token not found')
       }
-      getGroupsHandler(userId, setGroups)
+      getGroupsHandler(setGroups)
     } catch (err) {
       const errorHandling: ErrorHandling = {
         message: 'Error while fetching groups for user.',
@@ -227,10 +213,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       createdOn: new Date()
     }
 
-    const url = `users/${userId}/groups`
-    const apiService = createGroupApiService()
-    const data = await apiService.createGroup(url, { userId: userId }, newGroup)
-    return data
+    return await createGroup(newGroup, userId)
   }
 
   const addGroupHandler = async () => {
@@ -280,22 +263,14 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       throw new Error('Token not found')
     }
 
-    const url = `users/${userId}/groups/${groupId}`
-
-    const apiService = createGroupApiService()
-    const response = await apiService.deleteGroup(url, {
-      userId: userId,
-      groupId: groupId
-    })
-
-    return response
+    return await deleteGroup(groupId)
   }
 
   /****************************************************************
    *                HANDLE GROUP UPDATES
    * ************************************************************** */
 
-  const updateGroup = async (groupId: number, updatedGroup: Group) => {
+  const updateGroupLocal = async (groupId: number, updatedGroup: Group) => {
     const userId = Number(localStorage.getItem('userId'))
     const token = localStorage.getItem('token')
 
@@ -306,29 +281,18 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       throw new Error('Token not found')
     }
 
-    const url = `users/${userId}/groups/${groupId}`
-
-    const apiService = createGroupApiService()
-    const response = await apiService.updateGroup(
-      url,
-      {
-        userId: userId,
-        groupId: groupId
-      },
-      updatedGroup
-    )
-
-    return response.result
+    return await updateGroup(groupId, updatedGroup)
   }
 
   const onUpdate = async (passedGroup: Group) => {
     // Updates entity group and passes updated group name to parent component.
     try {
-      const updatedGroup = await updateGroup(
+      const response = await updateGroupLocal(
         passedGroup.groupId ? passedGroup.groupId : 0,
         passedGroup
       )
-      if (updatedGroup?.groupId) {
+      if (response?.result?.groupId) {
+        const updatedGroup = response.result
         setGroups(prevgroups =>
           prevgroups.map(group =>
             group.groupId === passedGroup.groupId ? updatedGroup : group
@@ -344,18 +308,18 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <section className={groupContainerCSS.groupContainerMain}>
-      <div className={groupContainerCSS.top}>
+    <section className={css.groupContainerMain}>
+      <div className={css.top}>
         <h3>Recipe Groups</h3>
         <IconContext.Provider
           value={{
-            className: `${groupContainerCSS.plusSymbol} ${groupContainerCSS.expanded}`
+            className: `${css.plusSymbol} ${css.expanded}`
           }}
         >
           <AiOutlinePlus onClick={addGroupHandler} />
         </IconContext.Provider>
       </div>
-      <div className={groupContainerCSS.groups}>
+      <div className={css.groups}>
         {groups &&
           groups.map(group => (
             <IndividualGroup

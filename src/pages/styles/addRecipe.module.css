@@ -49,7 +49,8 @@ with the plus icon */
 }
 
 .addRecipeMain .addRecipeForm>div>input,
-.addRecipeMain .formElements {
+.addRecipeMain .formElements,
+.addRecipeMain .addRecipeForm select {
     margin-top: 0.75rem;
 }
 

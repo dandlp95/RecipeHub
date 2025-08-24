@@ -1,7 +1,7 @@
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react'
 import { authData, authFormType } from '../customTypes/enumTypes'
 import { LoginData, PathParams, RegisterData, UserCreateDTO } from '../customTypes/requestTypes'
-import AuthApiService from '../apiServices/implementations/AuthApiService'
+import { login, register as registerUser } from './apiCalls'
 import { PathParam } from 'react-router-dom'
 
 /**
@@ -29,21 +29,18 @@ export const handleData = (
  * @param params - The path parameters for the API call.
  * @param setToken - Function to update the token state.
  */
-export const signIn = (
+export const signIn = async (
   logindata: LoginData,
   params: any,
   setToken: React.Dispatch<React.SetStateAction<string>>
 ) => {
   try {
-    const body: LoginData = logindata
-
-    AuthApiService.auth('users/auth', params, body).then(response => {
-      if (response.result && response.token) {
-        localStorage.setItem('username', response.result.userName)
-        localStorage.setItem('userId', response.result.userId.toString())
-        setToken(response.token)
-      }
-    })
+    const response = await login(logindata)
+    if (response.result && response.token) {
+      localStorage.setItem('username', response.result.userName)
+      localStorage.setItem('userId', response.result.userId.toString())
+      setToken(response.token)
+    }
   } catch (err) {
     console.error(err)
     alert('Error logging in')
@@ -56,8 +53,7 @@ export const register = async (
   setToken: (token: string) => void
 ): Promise<void> => {
   try {
-    const body: UserCreateDTO = registerData
-    const response = await AuthApiService.postUser('users', params, body)
+    const response = await registerUser(registerData)
     if (response.result && response.token) {
       localStorage.setItem('username', response.result.userName)
       localStorage.setItem('userId', response.result.userId.toString())

@@ -30,8 +30,8 @@ const GroupPage: React.FunctionComponent<Props> = () => {
 
   const AddRecipe = () => navigate(`/home/recipe?group=${activeGroup?.groupId}`)
 
-  const fetchRecipes = async (userId: number) => {
-    return await getRecipes(userId, activeGroup?.groupId)
+  const fetchRecipes = async () => {
+    return await getRecipes(activeGroup?.groupId)
   }
 
   const GenerateShoppingList = () => {}

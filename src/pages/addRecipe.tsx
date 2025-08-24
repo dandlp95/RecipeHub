@@ -7,6 +7,7 @@ import { IconContext } from 'react-icons'
 import { getGroups } from '../utils/apiCalls'
 import { Group } from '../customTypes/requestTypes'
 import FormListSortOrder from '../components/formListOrdered'
+import CategoriesForm from '../components/categoriesForm'
 
 type Props = {
 }
@@ -14,6 +15,7 @@ type Props = {
 const AddRecipe: React.FunctionComponent<Props> = (props) => {
   const [ingredients, setIngredients] = useState<string[]>([])
   const [instructions, setInstructions] = useState<string[]>([])
+  const [categories, setCategories] = useState<string[]>([])
   const [groupId, setGroupId] = useState<number>(0)
   const [groups, setGroups] = useState<Group[]>([])
   const [selectedGroup, setSelectedGroup] = useState<string>('')
@@ -76,6 +78,35 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
 
   const reorderInstructions = (newOrder: string[]) => {
     setInstructions(newOrder)
+  }
+
+  /********* CATEGORIES FORM *********/
+  const addCategory = (category: string) => {
+    if (!categories.includes(category)) {
+      setCategories([...categories, category])
+    }
+  }
+
+  const removeCategory = (index: number) => {
+    setCategories(categories.filter((_, i) => i !== index))
+  }
+
+  const updateCategory = (index: number, newValue: string) => {
+    const newCategories = [...categories]
+    newCategories[index] = newValue
+    setCategories(newCategories)
+  }
+
+  // Placeholder function for getting all available categories from API
+  const getAllCategories = async (): Promise<string[]> => {
+    // TODO: Replace with actual API call
+    // For now, return some sample categories
+    return [
+      'Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack',
+      'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free',
+      'Quick & Easy', 'Slow Cooker', 'One Pot', 'Meal Prep',
+      'Italian', 'Mexican', 'Asian', 'Mediterranean', 'American'
+    ]
   }
   
   return (
@@ -176,6 +207,13 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
         )}
         <div className={css.categories}>
           <p>Categories</p>
+          <CategoriesForm
+            categories={categories}
+            onAddCategory={addCategory}
+            onRemoveCategory={removeCategory}
+            onUpdateCategory={updateCategory}
+            getAllCategories={getAllCategories}
+          />
         </div>
       </div>
     </div>
