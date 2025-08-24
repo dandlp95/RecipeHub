@@ -1,6 +1,5 @@
 .categoriesForm {
   margin-top: 1rem;
-  max-width: 200px;
 }
 
 .categoriesList {
@@ -88,6 +87,7 @@
   transition: all 0.2s ease;
   color: var(--outer-space);
   font-weight: 500;
+  max-width: 200px;
 }
 
 .addCategoryButton:hover {
