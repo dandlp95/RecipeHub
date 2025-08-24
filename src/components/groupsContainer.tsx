@@ -213,7 +213,7 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
       createdOn: new Date()
     }
 
-    return await createGroup(newGroup, userId)
+    return await createGroup(newGroup)
   }
 
   const addGroupHandler = async () => {

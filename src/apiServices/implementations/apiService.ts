@@ -70,7 +70,7 @@ abstract class ApiService<T> {
   }
 
   private _formatUrlWithParams (url: string, params: PathParams): string {
-    const formattedUrl: string = url.replace(/\{([^}]+)\}/g, (match, param) => {
+      const formattedUrl: string = url.replace(/\{([^}]+)\}/g, (match, param) => {
       const paramKey: keyof PathParams = param as keyof PathParams
       return String(params[paramKey])
     })

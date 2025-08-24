@@ -16,19 +16,19 @@ export const getGroups = async (): Promise<ApiData<Group[]> | ApiData<null>> => 
 }
 
 // Group Management Methods
-export const createGroup = async (group: Group, userId: number): Promise<ApiData<Group> | ApiData<null>> => {
+export const createGroup = async (group: Group): Promise<ApiData<Group> | ApiData<null>> => {
   const groupApiService = createGroupApiService()
-  return await groupApiService.createGroup('groups', { userId }, group)
+  return await groupApiService.createGroup('groups', { }, group)
 }
 
 export const updateGroup = async (groupId: number, group: Group): Promise<ApiData<Group> | ApiData<null>> => {
   const groupApiService = createGroupApiService()
-  return await groupApiService.updateGroup('groups', { groupId }, group)
+  return await groupApiService.updateGroup('groups/{groupId}', { groupId }, group)
 }
 
 export const deleteGroup = async (groupId: number): Promise<ApiData<null>> => {
   const groupApiService = createGroupApiService()
-  const response = await groupApiService.deleteGroup('groups', { groupId })
+  const response = await groupApiService.deleteGroup('groups/{groupId}', { groupId })
   
   // Handle the case where delete returns Response instead of ApiData
   if (response instanceof Response) {
@@ -47,13 +47,13 @@ export const deleteGroup = async (groupId: number): Promise<ApiData<null>> => {
 
 export const getGroup = async (groupId: number): Promise<ApiData<Group> | ApiData<null>> => {
   const groupApiService = createGroupApiService()
-  return await groupApiService.getGroup('groups', { groupId })
+  return await groupApiService.getGroup('groups/{groupId}', { groupId })
 }
 
 // Recipe Management Methods
 export const getRecipe = async (recipeId: number): Promise<ApiData<Recipe> | ApiData<null>> => {
   const recipeApiService = createRecipeApiService()
-  return await recipeApiService.getRecipe('recipes', { recipeId })
+  return await recipeApiService.getRecipe('recipes/{recipeId}', { recipeId })
 }
 
 export const createRecipe = async (recipe: any): Promise<ApiData<Recipe> | ApiData<null>> => {
@@ -63,12 +63,12 @@ export const createRecipe = async (recipe: any): Promise<ApiData<Recipe> | ApiDa
 
 export const updateRecipe = async (recipeId: number, recipe: any): Promise<ApiData<Recipe> | ApiData<null>> => {
   const recipeApiService = createRecipeApiService()
-  return await recipeApiService.updateRecipe('recipes', { recipeId }, recipe)
+  return await recipeApiService.updateRecipe('recipes/{recipeId}', { recipeId }, recipe)
 }
 
 export const deleteRecipe = async (recipeId: number): Promise<ApiData<null>> => {
   const recipeApiService = createRecipeApiService()
-  const response = await recipeApiService.deleteRecipe('recipes', { recipeId })
+  const response = await recipeApiService.deleteRecipe('recipes/{recipeId}', { recipeId })
   
   // Handle the case where delete returns Response instead of ApiData
   if (response instanceof Response) {
