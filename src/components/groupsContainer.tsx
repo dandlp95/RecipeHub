@@ -238,32 +238,20 @@ const GroupContainer: React.FunctionComponent<Props> = (props: Props) => {
    *            HANDLE GROUP DELETIONS
    * *************************************************** */
 
-  const handleGroupDeletion = (groupId: number) => {
+  const handleGroupDeletion = async (groupId: number) => {
     try {
-      deleteGroup(groupId)
-      setGroups(prevgroups =>
-        prevgroups.filter(group => group.groupId !== groupId)
-      )
-      if (groupId === activeGroup) {
+      let response = await deleteGroup(groupId)
+      if (response.isSuccess) {
+        setGroups(prevgroups =>
+          prevgroups.filter(group => group.groupId !== groupId)
+        )
+      }
+      if (groupId === activeGroup?.groupId) {
         setDefaultEvent(!defaultEvent)
       }
     } catch (err) {
       console.error(err)
     }
-  }
-
-  const deleteGroup = async (groupId: number) => {
-    const userId = Number(localStorage.getItem('userId'))
-    const token = localStorage.getItem('token')
-
-    if (isNaN(userId)) {
-      throw new Error('User ID is not a number')
-    }
-    if (!token) {
-      throw new Error('Token not found')
-    }
-
-    return await deleteGroup(groupId)
   }
 
   /****************************************************************
