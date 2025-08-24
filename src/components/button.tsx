@@ -10,15 +10,8 @@ type Props = {
 
 const Button: React.FunctionComponent<Props> = ({
   children,
-  styles = {},
   action
 }) => {
-  const {
-    textColor = 'white',
-    backgroundColor = 'black',
-    fontSize = '1.3rem',
-    fontWeight = 'normal'
-  } = styles
 
   const triggerAction = () => {
     action()
@@ -27,12 +20,6 @@ const Button: React.FunctionComponent<Props> = ({
   return (
     <button
       className={ButtonCSS.mainButton}
-      style={{
-        color: textColor,
-        backgroundColor: backgroundColor,
-        fontSize: fontSize,
-        fontWeight: fontWeight
-      }}
       onClick={triggerAction}
     >
       {children}

@@ -5,4 +5,8 @@
     border-radius: 12px;
     border: 1px solid var(--french-gray);
     display: inline;
+    color: black;
+    background-color: var(--mint-cream);
+    font-size: 1.3rem;
+    font-weight: normal;
 }

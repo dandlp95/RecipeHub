@@ -85,3 +85,47 @@ with the plus icon */
     margin-top: 2rem;
     /* width: 100%; */
 }
+
+/* Save Recipe Button Animations */
+.addRecipeMain .addRecipeHeader button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addRecipeMain .addRecipeHeader button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, var(--mint-cream), #e8f5e8);
+    color: black;
+}
+
+.addRecipeMain .addRecipeHeader button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+}
+
+.addRecipeMain .addRecipeHeader button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.addRecipeMain .addRecipeHeader button:hover::before {
+    left: 100%;
+}
+
+/* Focus state for accessibility */
+.addRecipeMain .addRecipeHeader button:focus {
+    outline: 2px solid var(--outer-space);
+    outline-offset: 2px;
+    transform: translateY(-1px);
+}

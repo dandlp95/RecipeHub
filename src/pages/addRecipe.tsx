@@ -114,7 +114,7 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
       <div className={css.addRecipeHeader}>
         <h2>Add New Recipe</h2>
         <div>
-          <Button action={saveRecipe} styles={{ fontSize: '1rem', fontWeight: 'bold' }}>
+          <Button action={saveRecipe}>
             Save Recipe
           </Button>
         </div>
