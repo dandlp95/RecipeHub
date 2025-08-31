@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import css from './styles/categoriesForm.module.css'
 import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai'
+import { Category } from '../customTypes/DTOs/categoryTypes'
 
 type Props = {
-  categories: string[]
-  onAddCategory: (category: string) => void
+  categories: Category[]
+  onAddCategory: (category: Category) => void
   onRemoveCategory: (index: number) => void
   onUpdateCategory: (index: number, newValue: string) => void
-  getAllCategories: () => Promise<string[]> // API function to get all available categories
+  getAllCategories: () => Promise<Category[]> // API function to get all available categories
 }
 
 const CategoriesForm: React.FunctionComponent<Props> = ({ 
@@ -40,8 +41,8 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
    */
   const [isAdding, setIsAdding] = useState(false)
   const [newCategoryInput, setNewCategoryInput] = useState('')
-  const [suggestions, setSuggestions] = useState<string[]>([])
-  const [allCategories, setAllCategories] = useState<string[]>([])
+  const [suggestions, setSuggestions] = useState<Category[]>([])
+  const [allCategories, setAllCategories] = useState<Category[]>([])
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [editValue, setEditValue] = useState<string>('')
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -96,8 +97,8 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
     // Filter categories that match the input
     const filtered = allCategories
       .filter(cat => 
-        cat.toLowerCase().includes(value.toLowerCase()) && 
-        !categories.includes(cat) // Don't suggest already added categories
+        cat.title?.toLowerCase().includes(value.toLowerCase()) && 
+        !categories.some(existingCat => existingCat.categoryId === cat.categoryId) // Don't suggest already added categories
       )
       .slice(0, 5) // Limit to 5 suggestions
 
@@ -105,7 +106,7 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
     setShowSuggestions(filtered.length > 0)
   }
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = (suggestion: Category) => {
     onAddCategory(suggestion)
     setIsAdding(false)
     setNewCategoryInput('')
@@ -114,8 +115,14 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
 
   const handleAddCategory = () => {
     const trimmed = newCategoryInput.trim()
-    if (trimmed && !categories.includes(trimmed)) {
-      onAddCategory(trimmed)
+    if (trimmed && !categories.some(cat => cat.title === trimmed)) {
+      // Create a new Category object
+      const newCategory: Category = {
+        categoryId: null,
+        title: trimmed,
+        recipeId: null
+      }
+      onAddCategory(newCategory)
       setIsAdding(false)
       setNewCategoryInput('')
       setShowSuggestions(false)
@@ -195,9 +202,9 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
             ) : (
               <span 
                 className={css.categoryText}
-                onDoubleClick={() => handleDoubleClick(index, category)}
+                onDoubleClick={() => handleDoubleClick(index, category.title || '')}
               >
-                {category}
+                {category.title || 'No title'}
               </span>
             )}
           </div>
@@ -224,7 +231,7 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
                   className={css.suggestionItem}
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion}
+                  {suggestion.title || 'No title'}
                 </div>
               ))}
             </div>

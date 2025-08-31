@@ -1,6 +1,6 @@
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react'
 import { authData, authFormType } from '../customTypes/enumTypes'
-import { LoginData, PathParams, RegisterData, UserCreateDTO } from '../customTypes/requestTypes'
+import { LoginData, PathParams, RegisterData, UserCreateDTO } from '../customTypes/DTOs/requestTypes'
 import { login, register as registerUser } from './apiCalls'
 import { PathParam } from 'react-router-dom'
 

@@ -1,6 +1,6 @@
-import { ApiData } from '../../customTypes/responseTypes'
-import { Recipe } from '../../customTypes/responseTypes'
-import { PathParams } from '../../customTypes/requestTypes'
+import { ApiData } from '../../customTypes/DTOs/responseTypes'
+import { Recipe } from '../../customTypes/DTOs/recipeTypes'
+import { PathParams } from '../../customTypes/DTOs/requestTypes'
 import IRecipeApiService from '../interfaces/IRecipeApiService'
 import ApiService from './apiService'
 

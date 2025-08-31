@@ -12,6 +12,7 @@ export type PathParams = {
   userId?: number
   groupId?: number
   recipeId?: number
+  categoryId?: number
 }
 
 export type UserCreateDTO = {
@@ -26,10 +27,4 @@ export type Group = {
   name?: string
   createdOn?: Date
   totalRecipes?: number
-}
-
-export type CreateRecipe = {
-  name?: string
-  cookingTime?: string
-  userId?:number
 }

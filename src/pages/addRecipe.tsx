@@ -1,27 +1,78 @@
 import React, { useState, useEffect } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import css from './styles/addRecipe.module.css'
 import Button from '../components/button'
 import FormList from '../components/formList'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
-import { getGroups } from '../utils/apiCalls'
-import { Group } from '../customTypes/requestTypes'
+import { getCategories, getGroups, getMeasurementUnits, getRecipe } from '../utils/apiCalls'
+import { Group } from '../customTypes/DTOs/requestTypes'
 import FormListSortOrder from '../components/formListOrdered'
 import CategoriesForm from '../components/categoriesForm'
+import { MeasurementUnit, Recipe, RecipeIngredientDTO, Step } from '../customTypes/DTOs/recipeTypes'
+import { Category } from '../customTypes/DTOs/categoryTypes'
+import { ingredientFieldNames } from '../customTypes/enumTypes'
 
-type Props = {
-}
+type Props = {}
 
-const AddRecipe: React.FunctionComponent<Props> = (props) => {
-  const [ingredients, setIngredients] = useState<string[]>([])
-  const [instructions, setInstructions] = useState<string[]>([])
-  const [categories, setCategories] = useState<string[]>([])
+const AddRecipe: React.FunctionComponent<Props> = props => {
+  const { id: recipeId } = useParams<{ id?: string }>()
+  const [searchParams] = useSearchParams()
+  const [recipeTitle, setRecipeTitle] = useState<string>('')
+  const [prepTime, setPrepTime] = useState<string>('')
+
+  const [ingredients, setIngredients] = useState<RecipeIngredientDTO[]>([])
+  const [ingredientName, setIngredientName] = useState<string>('')
+  const [quantityNumber, setQuantityNumber] = useState<number>(0)
+  const [measurementUnitId, setMeasurementUnitId] = useState<number>(0)
+
+  const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>([])
+
+  const [instructions, setInstructions] = useState<Step[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [groupId, setGroupId] = useState<number>(0)
   const [groups, setGroups] = useState<Group[]>([])
-  const [selectedGroup, setSelectedGroup] = useState<string>('')
-  const [ingredientInput, setIngredientInput] = useState<string>('')
   const [instructionInput, setInstructionInput] = useState<string>('')
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
 
+  /********* FETCH RECIPE DATA *********/
+  useEffect(() => {
+    const fetchRecipeData = async (recipeId: number): Promise<Recipe | null> => {
+      setIsEditMode(true)
+      const apiData = await getRecipe(recipeId)
+      if (apiData.result) {
+        return apiData.result
+      }
+      return null
+    }
+
+    const setRecipeData = async (recipeId: number) => {
+      const recipe = await fetchRecipeData(recipeId)
+
+      if (recipe) {
+        setIngredients(recipe.recipeIngredients || [])
+        setInstructions(recipe.steps || [])
+        setGroupId(recipe.groupId || 0)
+        setRecipeTitle(recipe.name || '')
+        setPrepTime(recipe.cookingTime || '')
+      }
+    }
+
+    if (recipeId) {
+      setRecipeData(parseInt(recipeId))
+    }
+  }, [])
+
+  /********* FETCH MEASUREMENT UNITS *********/
+  useEffect(() => {
+    getMeasurementUnits().then(apiData => {
+      if (apiData.result) {
+        setMeasurementUnits(apiData.result)
+      }
+    })
+  }, [])
+
+  /********* FETCH GROUPS *********/
   useEffect(() => {
     getGroups().then(apiData => {
       if (apiData.result) {
@@ -30,38 +81,71 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
     })
 
     // Get groupId from URL query parameters
-    const urlParams = new URLSearchParams(window.location.search)
-    const groupIdFromQuery = urlParams.get('group')
+    const groupIdFromQuery = searchParams.get('group')
     if (groupIdFromQuery) {
       setGroupId(parseInt(groupIdFromQuery))
-      setSelectedGroup(groupIdFromQuery)
     }
-  }, [])
+  }, [recipeId, searchParams])
 
-  const saveRecipe = () => {}
+  const saveRecipe = () => {
+    if (isEditMode) {
+      // TODO: Update existing recipe
+      console.log('Updating recipe:', recipeId)
+    } else {
+      // TODO: Create new recipe
+      console.log('Creating new recipe')
+    }
+  }
 
   /********* INGREDIENTS FORM *********/
   const addIngredient = () => {
-    if (ingredientInput.trim() !== '') {
-      setIngredients([...ingredients, ingredientInput.trim()])
-      setIngredientInput('')
+    const ingredientsLength = ingredients.length
+    const newIngredient: RecipeIngredientDTO = {
+      sortOrder: ingredientsLength + 1,
+      measurementUnitId: measurementUnitId,
+      quantityNumber: quantityNumber,
+      ingredientName: ingredientName,
+      recipeIngredientId: null,
+      recipeId: null
     }
+    setIngredients([...ingredients, newIngredient])
+    setIngredientName('')
+    setQuantityNumber(0)
+    setMeasurementUnitId(0)
   }
 
   const removeIngredient = (index: number) => {
     setIngredients(ingredients.filter((_, i) => i !== index))
   }
 
-  const updateIngredient = (index: number, newValue: string) => {
+  const updateIngredientName = (index: number, newValue: string) => {
     const newIngredients = [...ingredients]
-    newIngredients[index] = newValue
+    newIngredients[index] = { ...newIngredients[index], ingredientName: newValue }
+    setIngredients(newIngredients)
+  }
+
+  const updateIngredientQuantityNumber = (index: number, newValue: number) => {
+    const newIngredients = [...ingredients]
+    newIngredients[index] = { ...newIngredients[index], quantityNumber: newValue }
+    setIngredients(newIngredients)
+  }
+
+  const updateIngredientMeasurementUnitId = (index: number, newValue: number) => {
+    const newIngredients = [...ingredients]
+    newIngredients[index] = { ...newIngredients[index], measurementUnitId: newValue }
     setIngredients(newIngredients)
   }
 
   /********* INSTRUCTIONS FORM *********/
   const addInstruction = () => {
     if (instructionInput.trim() !== '') {
-      setInstructions([...instructions, instructionInput.trim()])
+      const newStep: Step = {
+        stepId: null,
+        recipeId: null,
+        Text: instructionInput.trim(),
+        sortOrder: instructions.length
+      }
+      setInstructions([...instructions, newStep])
       setInstructionInput('')
     }
   }
@@ -72,16 +156,16 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
 
   const updateInstruction = (index: number, newValue: string) => {
     const newInstructions = [...instructions]
-    newInstructions[index] = newValue
+    newInstructions[index] = { ...newInstructions[index], Text: newValue }
     setInstructions(newInstructions)
   }
 
-  const reorderInstructions = (newOrder: string[]) => {
+  const reorderInstructions = (newOrder: Step[]) => {
     setInstructions(newOrder)
   }
 
   /********* CATEGORIES FORM *********/
-  const addCategory = (category: string) => {
+  const addCategory = (category: Category) => {
     if (!categories.includes(category)) {
       setCategories([...categories, category])
     }
@@ -93,30 +177,21 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
 
   const updateCategory = (index: number, newValue: string) => {
     const newCategories = [...categories]
-    newCategories[index] = newValue
+    newCategories[index] = { ...newCategories[index], title: newValue }
     setCategories(newCategories)
   }
 
   // Placeholder function for getting all available categories from API
-  const getAllCategories = async (): Promise<string[]> => {
-    // TODO: Replace with actual API call
-    // For now, return some sample categories
-    return [
-      'Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack',
-      'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free',
-      'Quick & Easy', 'Slow Cooker', 'One Pot', 'Meal Prep',
-      'Italian', 'Mexican', 'Asian', 'Mediterranean', 'American'
-    ]
+  const getAllCategories = async (): Promise<Category[]> => {
+    return (await getCategories()).result || []
   }
-  
+
   return (
     <div className={css.addRecipeMain}>
       <div className={css.addRecipeHeader}>
-        <h2>Add New Recipe</h2>
+        <h2>{isEditMode ? 'Edit Recipe' : 'Add New Recipe'}</h2>
         <div>
-          <Button action={saveRecipe}>
-            Save Recipe
-          </Button>
+          <Button action={saveRecipe}>{isEditMode ? 'Update Recipe' : 'Save Recipe'}</Button>
         </div>
       </div>
       <div className={css.addRecipeForm}>
@@ -126,8 +201,8 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
             required
             name='groupTitle'
             id='groupTitle'
-            value={selectedGroup}
-            onChange={e => setSelectedGroup(e.target.value)}
+            value={groupId}
+            onChange={e => setGroupId(parseInt(e.target.value))}
           >
             <option value=''>Select a group</option>
             {groups.map(group => (
@@ -156,15 +231,35 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
           <label htmlFor='ingredients'>Ingredients</label>
           <div className={css.formElements}>
             <div>
-              <input 
-                type='text' 
-                name='ingredients' 
-                id={css.ingredientsInput} 
+              <input
+                type='text'
+                name='ingredients'
+                id={css.ingredientsInput}
                 placeholder='Add ingredient'
-                value={ingredientInput}
-                onChange={(e) => setIngredientInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
+                value={ingredientName}
+                onChange={e => setIngredientName(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' && addIngredient()}
               />
+              <input
+                type='number'
+                name='quantityNumber'
+                id={css.quantityNumberInput}
+                placeholder='Quantity'
+                value={quantityNumber}
+                onChange={e => setQuantityNumber(parseInt(e.target.value))}
+                onKeyPress={e => e.key === 'Enter' && addIngredient()}
+              />
+              <select
+                name='measurementUnitId'
+                id={css.measurementUnitIdInput}
+                value={measurementUnitId}
+                onChange={e => setMeasurementUnitId(parseInt(e.target.value))}
+              ></select>
+              {measurementUnits.map(unit => (
+                <option key={unit.MeasurementUnitId} value={unit.MeasurementUnitId}>
+                  {unit.Abbreviation}
+                </option>
+              ))}
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
               <AiOutlinePlus onClick={addIngredient} />
@@ -173,7 +268,14 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
         </div>
         {ingredients.length > 0 && (
           <div className={css.IngredientsList}>
-            <FormList items={ingredients} onRemove={removeIngredient} onUpdate={updateIngredient} />
+            <FormList
+              items={ingredients}
+              onRemove={removeIngredient}
+              onUpdateName={updateIngredientName}
+              onUpdateQuantity={updateIngredientQuantityNumber}
+              onUpdateMeasurementUnit={updateIngredientMeasurementUnitId}
+              measurementUnits={measurementUnits}
+            />
           </div>
         )}
         <div className={css.InstructionsForm}>
@@ -186,8 +288,8 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
                 id={css.instructionsInput}
                 placeholder='Add Step Instructions'
                 value={instructionInput}
-                onChange={(e) => setInstructionInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && addInstruction()}
+                onChange={e => setInstructionInput(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' && addInstruction()}
               />
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
@@ -197,9 +299,9 @@ const AddRecipe: React.FunctionComponent<Props> = (props) => {
         </div>
         {instructions.length > 0 && (
           <div className={css.instructionsList}>
-            <FormListSortOrder 
-              items={instructions} 
-              onRemove={removeInstruction} 
+            <FormListSortOrder
+              items={instructions}
+              onRemove={removeInstruction}
               onUpdate={updateInstruction}
               onReorder={reorderInstructions}
             />

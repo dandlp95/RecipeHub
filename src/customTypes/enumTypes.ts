@@ -20,4 +20,11 @@ enum serviceTypes {
   group = 'group'
 }
 
-export { authData, authFormType, pages, serviceTypes }
+enum ingredientFieldNames {
+  ingredientName = 'ingredientName',
+  quantityNumber = 'quantityNumber',
+  measurementUnitId = 'measurementUnitId',
+  sortOrder = 'sortOrder'
+}
+
+export { authData, authFormType, pages, serviceTypes, ingredientFieldNames }

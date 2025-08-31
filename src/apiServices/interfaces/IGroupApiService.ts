@@ -1,5 +1,5 @@
-import { Group, PathParams } from "../../customTypes/requestTypes";
-import { ApiData } from "../../customTypes/responseTypes";
+import { Group, PathParams } from "../../customTypes/DTOs/requestTypes";
+import { ApiData } from "../../customTypes/DTOs/responseTypes";
 
 interface IGroupApiService {
     getGroups(

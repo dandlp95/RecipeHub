@@ -1,6 +1,6 @@
 import { ErrorHandling } from "../../customTypes/errorHandling";
-import { UserCreateDTO, PathParams, LoginData } from "../../customTypes/requestTypes";
-import { UserDTO, ApiData } from "../../customTypes/responseTypes";
+import { UserCreateDTO, PathParams, LoginData } from "../../customTypes/DTOs/requestTypes";
+import { UserDTO, ApiData } from "../../customTypes/DTOs/responseTypes";
 
 
 interface IAuthApiService{

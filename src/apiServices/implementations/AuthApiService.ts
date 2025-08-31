@@ -2,8 +2,8 @@ import {
   UserCreateDTO,
   PathParams,
   LoginData
-} from '../../customTypes/requestTypes'
-import { UserDTO, ApiData } from '../../customTypes/responseTypes'
+} from '../../customTypes/DTOs/requestTypes'
+import { UserDTO, ApiData } from '../../customTypes/DTOs/responseTypes'
 import IAuthApiService from '../interfaces/IAuthApiService'
 import ApiService from './apiService'
 import { ErrorHandling } from '../../customTypes/errorHandling'

@@ -1,5 +1,5 @@
-import { PathParams } from '../../customTypes/requestTypes'
-import { ApiData } from '../../customTypes/responseTypes'
+import { PathParams } from '../../customTypes/DTOs/requestTypes'
+import { ApiData } from '../../customTypes/DTOs/responseTypes'
 
 // const token: string | null = localStorage.getItem('token')
 
@@ -39,7 +39,7 @@ abstract class ApiService<T> {
   //Post to add an entity to the database
   protected async post (
     url: string,
-    pathParams: PathParams,
+    pathParams: PathParams | null,
     body: object = {}
   ): Promise<ApiData<T> | ApiData<null>> {
     const response: Response = await this._apiCall(url, pathParams, 'POST', body)

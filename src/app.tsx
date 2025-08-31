@@ -5,7 +5,7 @@ import {
   LoginData,
   PathParams,
   RegisterData
-} from './customTypes/requestTypes'
+} from './customTypes/DTOs/requestTypes'
 import FormContainer from './components/formContainer1'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'

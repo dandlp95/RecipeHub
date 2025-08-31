@@ -4,6 +4,10 @@ import AuthApiService from "../apiServices/implementations/AuthApiService";
 import IGroupApiService from "../apiServices/interfaces/IGroupApiService";
 import IRecipeApiService from "../apiServices/interfaces/IRecipeApiService";
 import IAuthApiService from "../apiServices/interfaces/IAuthApiService";
+import { MeasurementUnitsApiService } from "../apiServices/implementations/MeasurementUnitsApiService";
+import IMeasurementUnitsApiService from "../apiServices/interfaces/IMeasurementUnitsApiService";
+import { CategoriesApiService } from "../apiServices/implementations/CategoriesApiService";
+import ICategoriesApiService from "../apiServices/interfaces/ICategoriesApiService";
 
 // Type-safe service creation functions
 export function createGroupApiService(): IGroupApiService {
@@ -20,6 +24,22 @@ export function createRecipeApiService(): IRecipeApiService {
       throw new Error('No token found')
     }
     return new RecipeApiService(token)
+}
+
+export function createMeasurementUnitsApiService(): IMeasurementUnitsApiService {
+    const token: string | null = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('No token found')
+    }
+    return new MeasurementUnitsApiService(token)
+}
+
+export function createCategoriesApiService(): ICategoriesApiService {
+    const token: string | null = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('No token found')
+    }
+    return new CategoriesApiService(token)
 }
 
 export function createAuthApiService(): IAuthApiService {

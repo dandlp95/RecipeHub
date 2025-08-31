@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import css from './styles/formListOrdered.module.css'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
+import { Step } from '../customTypes/DTOs/recipeTypes'
 
 type Props = {
-  items: string[]
+  items: Step[]
   onRemove: (index: number) => void
   onUpdate?: (index: number, newValue: string) => void
-  onReorder?: (newOrder: string[]) => void
+  onReorder?: (newOrder: Step[]) => void
 }
 
 const FormListOrdered: React.FunctionComponent<Props> = ({ items, onRemove, onUpdate, onReorder }) => {
@@ -58,8 +59,14 @@ const FormListOrdered: React.FunctionComponent<Props> = ({ items, onRemove, onUp
     const [draggedItem] = newItems.splice(draggedIndex, 1)
     newItems.splice(dropIndex, 0, draggedItem)
 
+    // Update sortOrder for all items after reordering
+    const updatedItems = newItems.map((item, index) => ({
+      ...item,
+      sortOrder: index + 1
+    }))
+
     if (onReorder) {
-      onReorder(newItems)
+      onReorder(updatedItems)
     }
     setDraggedIndex(null)
   }
@@ -90,14 +97,15 @@ const FormListOrdered: React.FunctionComponent<Props> = ({ items, onRemove, onUp
                 onBlur={() => handleEditSave(index)}
                 onKeyDown={(e) => handleKeyPress(e, index)}
                 className={css.editInput}
+                placeholder="Enter step instruction"
                 autoFocus
               />
             ) : (
               <span 
                 className={css.itemText}
-                onDoubleClick={() => handleDoubleClick(index, item)}
+                onDoubleClick={() => handleDoubleClick(index, item.Text || '')}
               >
-                {item}
+                {item.Text || 'No instruction text'}
               </span>
             )}
           </div>
