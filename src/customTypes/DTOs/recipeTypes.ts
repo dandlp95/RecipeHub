@@ -1,13 +1,15 @@
+import { Category } from "./categoryTypes"
+
 export type MeasurementUnit = {
-    MeasurementUnitId: number,
-    Name: string,
-    Abbreviation: string
+    measurementUnitId: number,
+    name: string,
+    abbreviation: string
 }
 
 export type Step = {
     stepId: number | null
     recipeId: number | null
-    Text: string
+    text: string
     sortOrder: number
 }
 
@@ -29,4 +31,5 @@ export type Recipe = {
     groupId: number | null
     steps: Step[] | null
     recipeIngredients: RecipeIngredientDTO[] | null
+    categories: Category[] | null
 }

@@ -8,7 +8,7 @@ type Props = {
   onAddCategory: (category: Category) => void
   onRemoveCategory: (index: number) => void
   onUpdateCategory: (index: number, newValue: string) => void
-  getAllCategories: () => Promise<Category[]> // API function to get all available categories
+  allAvailableCategories: Category[] // All available categories from the recipe
 }
 
 const CategoriesForm: React.FunctionComponent<Props> = ({ 
@@ -16,7 +16,7 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
   onAddCategory, 
   onRemoveCategory, 
   onUpdateCategory,
-  getAllCategories 
+  allAvailableCategories 
 }) => {
   /*
    * STATE VARIABLES
@@ -42,17 +42,11 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
   const [isAdding, setIsAdding] = useState(false)
   const [newCategoryInput, setNewCategoryInput] = useState('')
   const [suggestions, setSuggestions] = useState<Category[]>([])
-  const [allCategories, setAllCategories] = useState<Category[]>([])
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [editValue, setEditValue] = useState<string>('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const suggestionsRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Load all available categories when component mounts
-    loadAllCategories()
-  }, [])
 
   useEffect(() => {
     // Handle clicks outside suggestions to close dropdown
@@ -67,15 +61,6 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
     // Cleanup function to remove event listener to prevent memory leaks
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const loadAllCategories = async () => {
-    try {
-      const categories = await getAllCategories()
-      setAllCategories(categories)
-    } catch (error) {
-      console.error('Failed to load categories:', error)
-    }
-  }
 
   const handleAddClick = () => {
     setIsAdding(true)
@@ -95,7 +80,7 @@ const CategoriesForm: React.FunctionComponent<Props> = ({
     }
 
     // Filter categories that match the input
-    const filtered = allCategories
+    const filtered = allAvailableCategories
       .filter(cat => 
         cat.title?.toLowerCase().includes(value.toLowerCase()) && 
         !categories.some(existingCat => existingCat.categoryId === cat.categoryId) // Don't suggest already added categories

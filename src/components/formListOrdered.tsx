@@ -103,9 +103,9 @@ const FormListOrdered: React.FunctionComponent<Props> = ({ items, onRemove, onUp
             ) : (
               <span 
                 className={css.itemText}
-                onDoubleClick={() => handleDoubleClick(index, item.Text || '')}
+                onDoubleClick={() => handleDoubleClick(index, item.text || '')}
               >
-                {item.Text || 'No instruction text'}
+                {item.text || 'No instruction text'}
               </span>
             )}
           </div>

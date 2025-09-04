@@ -49,8 +49,8 @@ with the plus icon */
 }
 
 .addRecipeMain .addRecipeForm>div>input,
-.addRecipeMain .formElements,
-.addRecipeMain .addRecipeForm select {
+.addRecipeMain .formElements
+{
     margin-top: 0.75rem;
 }
 
@@ -128,4 +128,48 @@ with the plus icon */
     outline: 2px solid var(--outer-space);
     outline-offset: 2px;
     transform: translateY(-1px);
+}
+
+/* Custom styling for ingredient input fields to fix alignment and width issues */
+.addRecipeMain .ingredientFields {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+.addRecipeMain .ingredientFields .editInput {
+    border: 1px solid var(--mint-cream);
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background: white;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    height: 40px; /* Ensure consistent height for all fields */
+    box-sizing: border-box;
+}
+
+.addRecipeMain .ingredientFields .editInput:focus {
+    border-color: var(--outer-space);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Ingredient name field - reduced width */
+.addRecipeMain .ingredientFields .ingredientNameInput {
+    flex: 2; /* Reduced from flex: 2 */
+}
+
+/* Quantity field - smaller for numbers */
+.addRecipeMain .ingredientFields .quantityInput {
+    text-align: center;
+    max-width: 50px;
+}
+
+/* Unit dropdown - increased width and proper alignment */
+.addRecipeMain .ingredientFields .unitSelect {
+    flex: 0 0 120px; 
+    width: 120px;
 }

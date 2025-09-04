@@ -5,7 +5,7 @@ import Button from '../components/button'
 import FormList from '../components/formList'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
-import { getCategories, getGroups, getMeasurementUnits, getRecipe } from '../utils/apiCalls'
+import { getGroups, getMeasurementUnits, getRecipe } from '../utils/apiCalls'
 import { Group } from '../customTypes/DTOs/requestTypes'
 import FormListSortOrder from '../components/formListOrdered'
 import CategoriesForm from '../components/categoriesForm'
@@ -30,6 +30,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
 
   const [instructions, setInstructions] = useState<Step[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const [allAvailableCategories, setAllAvailableCategories] = useState<Category[]>([])
   const [groupId, setGroupId] = useState<number>(0)
   const [groups, setGroups] = useState<Group[]>([])
   const [instructionInput, setInstructionInput] = useState<string>('')
@@ -55,6 +56,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         setGroupId(recipe.groupId || 0)
         setRecipeTitle(recipe.name || '')
         setPrepTime(recipe.cookingTime || '')
+        setAllAvailableCategories(recipe.categories || [])
       }
     }
 
@@ -142,7 +144,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
       const newStep: Step = {
         stepId: null,
         recipeId: null,
-        Text: instructionInput.trim(),
+        text: instructionInput.trim(),
         sortOrder: instructions.length
       }
       setInstructions([...instructions, newStep])
@@ -156,7 +158,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
 
   const updateInstruction = (index: number, newValue: string) => {
     const newInstructions = [...instructions]
-    newInstructions[index] = { ...newInstructions[index], Text: newValue }
+    newInstructions[index] = { ...newInstructions[index], text: newValue }
     setInstructions(newInstructions)
   }
 
@@ -181,10 +183,6 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
     setCategories(newCategories)
   }
 
-  // Placeholder function for getting all available categories from API
-  const getAllCategories = async (): Promise<Category[]> => {
-    return (await getCategories()).result || []
-  }
 
   return (
     <div className={css.addRecipeMain}>
@@ -230,7 +228,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         <div className={css.IngredientsForm}>
           <label htmlFor='ingredients'>Ingredients</label>
           <div className={css.formElements}>
-            <div>
+            <div className={css.ingredientFields}>
               <input
                 type='text'
                 name='ingredients'
@@ -239,6 +237,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
                 value={ingredientName}
                 onChange={e => setIngredientName(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && addIngredient()}
+                className={`${css.editInput} ${css.ingredientNameInput}`}
               />
               <input
                 type='number'
@@ -248,18 +247,22 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
                 value={quantityNumber}
                 onChange={e => setQuantityNumber(parseInt(e.target.value))}
                 onKeyPress={e => e.key === 'Enter' && addIngredient()}
+                className={`${css.editInput} ${css.quantityInput}`}
               />
               <select
                 name='measurementUnitId'
                 id={css.measurementUnitIdInput}
                 value={measurementUnitId}
                 onChange={e => setMeasurementUnitId(parseInt(e.target.value))}
-              ></select>
+                className={`${css.editInput} ${css.unitSelect}`}
+              >
+              <option value=''>Select unit</option>
               {measurementUnits.map(unit => (
-                <option key={unit.MeasurementUnitId} value={unit.MeasurementUnitId}>
-                  {unit.Abbreviation}
+                <option key={unit.measurementUnitId} value={unit.measurementUnitId}>
+                  {unit.abbreviation}
                 </option>
               ))}
+              </select>
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
               <AiOutlinePlus onClick={addIngredient} />
@@ -314,7 +317,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
             onAddCategory={addCategory}
             onRemoveCategory={removeCategory}
             onUpdateCategory={updateCategory}
-            getAllCategories={getAllCategories}
+            allAvailableCategories={allAvailableCategories}
           />
         </div>
       </div>
