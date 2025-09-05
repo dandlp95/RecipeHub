@@ -36,21 +36,6 @@
   color: var(--outer-space);
 }
 
-.editInput {
-  border: 1px solid var(--mint-cream);
-  border-radius: 15px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.9rem;
-  background: white;
-  color: #333;
-  outline: none;
-  min-width: 120px;
-}
-
-.editInput:focus {
-  border-color: var(--outer-space);
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-}
 
 .removeButton {
   background: none;
@@ -88,6 +73,7 @@
   color: var(--outer-space);
   font-weight: 500;
   max-width: 200px;
+  height: 20px;
 }
 
 .addCategoryButton:hover {
@@ -102,26 +88,21 @@
   font-size: 1.1rem;
 }
 
-.addCategoryInput {
-  position: relative;
-  margin-top: 0.5rem;
-}
-
-.categoryInput {
+.categoriesForm #categoryInput {
   width: 100%;
   border: 2px solid var(--mint-cream);
   border-radius: 20px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   background: white;
   color: #333;
   outline: none;
   box-sizing: border-box;
   transition: border-color 0.2s;
+  max-height: 10px;
 }
 
-.categoryInput::placeholder {
-  font-size: 0.85rem;
+.categoriesForm #categoryInput::placeholder {
+  font-size: 0.8rem;
   color: #999;
 }
 
@@ -137,7 +118,7 @@
   right: 0;
   background: white;
   border: 1px solid var(--mint-cream);
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   max-height: 200px;

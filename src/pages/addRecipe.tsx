@@ -201,11 +201,6 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
     setCategories(categories.filter((_, i) => i !== index))
   }
 
-  const updateCategory = (index: number, newValue: string) => {
-    const newCategories = [...categories]
-    newCategories[index] = { ...newCategories[index], title: newValue }
-    setCategories(newCategories)
-  }
 
 
   return (
@@ -331,7 +326,6 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
             categories={categories}
             onAddCategory={addCategory}
             onRemoveCategory={removeCategory}
-            onUpdateCategory={updateCategory}
             allAvailableCategories={allAvailableCategories}
           />
         </div>
