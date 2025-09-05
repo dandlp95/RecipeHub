@@ -13,6 +13,7 @@ import { MeasurementUnit, Recipe, RecipeIngredientDTO, Step } from '../customTyp
 import { Category } from '../customTypes/DTOs/categoryTypes'
 import { ingredientFieldNames } from '../customTypes/enumTypes'
 import MeasurementUnitAutocomplete from '../components/measurementUnitAutocomplete'
+import CustomDropdown, { DropdownOption } from '../components/customDropdown'
 
 type Props = {}
 
@@ -36,6 +37,15 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
   const [groups, setGroups] = useState<Group[]>([])
   const [instructionInput, setInstructionInput] = useState<string>('')
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+
+  // Convert groups to dropdown options
+  const groupOptions: DropdownOption[] = [
+    { value: '', label: 'Select a group' },
+    ...groups.map(group => ({
+      value: group.groupId || 0,
+      label: group.name || 'Unnamed Group'
+    }))
+  ]
 
   /********* FETCH RECIPE DATA *********/
   useEffect(() => {
@@ -101,15 +111,19 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
   }
 
   /********* INGREDIENTS FORM *********/
+  
   const addIngredient = () => {
     const ingredientsLength = ingredients.length
     const newIngredient: RecipeIngredientDTO = {
       sortOrder: ingredientsLength + 1,
       measurementUnitId: measurementUnitId,
-      quantityNumber: quantityNumber,
+      quantityNumber: quantityNumber !== null && quantityNumber !== undefined && !Number.isNaN(quantityNumber) ? quantityNumber : null,
       ingredientName: ingredientName,
       recipeIngredientId: null,
       recipeId: null
+    }
+    if(newIngredient.ingredientName === ''){
+      return
     }
     setIngredients([...ingredients, newIngredient])
     setIngredientName('')
@@ -196,20 +210,16 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
       <div className={css.addRecipeForm}>
         <div className={`${css.groupTitle}`}>
           <label htmlFor='groupTitle'>Group</label>
-          <select
-            required
-            name='groupTitle'
+          <CustomDropdown
             id='groupTitle'
-            value={groupId}
-            onChange={e => setGroupId(parseInt(e.target.value))}
-          >
-            <option value=''>Select a group</option>
-            {groups.map(group => (
-              <option key={group.groupId} value={group.groupId} selected={group.groupId == groupId}>
-                {group.name}
-              </option>
-            ))}
-          </select>
+            name='groupTitle'
+            options={groupOptions}
+            value={groupId || ''}
+            onChange={(value) => setGroupId(typeof value === 'string' ? parseInt(value) || 0 : value)}
+            placeholder='Select a group'
+            required
+            className={css.groupDropdown}
+          />
         </div>
         <div className={`${css.recipeTitle} ${css.fieldPart1}`}>
           <label htmlFor='recipeTitle'>Recipe Title</label>

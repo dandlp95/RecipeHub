@@ -1,0 +1,176 @@
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdownContainer .dropdownTrigger {
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid var(--mint-cream);
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.dropdownContainer .dropdownTrigger:hover:not(.disabled) {
+  border-color: var(--outer-space);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownContainer .dropdownTrigger:focus:not(.disabled) {
+  border-color: var(--outer-space);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownContainer .dropdownTrigger.disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.dropdownContainer .triggerText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdownContainer .arrow {
+  font-size: 0.8rem;
+  color: #666;
+  transition: transform 0.3s ease;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.dropdownContainer .arrowOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownContainer .dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--mint-cream);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: slideDown 0.3s ease-out;
+  transform-origin: top;
+}
+
+/* Dropdown slide-down animation keyframes */
+@keyframes slideDown {
+    /* Start of animation - dropdown is completely hidden */
+    0% {
+      opacity: 0;           /* Invisible (transparent) */
+      transform: scaleY(0); /* Squashed to zero height */
+    }
+    
+    /* Middle of animation - dropdown is partially visible and half-sized */
+    50% {
+      opacity: 0.7;         /* 70% visible (fading in) */
+      transform: scaleY(0.5); /* Half normal height */
+    }
+    
+    /* End of animation - dropdown is fully visible and normal size */
+    100% {
+      opacity: 1;           /* Fully visible (opaque) */
+      transform: scaleY(1); /* Full normal height */
+    }
+} 
+
+
+.dropdownContainer .dropdownOption {
+  padding: 0.75rem 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dropdownContainer .dropdownOption:last-child {
+  border-bottom: none;
+}
+
+.dropdownContainer .dropdownOption:hover:not(.disabled),
+.dropdownContainer .dropdownOption.highlighted:not(.disabled) {
+  background: var(--mint-cream);
+  color: var(--outer-space);
+}
+
+.dropdownContainer .dropdownOption.disabled {
+  color: #999;
+  cursor: not-allowed;
+  background: #f9f9f9;
+}
+
+.dropdownContainer .dropdownOption.disabled:hover {
+  background: #f9f9f9;
+  color: #999;
+}
+
+.dropdownContainer .noOptions {
+  padding: 0.75rem 1.2rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background: #f9f9f9;
+}
+
+
+/* Custom scrollbar for the dropdown */
+.dropdownContainer .dropdownList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdownContainer .dropdownList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dropdownContainer .dropdownList::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dropdownContainer .dropdownList::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Focus styles for accessibility */
+.dropdownContainer .dropdownTrigger:focus-visible {
+  outline: 2px solid var(--outer-space);
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dropdownContainer .dropdownTrigger {
+    font-size: 1rem;
+    padding: 0.625rem 1rem;
+  }
+  
+  .dropdownContainer .dropdownOption {
+    padding: 0.625rem 1rem;
+    font-size: 0.9rem;
+  }
+}

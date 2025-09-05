@@ -109,17 +109,17 @@ const FormList: React.FunctionComponent<Props> = ({
                 placeholder='Ingredient name'
                 autoFocus
               />
-                             <input
-                 type='number'
-                 step={0.01}
-                 min={0}
-                 value={editValues.quantity}
-                 onChange={e => handleQuantityChange(e.target.value)}
-                 onKeyDown={e => handleKeyPress(e, index)}
-                 id={css.quantityInputFormList}
-                 className={`${css.editInput} ${css.quantityInputFormList}`}
-                 placeholder='Amount'
-               />
+              <input
+                type='number'
+                step={0.01}
+                min={0}
+                value={editValues.quantity}
+                onChange={e => handleQuantityChange(e.target.value)}
+                onKeyDown={e => handleKeyPress(e, index)}
+                id={css.quantityInputFormList}
+                className={`${css.editInput} ${css.quantityInputFormList}`}
+                placeholder='Amount'
+              />
               <div className={css.formListAutocompleteContainer}>
                 <MeasurementUnitAutocomplete
                   measurementUnits={measurementUnits}
@@ -134,7 +134,7 @@ const FormList: React.FunctionComponent<Props> = ({
             // Display mode: Show natural text format
             <span className={css.itemText} onDoubleClick={() => handleDoubleClick(index, item)}>
               {`${item.ingredientName || 'No name'} ${
-                item.quantityNumber || 0
+                item.quantityNumber !== null ? item.quantityNumber : ''
               } ${getMeasurementUnitAbbreviation(item.measurementUnitId)}`}
             </span>
           )}

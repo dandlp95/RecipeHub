@@ -39,6 +39,13 @@
     box-sizing: border-box;
     width: 50%;
     font-size: 1.1rem;
+    margin-top: 0.75rem;
+}
+
+/* Custom dropdown styling for group selection */
+.addRecipeMain .addRecipeForm .groupTitle .groupDropdown {
+    width: 50%;
+    margin-top: 0.75rem;
 }
 
 
@@ -81,7 +88,33 @@ with the plus icon */
     border-radius: 8px;
     font-size: 1.5rem;
     cursor: pointer;
-    color:var(--outer-space);
+    color: var(--outer-space);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Plus button hover effects */
+.addRecipeMain .icon:hover {
+    background: var(--mint-cream);
+    color: var(--outer-space);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Plus button active/clicked effects */
+.addRecipeMain .icon:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    background: #e8f5e8;
+    transition: all 0.1s ease;
+}
+
+/* Focus state for accessibility */
+.addRecipeMain .icon:focus {
+    outline: 2px solid var(--outer-space);
+    outline-offset: 2px;
+    transform: translateY(-1px) scale(1.02);
 }
 
 .addRecipeMain .addRecipeForm>div {
