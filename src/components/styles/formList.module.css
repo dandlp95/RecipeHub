@@ -50,21 +50,9 @@
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Ingredient name field - takes most of the space */
-.formList .ingredientNameInput {
-  flex: 2;
-  min-width: 120px;
-}
-
-/* Quantity field - smaller for numbers */
-.formList .quantityInput {
-  flex: 0 0 80px;
-  text-align: center;
-  width: 80px;
-}
 
 /* Unit dropdown - compact size */
-.formList .unitSelect {
+.formList .unitSelectFormList {
   flex: 0 0 100px;
   min-width: 80px;
   width: 100px;
@@ -89,4 +77,25 @@
   background-color: #ffebee;
   color: #d32f2f;
   transform: scale(1.1);
+}
+
+/* Ingredient name field - takes most of the space */
+.formList .ingredientNameInputFormList {
+  flex: 1;
+}
+
+/* Quantity field - smaller for numbers */
+.formList .quantityInputFormList {
+  flex: 1;
+  text-align: center;
+  max-width: 100px;
+}
+
+.formList #quantityInputFormList::placeholder {
+  font-size: 1rem;
+}
+
+.formList .formListAutocompleteContainer {
+  flex: 1;
+  max-width: 130px;
 }

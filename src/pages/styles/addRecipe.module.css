@@ -56,6 +56,9 @@ with the plus icon */
 
 .addRecipeMain .addRecipeForm input::placeholder {
     font-size: 1.2rem;
+    font-style: italic;
+    color: #999;
+    opacity: 0.7;
 }
 
 .addRecipeMain .formElements {
@@ -64,11 +67,11 @@ with the plus icon */
     align-items: center;
 }
 
-.addRecipeMain .formElements>div:first-child {
+.addRecipeMain .instructionsFormElements>div:first-child {
     width: 100%;
 }
 
-.addRecipeMain .formElements>div:first-child input {
+.addRecipeMain .instructionsFormElements>div:first-child>input {
     width: 99%;
 }
 
@@ -159,17 +162,21 @@ with the plus icon */
 
 /* Ingredient name field - reduced width */
 .addRecipeMain .ingredientFields .ingredientNameInput {
-    flex: 2; /* Reduced from flex: 2 */
+    flex: 1
 }
 
 /* Quantity field - smaller for numbers */
 .addRecipeMain .ingredientFields .quantityInput {
     text-align: center;
-    max-width: 50px;
+    max-width: 100px;
+    flex: 1
 }
 
-/* Unit dropdown - increased width and proper alignment */
-.addRecipeMain .ingredientFields .unitSelect {
-    flex: 0 0 120px; 
-    width: 120px;
+.addRecipeMain .ingredientFields .quantityInput::placeholder {
+    font-size: 1rem;
+}
+
+.addRecipeMain .autocompleteContainer {
+    flex: 1;
+    max-width: 150px;
 }

@@ -12,6 +12,7 @@ import CategoriesForm from '../components/categoriesForm'
 import { MeasurementUnit, Recipe, RecipeIngredientDTO, Step } from '../customTypes/DTOs/recipeTypes'
 import { Category } from '../customTypes/DTOs/categoryTypes'
 import { ingredientFieldNames } from '../customTypes/enumTypes'
+import MeasurementUnitAutocomplete from '../components/measurementUnitAutocomplete'
 
 type Props = {}
 
@@ -241,6 +242,8 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
               />
               <input
                 type='number'
+                min={0}
+                step={0.01}
                 name='quantityNumber'
                 id={css.quantityNumberInput}
                 placeholder='Quantity'
@@ -249,20 +252,13 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
                 onKeyPress={e => e.key === 'Enter' && addIngredient()}
                 className={`${css.editInput} ${css.quantityInput}`}
               />
-              <select
-                name='measurementUnitId'
-                id={css.measurementUnitIdInput}
-                value={measurementUnitId}
-                onChange={e => setMeasurementUnitId(parseInt(e.target.value))}
-                className={`${css.editInput} ${css.unitSelect}`}
-              >
-              <option value=''>Select unit</option>
-              {measurementUnits.map(unit => (
-                <option key={unit.measurementUnitId} value={unit.measurementUnitId}>
-                  {unit.abbreviation}
-                </option>
-              ))}
-              </select>
+              <div className={css.autocompleteContainer}>
+              <MeasurementUnitAutocomplete
+                measurementUnits={measurementUnits}
+                  selectedUnitId={measurementUnitId}
+                  onUnitSelect={setMeasurementUnitId}
+                />
+              </div>
             </div>
             <IconContext.Provider value={{ className: `${css.plusIcon} ${css.icon}` }}>
               <AiOutlinePlus onClick={addIngredient} />
@@ -283,7 +279,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         )}
         <div className={css.InstructionsForm}>
           <label htmlFor='instructions'>Instructions</label>
-          <div className={css.formElements}>
+          <div className={`${css.formElements} ${css.instructionsFormElements}`}>
             <div>
               <input
                 type='text'

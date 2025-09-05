@@ -1,0 +1,103 @@
+
+.autocompleteContainer {
+  position: relative;
+}
+
+.autocompleteContainer .editInput {
+  border: 1px solid var(--mint-cream);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  height: 40px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.autocompleteContainer #editInput::placeholder {
+  color: #999;
+  font-style: italic;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.autocompleteContainer .editInput:focus {
+  border-color: var(--outer-space);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.autocompleteContainer .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--mint-cream);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 180px; /* Approximately 6-7 options * 30px height */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.autocompleteContainer .dropdownItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.autocompleteContainer .dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.autocompleteContainer .dropdownItem:hover,
+.autocompleteContainer .dropdownItem.highlighted {
+  background-color: #f8f9fa;
+}
+
+.autocompleteContainer .abbreviation {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.autocompleteContainer .fullName {
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+.autocompleteContainer .noResults {
+  padding: 12px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Custom scrollbar for the dropdown */
+.autocompleteContainer .dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.autocompleteContainer .dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.autocompleteContainer .dropdown::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.autocompleteContainer .dropdown::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

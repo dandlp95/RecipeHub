@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import css from './styles/formList.module.css'
 import { AiOutlineMinus } from 'react-icons/ai'
 import { MeasurementUnit, RecipeIngredientDTO } from '../customTypes/DTOs/recipeTypes'
+import MeasurementUnitAutocomplete from './measurementUnitAutocomplete'
 
 type Props = {
   items: RecipeIngredientDTO[]
@@ -12,16 +13,20 @@ type Props = {
   measurementUnits?: Array<MeasurementUnit>
 }
 
-const FormList: React.FunctionComponent<Props> = ({ 
-  items, 
-  onRemove, 
-  onUpdateName, 
-  onUpdateQuantity, 
+const FormList: React.FunctionComponent<Props> = ({
+  items,
+  onRemove,
+  onUpdateName,
+  onUpdateQuantity,
   onUpdateMeasurementUnit,
   measurementUnits = []
 }) => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
-  const [editValues, setEditValues] = useState<{name: string, quantity: string, unit: string}>({name: '', quantity: '', unit: ''})
+  const [editValues, setEditValues] = useState<{ name: string; quantity: string; unit: number }>({
+    name: '',
+    quantity: '',
+    unit: 0
+  })
   const [isEditing, setIsEditing] = useState(false)
 
   const handleDoubleClick = (index: number, item: RecipeIngredientDTO) => {
@@ -30,10 +35,9 @@ const FormList: React.FunctionComponent<Props> = ({
     setEditValues({
       name: item.ingredientName || '',
       quantity: (item.quantityNumber || 0).toString(),
-      unit: (item.measurementUnitId || 0).toString()
+      unit: item.measurementUnitId || 0
     })
   }
-
 
   const handleEditSave = (index: number) => {
     // Save all three fields
@@ -42,25 +46,22 @@ const FormList: React.FunctionComponent<Props> = ({
     }
     if (onUpdateQuantity) {
       const numValue = parseFloat(editValues.quantity)
-      if (!isNaN(numValue)) {
+      if (!isNaN(numValue) && numValue >= 0) {
         onUpdateQuantity(index, numValue)
       }
     }
-    if (onUpdateMeasurementUnit) {
-      const unitId = parseInt(editValues.unit)
-      if (!isNaN(unitId)) {
-        onUpdateMeasurementUnit(index, unitId)
-      }
+    if (onUpdateMeasurementUnit && editValues.unit > 0) {
+      onUpdateMeasurementUnit(index, editValues.unit)
     }
     setEditingIndex(null)
     setIsEditing(false)
-    setEditValues({name: '', quantity: '', unit: ''})
+    setEditValues({ name: '', quantity: '', unit: 0 })
   }
 
   const handleEditCancel = () => {
     setEditingIndex(null)
     setIsEditing(false)
-    setEditValues({name: '', quantity: '', unit: ''})
+    setEditValues({ name: '', quantity: '', unit: 0 })
   }
 
   const handleKeyPress = (e: React.KeyboardEvent, index: number) => {
@@ -77,15 +78,22 @@ const FormList: React.FunctionComponent<Props> = ({
     return unit ? unit.abbreviation : ''
   }
 
+  const handleQuantityChange = (value: string) => {
+    // Allow empty string or valid numbers >= 0
+    if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
+      setEditValues({ ...editValues, quantity: value })
+    }
+  }
+
   return (
     <div className={css.formList}>
       {items.map((item, index) => (
         <div key={index} className={css.formListItem}>
           {editingIndex === index ? (
             // Edit mode: Show all three input fields inline
-            <div 
+            <div
               className={css.ingredientFields}
-              onBlur={(e) => {
+              onBlur={e => {
                 // Only save if the blur event is not moving to another input in the same group
                 if (!e.currentTarget.contains(e.relatedTarget as Node)) {
                   setTimeout(() => handleEditSave(index), 100)
@@ -93,52 +101,49 @@ const FormList: React.FunctionComponent<Props> = ({
               }}
             >
               <input
-                type="text"
+                type='text'
                 value={editValues.name}
-                onChange={(e) => setEditValues({...editValues, name: e.target.value})}
-                onKeyDown={(e) => handleKeyPress(e, index)}
-                className={`${css.editInput} ${css.ingredientNameInput}`}
-                placeholder="Ingredient name"
+                onChange={e => setEditValues({ ...editValues, name: e.target.value })}
+                onKeyDown={e => handleKeyPress(e, index)}
+                className={`${css.editInput} ${css.ingredientNameInputFormList}`}
+                placeholder='Ingredient name'
                 autoFocus
               />
-              <input
-                type="number"
-                step="0.01"
-                value={editValues.quantity}
-                onChange={(e) => setEditValues({...editValues, quantity: e.target.value})}
-                onKeyDown={(e) => handleKeyPress(e, index)}
-                className={`${css.editInput} ${css.quantityInput}`}
-                placeholder="Amount"
-              />
-              <select
-                value={editValues.unit}
-                onChange={(e) => setEditValues({...editValues, unit: e.target.value})}
-                onKeyDown={(e) => handleKeyPress(e, index)}
-                className={`${css.editInput} ${css.unitSelect}`}
-              >
-                <option value="">Select unit</option>
-                {measurementUnits.map(unit => (
-                  <option key={unit.measurementUnitId} value={unit.measurementUnitId}>
-                    {unit.abbreviation}
-                  </option>
-                ))}
-              </select>
+                             <input
+                 type='number'
+                 step={0.01}
+                 min={0}
+                 value={editValues.quantity}
+                 onChange={e => handleQuantityChange(e.target.value)}
+                 onKeyDown={e => handleKeyPress(e, index)}
+                 id={css.quantityInputFormList}
+                 className={`${css.editInput} ${css.quantityInputFormList}`}
+                 placeholder='Amount'
+               />
+              <div className={css.formListAutocompleteContainer}>
+                <MeasurementUnitAutocomplete
+                  measurementUnits={measurementUnits}
+                  selectedUnitId={editValues.unit}
+                  onUnitSelect={unitId => setEditValues({ ...editValues, unit: unitId })}
+                  placeholder='Select unit'
+                  className={css.unitSelectFormList}
+                />
+              </div>
             </div>
           ) : (
             // Display mode: Show natural text format
-            <span 
-              className={css.itemText}
-              onDoubleClick={() => handleDoubleClick(index, item)}
-            >
-              {`${item.ingredientName || 'No name'} ${item.quantityNumber || 0} ${getMeasurementUnitAbbreviation(item.measurementUnitId)}`}
+            <span className={css.itemText} onDoubleClick={() => handleDoubleClick(index, item)}>
+              {`${item.ingredientName || 'No name'} ${
+                item.quantityNumber || 0
+              } ${getMeasurementUnitAbbreviation(item.measurementUnitId)}`}
             </span>
           )}
 
-          <button 
+          <button
             className={css.removeButton}
             onClick={() => onRemove(index)}
-            type="button"
-            title="Remove ingredient"
+            type='button'
+            title='Remove ingredient'
           >
             <AiOutlineMinus />
           </button>
