@@ -25,7 +25,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
 
   const [ingredients, setIngredients] = useState<RecipeIngredientDTO[]>([])
   const [ingredientName, setIngredientName] = useState<string>('')
-  const [quantityNumber, setQuantityNumber] = useState<number>(0)
+  const [quantityNumber, setQuantityNumber] = useState<string>('')
   const [measurementUnitId, setMeasurementUnitId] = useState<number>(0)
 
   const [measurementUnits, setMeasurementUnits] = useState<MeasurementUnit[]>([])
@@ -112,12 +112,21 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
 
   /********* INGREDIENTS FORM *********/
   
+  const handleQuantityChange = (value: string) => {
+    // Allow empty string or valid numbers >= 0
+    if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
+      setQuantityNumber(value)
+    }
+  }
+  
   const addIngredient = () => {
     const ingredientsLength = ingredients.length
+    const quantityValue = quantityNumber === '' ? null : parseFloat(quantityNumber)
+    
     const newIngredient: RecipeIngredientDTO = {
       sortOrder: ingredientsLength + 1,
       measurementUnitId: measurementUnitId,
-      quantityNumber: quantityNumber !== null && quantityNumber !== undefined && !Number.isNaN(quantityNumber) ? quantityNumber : null,
+      quantityNumber: quantityValue,
       ingredientName: ingredientName,
       recipeIngredientId: null,
       recipeId: null
@@ -127,7 +136,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
     }
     setIngredients([...ingredients, newIngredient])
     setIngredientName('')
-    setQuantityNumber(0)
+    setQuantityNumber('')
     setMeasurementUnitId(0)
   }
 
@@ -258,7 +267,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
                 id={css.quantityNumberInput}
                 placeholder='Quantity'
                 value={quantityNumber}
-                onChange={e => setQuantityNumber(parseInt(e.target.value))}
+                onChange={e => handleQuantityChange(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && addIngredient()}
                 className={`${css.editInput} ${css.quantityInput}`}
               />

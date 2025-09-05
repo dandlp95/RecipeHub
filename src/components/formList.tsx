@@ -34,7 +34,7 @@ const FormList: React.FunctionComponent<Props> = ({
     setIsEditing(true)
     setEditValues({
       name: item.ingredientName || '',
-      quantity: (item.quantityNumber || 0).toString(),
+      quantity: item.quantityNumber !== null && item.quantityNumber !== undefined ? item.quantityNumber.toString() : '',
       unit: item.measurementUnitId || 0
     })
   }
@@ -111,14 +111,14 @@ const FormList: React.FunctionComponent<Props> = ({
               />
               <input
                 type='number'
-                step={0.01}
                 min={0}
+                step={0.01}
+                id={css.quantityInputFormList}
+                placeholder='Qty'
                 value={editValues.quantity}
                 onChange={e => handleQuantityChange(e.target.value)}
                 onKeyDown={e => handleKeyPress(e, index)}
-                id={css.quantityInputFormList}
                 className={`${css.editInput} ${css.quantityInputFormList}`}
-                placeholder='Amount'
               />
               <div className={css.formListAutocompleteContainer}>
                 <MeasurementUnitAutocomplete
