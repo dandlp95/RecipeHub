@@ -3,14 +3,14 @@ import useDidMountEffect from '../customHooks/useDidMountEffect'
 import css from './styles/groupsContainer.module.css'
 import { Group } from '../customTypes/DTOs/requestTypes'
 import { createGroupApiService } from '../utils/utilities'
-import { createGroup, updateGroup, deleteGroup } from '../utils/apiCalls'
+import { createGroup, updateGroup, deleteGroup } from '../utils/api-calls/apiCalls'
 import { ApiData } from '../customTypes/DTOs/responseTypes'
 import { PathParams } from '../customTypes/DTOs/requestTypes'
 import { ErrorHandling } from '../customTypes/errorHandling'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
 import { ImBin2 } from 'react-icons/im'
-import { getGroups } from '../utils/apiCalls'
+import { getGroups } from '../utils/api-calls/apiCalls'
 
 
 // This component is responsible for displaying the groups that the user has created.

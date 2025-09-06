@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { Group, PathParams } from '../customTypes/DTOs/requestTypes'
 import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
 import { serviceTypes } from '../customTypes/enumTypes'
-import { getRecipes } from '../utils/apiCalls'
+import { getRecipes } from '../utils/api-calls/recipeApiCalls'
 import { AddRecipeContent, CartButtonContent } from '../components/buttonContents'
 
 // Extracted constants for styling
