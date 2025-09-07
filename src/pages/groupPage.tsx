@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import GroupContainer from '../components/groupsContainer'
 import Button from '../components/button'
 import RecipePreview from '../components/recipePreview'
 import AddRecipePlaceholder from '../components/addRecipePlaceholder'
 import GroupPageCSS from './styles/groupPage.module.css'
 import { ButtonStyling } from '../customTypes/interfaces'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { FaShoppingCart } from 'react-icons/fa'
-import { IconContext } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
-import { Group, PathParams } from '../customTypes/DTOs/requestTypes'
-import { RecipeApiService } from '../apiServices/implementations/RecipeApiService'
+import { Group } from '../customTypes/DTOs/groupTypes'
 import { serviceTypes } from '../customTypes/enumTypes'
 import { getRecipes } from '../utils/api-calls/recipeApiCalls'
 import { AddRecipeContent, CartButtonContent } from '../components/buttonContents'
 
-// Extracted constants for styling
 const GenerateShoppingListStyling: ButtonStyling = {
   backgroundColor: 'white',
   textColor: 'black'

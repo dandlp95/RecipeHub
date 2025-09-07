@@ -1,4 +1,5 @@
-import { Group, PathParams } from '../../customTypes/DTOs/requestTypes'
+import { Group } from '../../customTypes/DTOs/groupTypes'
+import { PathParams } from '../../customTypes/DTOs/requestTypes'
 import { ApiData } from '../../customTypes/DTOs/responseTypes'
 import IGroupApiService from '../interfaces/IGroupApiService'
 import ApiService from './apiService'

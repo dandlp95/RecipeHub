@@ -1,8 +1,10 @@
-import { ChangeEventHandler, Dispatch, SetStateAction } from 'react'
-import { authData, authFormType } from '../customTypes/enumTypes'
-import { LoginData, PathParams, RegisterData, UserCreateDTO } from '../customTypes/DTOs/requestTypes'
-import { login, register as registerUser } from './api-calls/apiCalls'
-import { PathParam } from 'react-router-dom'
+import { ChangeEventHandler, SetStateAction } from 'react'
+import { authData } from '../customTypes/enumTypes'
+import { LoginData } from '../customTypes/DTOs/authTypes'
+import { RegisterData } from '../customTypes/DTOs/authTypes'
+import { UserCreateDTO } from '../customTypes/DTOs/userTypes'
+import { PathParams } from '../customTypes/DTOs/requestTypes'
+import { login, register as registerUser } from './api-calls/authApiCalls'
 
 /**
  * Handles input changes for login and register forms dynamically.

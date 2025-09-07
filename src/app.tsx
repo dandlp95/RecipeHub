@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import appCSS from './app.module.css'
 import {
   LoginData,
-  PathParams,
   RegisterData
+} from './customTypes/DTOs/authTypes'
+import {
+  PathParams
 } from './customTypes/DTOs/requestTypes'
 import FormContainer from './components/formContainer1'
 import { authData } from './customTypes/enumTypes'
 import LoginForm from './components/login'
 import RegisterForm from './components/register'
 import { authFormType } from './customTypes/enumTypes'
-import { handleData as handleDataUtil, signIn as signInUtil, register as registerUtil } from './utils/formHandlers'
+import { handleData as handleDataUtil, signIn as signInUtil, register as registerUtil } from './utils/authFormHandlers'
 import { handleTokenEffect } from './utils/effectHandlers'
 
 const params: PathParams = {}

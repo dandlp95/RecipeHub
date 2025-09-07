@@ -5,14 +5,14 @@ import Button from '../components/button'
 import FormList from '../components/formList'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
-import { getGroups, getMeasurementUnits } from '../utils/api-calls/apiCalls'
+import { getMeasurementUnits } from '../utils/api-calls/recipeApiCalls'
+import { getGroups } from '../utils/api-calls/groupApiCalls'
 import { getRecipe } from '../utils/api-calls/recipeApiCalls'
-import { Group } from '../customTypes/DTOs/requestTypes'
+import { Group } from '../customTypes/DTOs/groupTypes'
 import FormListSortOrder from '../components/formListOrdered'
 import CategoriesForm from '../components/categoriesForm'
 import { MeasurementUnit, Recipe, RecipeIngredientDTO, Step } from '../customTypes/DTOs/recipeTypes'
 import { Category } from '../customTypes/DTOs/categoryTypes'
-import { ingredientFieldNames } from '../customTypes/enumTypes'
 import MeasurementUnitAutocomplete from '../components/measurementUnitAutocomplete'
 import CustomDropdown, { DropdownOption } from '../components/customDropdown'
 
@@ -87,6 +87,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
   }, [])
 
   /********* FETCH GROUPS *********/
+
   useEffect(() => {
     getGroups().then(apiData => {
       if (apiData.result) {

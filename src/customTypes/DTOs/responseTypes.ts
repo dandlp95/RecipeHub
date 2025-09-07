@@ -12,11 +12,3 @@ export type ApiResponse = {
   data: string
 }
 
-export type UserDTO = {
-  userId: number
-  userName: string
-  emailAddress: string
-  createdDate: string
-}
-
-

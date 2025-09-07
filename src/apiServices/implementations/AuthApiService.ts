@@ -1,12 +1,9 @@
-import {
-  UserCreateDTO,
-  PathParams,
-  LoginData
-} from '../../customTypes/DTOs/requestTypes'
-import { UserDTO, ApiData } from '../../customTypes/DTOs/responseTypes'
+import { PathParams } from '../../customTypes/DTOs/requestTypes'
+import { UserDTO, UserCreateDTO } from '../../customTypes/DTOs/userTypes'
+import { ApiData } from '../../customTypes/DTOs/responseTypes'
+import { LoginData } from '../../customTypes/DTOs/authTypes'
 import IAuthApiService from '../interfaces/IAuthApiService'
 import ApiService from './apiService'
-import { ErrorHandling } from '../../customTypes/errorHandling'
 
 class AuthApiService extends ApiService<UserDTO> implements IAuthApiService {
   constructor () {
