@@ -32,4 +32,5 @@ export type Recipe = {
     steps: Step[] | null
     recipeIngredients: RecipeIngredientDTO[] | null
     categories: Category[] | null
+    userId: number
 }

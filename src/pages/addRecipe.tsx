@@ -15,6 +15,10 @@ import { MeasurementUnit, Recipe, RecipeIngredientDTO, Step } from '../customTyp
 import { Category } from '../customTypes/DTOs/categoryTypes'
 import MeasurementUnitAutocomplete from '../components/measurementUnitAutocomplete'
 import CustomDropdown, { DropdownOption } from '../components/customDropdown'
+import { createRecipe, updateRecipe } from '../utils/api-calls/recipeApiCalls'
+import LoadingSpinner from '../components/loadingSpinner'
+import { useNavigate } from 'react-router-dom'
+
 
 type Props = {}
 
@@ -38,6 +42,9 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
   const [groups, setGroups] = useState<Group[]>([])
   const [instructionInput, setInstructionInput] = useState<string>('')
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+
+  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   // Convert groups to dropdown options
   const groupOptions: DropdownOption[] = [
@@ -102,29 +109,65 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
     }
   }, [recipeId, searchParams])
 
-  const saveRecipe = () => {
-    if (isEditMode) {
-      // TODO: Update existing recipe
-      console.log('Updating recipe:', recipeId)
-    } else {
-      // TODO: Create new recipe
-      console.log('Creating new recipe')
+  const saveRecipe = async () => {
+    setIsSaving(true)
+    const startTime = Date.now()
+    const userId = parseInt(localStorage.getItem('userId') || '0')
+
+    if (userId === 0) {
+      alert('User ID not found')
+      setIsSaving(false)
+      return
+    }
+
+    try {
+      const recipe: Recipe = {
+        recipeId: isEditMode ? parseInt(recipeId!) : null,
+        name: recipeTitle,
+        cookingTime: prepTime,
+        createdOn: new Date(),
+        groupId: groupId,
+        steps: instructions,
+        recipeIngredients: ingredients,
+        categories: categories,
+        userId: userId
+      }
+
+      const apiData = isEditMode 
+        ? await updateRecipe(parseInt(recipeId!), recipe)
+        : await createRecipe(recipe)
+
+      if (apiData.isSuccess) {
+        const elapsedTime = Date.now() - startTime
+        const remainingTime = Math.max(0, 2000 - elapsedTime)
+        
+        setTimeout(() => {
+          setIsSaving(false)
+          navigate('/home')
+        }, remainingTime)
+      } else {
+        setIsSaving(false)
+        alert('Error saving recipe')
+      }
+    } catch (error) {
+      console.error('Error saving recipe:', error)
+      setIsSaving(false)
     }
   }
 
   /********* INGREDIENTS FORM *********/
-  
+
   const handleQuantityChange = (value: string) => {
     // Allow empty string or valid numbers >= 0
     if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
       setQuantityNumber(value)
     }
   }
-  
+
   const addIngredient = () => {
     const ingredientsLength = ingredients.length
     const quantityValue = quantityNumber === '' ? null : parseFloat(quantityNumber)
-    
+
     const newIngredient: RecipeIngredientDTO = {
       sortOrder: ingredientsLength + 1,
       measurementUnitId: measurementUnitId,
@@ -133,7 +176,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
       recipeIngredientId: null,
       recipeId: null
     }
-    if(newIngredient.ingredientName === ''){
+    if (newIngredient.ingredientName === '') {
       return
     }
     setIngredients([...ingredients, newIngredient])
@@ -203,8 +246,6 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
     setCategories(categories.filter((_, i) => i !== index))
   }
 
-
-
   return (
     <div className={css.addRecipeMain}>
       <div className={css.addRecipeHeader}>
@@ -221,7 +262,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
             name='groupTitle'
             options={groupOptions}
             value={groupId || ''}
-            onChange={(value) => setGroupId(typeof value === 'string' ? parseInt(value) || 0 : value)}
+            onChange={value => setGroupId(typeof value === 'string' ? parseInt(value) || 0 : value)}
             placeholder='Select a group'
             required
             className={css.groupDropdown}
@@ -235,12 +276,14 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
             name='recipeTitle'
             id='recipeTitle'
             placeholder='Enter recipe title'
+            onChange={e => setRecipeTitle(e.target.value)}
+            value={recipeTitle}
           />
         </div>
         <div className={css.recipeImage}>{/* will implement last */}</div>
         <div className={`${css.time} ${css.fieldPart1}`}>
           <label htmlFor='time'>Preparation Time</label>
-          <input type='text' name='time' id='time' placeholder='e.g., 30 minutes' />
+          <input type='text' name='time' id='time' placeholder='e.g., 30 minutes' value={prepTime} onChange={e => setPrepTime(e.target.value)} />
         </div>
         <div className={css.IngredientsForm}>
           <label htmlFor='ingredients'>Ingredients</label>
@@ -269,8 +312,8 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
                 className={`${css.editInput} ${css.quantityInput}`}
               />
               <div className={css.autocompleteContainer}>
-              <MeasurementUnitAutocomplete
-                measurementUnits={measurementUnits}
+                <MeasurementUnitAutocomplete
+                  measurementUnits={measurementUnits}
                   selectedUnitId={measurementUnitId}
                   onUnitSelect={setMeasurementUnitId}
                 />
@@ -332,6 +375,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
           />
         </div>
       </div>
+      {isSaving && <LoadingSpinner />}
     </div>
   )
 }
