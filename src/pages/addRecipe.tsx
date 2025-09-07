@@ -139,7 +139,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
 
       if (apiData.isSuccess) {
         const elapsedTime = Date.now() - startTime
-        const remainingTime = Math.max(0, 2000 - elapsedTime)
+        const remainingTime = Math.max(0, 6000 - elapsedTime)
         
         setTimeout(() => {
           setIsSaving(false)
@@ -375,7 +375,7 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
           />
         </div>
       </div>
-      {isSaving && <LoadingSpinner />}
+      {isSaving && <LoadingSpinner message='Saving recipe...' />}
     </div>
   )
 }
