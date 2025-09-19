@@ -1,16 +1,22 @@
 import {
   createRecipeApiService,
-  createMeasurementUnitsApiService
+  createMeasurementUnitsApiService,
+  createTimeUnitApiService
 } from '../createApiServiceUtilities'
 import { PathParams } from '../../customTypes/DTOs/requestTypes'
 import { ApiData } from '../../customTypes/DTOs/responseTypes'
-import { MeasurementUnit, Recipe } from '../../customTypes/DTOs/recipeTypes'
+import { MeasurementUnit, Recipe, TimeUnit } from '../../customTypes/DTOs/recipeTypes'
 
 export const getMeasurementUnits = async (): Promise<
   ApiData<MeasurementUnit[]> | ApiData<null>
 > => {
   const measurementUnitsApiService = createMeasurementUnitsApiService()
   return await measurementUnitsApiService.getMeasurementUnits()
+}
+
+export const getTimeUnits = async (): Promise<ApiData<TimeUnit[]> | ApiData<null>> => {
+  const timeUnitsApiService = createTimeUnitApiService()
+  return await timeUnitsApiService.getTimeUnits()
 }
 
 export const getRecipes = async (groupId?: number) => {

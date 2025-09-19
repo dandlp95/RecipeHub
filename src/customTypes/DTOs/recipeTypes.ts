@@ -6,6 +6,12 @@ export type MeasurementUnit = {
     abbreviation: string
 }
 
+export type TimeUnit = {
+    timeUnitId: number,
+    name: string,
+    abbreviation: string
+}
+
 export type Step = {
     stepId: number | null
     recipeId: number | null
@@ -25,8 +31,8 @@ export type RecipeIngredientDTO = {
 export type Recipe = {
     recipeId: number | null
     name: string
-    // TODO: Change to Date type after backend is updated.
-    cookingTime: string
+    cookingTimeQuantity: number | null
+    cookingTimeUnitId: number | null
     createdOn: Date | null
     groupId: number | null
     steps: Step[] | null

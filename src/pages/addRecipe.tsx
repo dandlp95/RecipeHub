@@ -19,14 +19,14 @@ import { createRecipe, updateRecipe } from '../utils/api-calls/recipeApiCalls'
 import LoadingSpinner from '../components/loadingSpinner'
 import { useNavigate } from 'react-router-dom'
 
-
 type Props = {}
 
 const AddRecipe: React.FunctionComponent<Props> = props => {
   const { id: recipeId } = useParams<{ id?: string }>()
   const [searchParams] = useSearchParams()
   const [recipeTitle, setRecipeTitle] = useState<string>('')
-  const [prepTime, setPrepTime] = useState<string>('')
+  const [timeQuantity, setTimeQuantity] = useState<string>('')
+  const [timeUnitId, setTimeUnitId] = useState<number>(0)
 
   const [ingredients, setIngredients] = useState<RecipeIngredientDTO[]>([])
   const [ingredientName, setIngredientName] = useState<string>('')
@@ -74,7 +74,8 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         setInstructions(recipe.steps || [])
         setGroupId(recipe.groupId || 0)
         setRecipeTitle(recipe.name || '')
-        setPrepTime(recipe.cookingTime || '')
+        setTimeQuantity(recipe.cookingTimeQuantity?.toString() || '')
+        setTimeUnitId(recipe.cookingTimeUnitId || 0)
         setAllAvailableCategories(recipe.categories || [])
       }
     }
@@ -124,7 +125,8 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
       const recipe: Recipe = {
         recipeId: isEditMode ? parseInt(recipeId!) : null,
         name: recipeTitle,
-        cookingTime: prepTime,
+        cookingTimeQuantity: timeQuantity === '' ? null : parseFloat(timeQuantity),
+        cookingTimeUnitId: timeUnitId,
         createdOn: new Date(),
         groupId: groupId,
         steps: instructions,
@@ -133,14 +135,14 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         userId: userId
       }
 
-      const apiData = isEditMode 
+      const apiData = isEditMode
         ? await updateRecipe(parseInt(recipeId!), recipe)
         : await createRecipe(recipe)
 
       if (apiData.isSuccess) {
         const elapsedTime = Date.now() - startTime
         const remainingTime = Math.max(0, 6000 - elapsedTime)
-        
+
         setTimeout(() => {
           setIsSaving(false)
           navigate('/home')
@@ -283,7 +285,15 @@ const AddRecipe: React.FunctionComponent<Props> = props => {
         <div className={css.recipeImage}>{/* will implement last */}</div>
         <div className={`${css.time} ${css.fieldPart1}`}>
           <label htmlFor='time'>Preparation Time</label>
-          <input type='text' name='time' id='time' placeholder='e.g., 30 minutes' value={prepTime} onChange={e => setPrepTime(e.target.value)} />
+          <input
+            type='text'
+            name='time'
+            id='time'
+            placeholder='e.g., 30 minutes'
+            value={timeQuantity}
+            onChange={e => setTimeQuantity(e.target.value)}
+          />
+        
         </div>
         <div className={css.IngredientsForm}>
           <label htmlFor='ingredients'>Ingredients</label>

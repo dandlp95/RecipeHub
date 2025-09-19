@@ -8,6 +8,8 @@ import { MeasurementUnitsApiService } from "../apiServices/implementations/Measu
 import IMeasurementUnitsApiService from "../apiServices/interfaces/IMeasurementUnitsApiService";
 import { CategoriesApiService } from "../apiServices/implementations/CategoriesApiService";
 import ICategoriesApiService from "../apiServices/interfaces/ICategoriesApiService";
+import ITimeUnitApiService from "../apiServices/interfaces/ITimeUnitApiService";
+import { TimeUnitApiService } from "../apiServices/implementations/TimeUnitApiService";
 
 // Type-safe service creation functions
 export function createGroupApiService(): IGroupApiService {
@@ -46,3 +48,10 @@ export function createAuthApiService(): IAuthApiService {
     return AuthApiService
 }
 
+export function createTimeUnitApiService(): ITimeUnitApiService {
+    const token: string | null = localStorage.getItem('token')
+    if (!token) {
+      throw new Error('No token found')
+    }
+    return new TimeUnitApiService(token)
+}
